@@ -1,6 +1,7 @@
 package com.shotty.shotty.exception.handler;
 
 import com.shotty.shotty.dto.common.ResponseDto;
+import com.shotty.shotty.exception.custom_exception.user.UserIdDuplicateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -8,6 +9,7 @@ import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,5 +34,16 @@ public class AuthExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
+    }
+
+    @ExceptionHandler(UserIdDuplicateException.class)
+    public ResponseEntity<ResponseDto> handleUserIdDuplicateException(UserIdDuplicateException exception) {
+        ResponseDto responseDto = new ResponseDto(
+                (short)4090,
+                "이미 존재하는 사용자입니다.",
+                null
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(responseDto);
     }
 }
