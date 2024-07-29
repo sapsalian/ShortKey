@@ -1,0 +1,10 @@
+### signup test
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "yongjin5352",
+  "userName": "안용진",
+  "userPassword": "12345678aA",
+  "userRole": 0
+}
