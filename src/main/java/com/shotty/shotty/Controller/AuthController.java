@@ -3,6 +3,7 @@ package com.shotty.shotty.Controller;
 import com.shotty.shotty.dto.EncryptedUserDto;
 import com.shotty.shotty.dto.ResisterRequestDto;
 import com.shotty.shotty.dto.UserResponseDto;
+import com.shotty.shotty.dto.common.ResponseDto;
 import com.shotty.shotty.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,17 @@ public class AuthController {
     }
 
     @PostMapping("/api/auth/register")
-    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody ResisterRequestDto resisterRequestDto) {
+    public ResponseEntity<ResponseDto> register(@Valid @RequestBody ResisterRequestDto resisterRequestDto) {
         EncryptedUserDto encryptedUserDto = EncryptedUserDto.from(resisterRequestDto);
         UserResponseDto userResponseDto = userService.register(encryptedUserDto);
 
-        return ResponseEntity.ok(userResponseDto);
+        ResponseDto responseDto = new ResponseDto(
+                (short)2010,
+                "회원가입 성공하였습니다.",
+                userResponseDto
+        );
+
+        return ResponseEntity.ok(responseDto);
     }
 
 }
