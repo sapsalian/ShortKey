@@ -5,11 +5,10 @@ import com.shotty.shotty.Domain.User;
 import com.shotty.shotty.Domain.UserRole;
 import com.shotty.shotty.dto.UserDto;
 import com.shotty.shotty.dto.common.ResponseDto;
-import com.shotty.shotty.exception.LoginFailureException;
+import com.shotty.shotty.exception.custom_exception.auth.InvalidRefreshTokenException;
 import com.shotty.shotty.repository.RefreshTokenRepository;
 import com.shotty.shotty.service.JwtProvider;
 import com.shotty.shotty.service.LoginService;
-import com.shotty.shotty.service.UserService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,10 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.login.LoginException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,12 +33,10 @@ public class LonginController {
     @PostMapping("/login")
     public ResponseEntity<ResponseDto<TokenBundle>> login(@RequestBody UserDto.loginRequest userDto) {
         log.info("로그인 컨트롤러");
-        User user;
         //db조회
-            user = loginService.login(userDto.getUserId(), userDto.getUserPassword());
+        User user = loginService.login(userDto.getUserId(), userDto.getUserPassword());
         //로그인 성공
         TokenBundle tokenBundle = createTokens(user.getId(), user.getRole());
-
 
         ResponseDto<TokenBundle> loginResponse = new ResponseDto<TokenBundle>(2000,"로그인 성공", tokenBundle);
         return ResponseEntity.status(HttpStatus.OK)
@@ -53,12 +47,14 @@ public class LonginController {
     @PatchMapping("/refresh")
     public ResponseEntity<ResponseDto<TokenBundle>> refresh(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = request.getHeader("Authorization").substring(7);
+        log.info("refreshToken"+refreshToken);
         Map<String, Object> claims = jwtProvider.getClaims(refreshToken);
-        Long user_id = (Long)claims.get("user_id");
+        Long user_id = Long.valueOf(claims.get("user_id").toString());
         UserRole userRole = UserRole.valueOf((String)claims.get("userRole"));
-        refreshTokenRepository.findByUserId(user_id).orElseThrow(() ->
-            new JwtException("유효하지않은")
-        );
+
+        refreshTokenRepository.findByUserId(user_id).
+                orElseThrow(() ->new InvalidRefreshTokenException("일치하는 refreshToken이 없음"));
+
         TokenBundle tokenBundle = createTokens(user_id, userRole);
 
         ResponseDto<TokenBundle> responseDto = new ResponseDto<>(2010, "토큰 재발급 성공", tokenBundle);
