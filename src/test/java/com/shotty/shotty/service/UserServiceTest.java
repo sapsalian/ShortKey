@@ -1,15 +1,14 @@
 package com.shotty.shotty.service;
 
-import com.shotty.shotty.Domain.User;
+import com.shotty.shotty.domain.auth.domain.User;
+import com.shotty.shotty.domain.auth.application.UserService;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.shotty.shotty.Domain.UserRole.ADVERTISER;
+import static com.shotty.shotty.domain.auth.enums.UserRoleEnum.ADVERTISER;
 
 @SpringBootTest
 @Transactional
