@@ -11,7 +11,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;

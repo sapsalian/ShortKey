@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue
-    @Column(name="user_id")
     private Long id;
 
     @Column(name="user_id", unique=true)

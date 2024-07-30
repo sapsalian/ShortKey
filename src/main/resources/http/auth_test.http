@@ -3,8 +3,22 @@ POST localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-  "userId": "yongjin5352",
+  "userId": "yongjin5351",
   "userName": "안용진",
   "userPassword": "12345678aA",
   "userRole": 0
 }
+
+### login test
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "yongjin5351",
+  "userPassword": "12345678aA"
+}
+
+### access token refresh
+PATCH localhost:8080/api/auth/refresh
+refresh-token: eyJhbGciOiJIUzI1NiJ9.eyJib2R5Ijoie1widXNlcl9pZFwiOjEsXCJ1c2VyUm9sZVwiOlwiQURWRVJUSVNFUlwifSIsImV4cCI6MTcyMjMyNjEzNX0.Lp5IsjnKfC0lsPeP436FYUR_x1PhpsSNNne-86ys_co
+
