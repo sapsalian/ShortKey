@@ -5,6 +5,7 @@ import com.shotty.shotty.exception.LoginFailureException;
 import com.shotty.shotty.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,11 +14,12 @@ import org.springframework.stereotype.Service;
 public class LoginService {
     private final UserRepository userRepository;
     public User login(String userId, String password) {
+
         //db조회
-        User user = userRepository.findByUserId(userId).orElseThrow(() -> new LoginFailureException("존재하지 않는 id입니다."));
+        User user = userRepository.findByUserId(userId).orElseThrow(()->{throw new LoginFailureException("로그인실패:회원 존재 x");});
         //로그인 실패
         if(!user.getPassword().equals(password)) {
-            throw new LoginFailureException("로그인실패");
+            throw new LoginFailureException("로그인실패:잘못된 비밀번호 ");
         }
 
         return user;
