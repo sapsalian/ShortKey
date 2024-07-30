@@ -20,11 +20,11 @@ public class AuthController {
     }
 
     @PostMapping("/api/auth/register")
-    public ResponseEntity<ResponseDto> register(@Valid @RequestBody ResisterRequestDto resisterRequestDto) {
+    public ResponseEntity<ResponseDto<UserResponseDto>> register(@Valid @RequestBody ResisterRequestDto resisterRequestDto) {
         EncryptedUserDto encryptedUserDto = EncryptedUserDto.from(resisterRequestDto);
         UserResponseDto userResponseDto = userService.register(encryptedUserDto);
 
-        ResponseDto responseDto = new ResponseDto(
+        ResponseDto<UserResponseDto> responseDto = new ResponseDto<UserResponseDto>(
                 (short)2010,
                 "회원가입 성공하였습니다.",
                 userResponseDto
