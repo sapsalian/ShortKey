@@ -15,7 +15,6 @@ import java.util.*;
 
 @Component
 public class JwtProvider {
-    private static final Logger log = LoggerFactory.getLogger(JwtProvider.class);
     private SecretKey cachedSecretKey;
 
     @Value("${jwt.secretKey}")
@@ -43,17 +42,13 @@ public class JwtProvider {
                 .compact();
     }
     // 유효성 검사
-    public boolean validateToken(String token) {
-        try {
+    public void validateToken(String token) throws Exception {
             Jwts.parserBuilder()
                     .setSigningKey(getSecretKey())
                     .build()
-                    .parseClaimsJws(token);
-        } catch (JwtException e) {
-            return false;
-        }
+                    .parseClaimsJws(token)
+                    .getBody();
 
-        return true;
     }
 
     // claim 디코딩
