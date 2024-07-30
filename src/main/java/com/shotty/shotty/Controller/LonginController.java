@@ -39,7 +39,7 @@ public class LonginController {
         User user;
         //db조회
         try {
-            user = loginService.login(userDto.getUserId(), userDto.getPassword());
+            user = loginService.login(userDto.getUserId(), userDto.getUserPassword());
         }catch (LoginFailureException e) {
             log.info(e.getMessage());
             LonginController.LoginResponse loginResponse = new LonginController.LoginFailLureResponse("4000", "아이디 또는 비밀번호가 잘못 되었습니다");

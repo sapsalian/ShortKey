@@ -10,7 +10,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class loginRequest{
         String userId;
-        String password;
+        String userPassword;
     }
 
     @Getter
