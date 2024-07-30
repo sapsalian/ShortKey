@@ -1,6 +1,6 @@
 package com.shotty.shotty.domain.auth.exception.handler;
 
-import com.shotty.shotty.global.dto.ResponseDto;
+import com.shotty.shotty.global.common.dto.ResponseDto;
 import com.shotty.shotty.domain.auth.exception.custom_exception.user.LoginFailureException;
 import com.shotty.shotty.domain.auth.exception.custom_exception.user.UserIdDuplicateException;
 import jakarta.validation.constraints.Null;

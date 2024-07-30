@@ -1,4 +1,4 @@
-package com.shotty.shotty.global.dto;
+package com.shotty.shotty.global.common.dto;
 
 public record ResponseDto<T>(
         int code,

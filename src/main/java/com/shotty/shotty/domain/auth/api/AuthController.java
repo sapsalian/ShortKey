@@ -3,7 +3,7 @@ package com.shotty.shotty.domain.auth.api;
 import com.shotty.shotty.domain.auth.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.auth.dto.ResisterRequestDto;
 import com.shotty.shotty.domain.auth.dto.UserResponseDto;
-import com.shotty.shotty.global.dto.ResponseDto;
+import com.shotty.shotty.global.common.dto.ResponseDto;
 import com.shotty.shotty.domain.auth.application.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
