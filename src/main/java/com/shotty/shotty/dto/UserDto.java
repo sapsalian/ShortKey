@@ -9,7 +9,7 @@ public class UserDto {
     @Setter
     @AllArgsConstructor
     public static class loginRequest{
-        String email;
+        String userId;
         String password;
     }
 

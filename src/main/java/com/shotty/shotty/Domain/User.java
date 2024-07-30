@@ -6,13 +6,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue
+    @Column(name="user_id")
     private Long id;
 
     @Column(name="user_id", unique=true)
