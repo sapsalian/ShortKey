@@ -1,4 +1,4 @@
-package com.shotty.shotty.domain.auth.dto;
+package com.shotty.shotty.domain.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

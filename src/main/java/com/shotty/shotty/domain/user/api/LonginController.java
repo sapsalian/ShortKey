@@ -1,13 +1,13 @@
-package com.shotty.shotty.domain.auth.api;
+package com.shotty.shotty.domain.user.api;
 
-import com.shotty.shotty.domain.auth.domain.RefreshToken;
-import com.shotty.shotty.domain.auth.domain.User;
-import com.shotty.shotty.domain.auth.enums.UserRoleEnum;
-import com.shotty.shotty.domain.auth.dto.UserDto;
+import com.shotty.shotty.global.auth.entity.RefreshToken;
+import com.shotty.shotty.domain.user.domain.User;
+import com.shotty.shotty.domain.user.enums.UserRoleEnum;
+import com.shotty.shotty.domain.user.dto.UserDto;
 import com.shotty.shotty.global.common.dto.ResponseDto;
-import com.shotty.shotty.domain.auth.dao.RefreshTokenRepository;
-import com.shotty.shotty.domain.auth.application.JwtProvider;
-import com.shotty.shotty.domain.auth.application.LoginService;
+import com.shotty.shotty.global.auth.dao.RefreshTokenRepository;
+import com.shotty.shotty.global.util.JwtProvider;
+import com.shotty.shotty.domain.user.application.LoginService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

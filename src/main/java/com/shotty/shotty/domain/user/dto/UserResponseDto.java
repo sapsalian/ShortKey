@@ -1,6 +1,6 @@
-package com.shotty.shotty.domain.auth.dto;
+package com.shotty.shotty.domain.user.dto;
 
-import com.shotty.shotty.domain.auth.domain.User;
+import com.shotty.shotty.domain.user.domain.User;
 
 public record UserResponseDto(
         Long id,

@@ -1,4 +1,4 @@
-package com.shotty.shotty.domain.auth.enums;
+package com.shotty.shotty.domain.user.enums;
 
 public enum UserRoleEnum {
     ADVERTISER((short)0),

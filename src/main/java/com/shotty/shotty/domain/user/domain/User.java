@@ -1,7 +1,7 @@
-package com.shotty.shotty.domain.auth.domain;
+package com.shotty.shotty.domain.user.domain;
 
-import com.shotty.shotty.domain.auth.dto.EncryptedUserDto;
-import com.shotty.shotty.domain.auth.enums.UserRoleEnum;
+import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
+import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

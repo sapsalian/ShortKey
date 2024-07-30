@@ -1,6 +1,6 @@
-package com.shotty.shotty.domain.auth.dto;
+package com.shotty.shotty.domain.user.dto;
 
-import com.shotty.shotty.domain.auth.enums.UserRoleEnum;
+import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import com.shotty.shotty.global.util.Hasher;
 
 public record EncryptedUserDto (

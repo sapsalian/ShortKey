@@ -1,4 +1,4 @@
-package com.shotty.shotty.domain.auth.domain;
+package com.shotty.shotty.global.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

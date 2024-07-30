@@ -1,6 +1,6 @@
 package com.shotty.shotty.global.auth.filter;
 
-import com.shotty.shotty.domain.auth.application.JwtProvider;
+import com.shotty.shotty.global.util.JwtProvider;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

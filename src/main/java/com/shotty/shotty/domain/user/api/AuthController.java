@@ -1,10 +1,10 @@
-package com.shotty.shotty.domain.auth.api;
+package com.shotty.shotty.domain.user.api;
 
-import com.shotty.shotty.domain.auth.dto.EncryptedUserDto;
-import com.shotty.shotty.domain.auth.dto.ResisterRequestDto;
-import com.shotty.shotty.domain.auth.dto.UserResponseDto;
+import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
+import com.shotty.shotty.domain.user.dto.ResisterRequestDto;
+import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.global.common.dto.ResponseDto;
-import com.shotty.shotty.domain.auth.application.UserService;
+import com.shotty.shotty.domain.user.application.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

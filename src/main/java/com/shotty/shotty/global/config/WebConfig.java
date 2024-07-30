@@ -1,7 +1,7 @@
 package com.shotty.shotty.global.config;
 
 import com.shotty.shotty.global.auth.filter.LoginCheckFilter;
-import com.shotty.shotty.domain.auth.application.JwtProvider;
+import com.shotty.shotty.global.util.JwtProvider;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

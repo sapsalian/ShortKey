@@ -1,8 +1,8 @@
-package com.shotty.shotty.domain.auth.application;
+package com.shotty.shotty.domain.user.application;
 
-import com.shotty.shotty.domain.auth.domain.User;
-import com.shotty.shotty.domain.auth.exception.custom_exception.user.LoginFailureException;
-import com.shotty.shotty.domain.auth.dao.UserRepository;
+import com.shotty.shotty.domain.user.domain.User;
+import com.shotty.shotty.domain.user.exception.custom_exception.user.LoginFailureException;
+import com.shotty.shotty.domain.user.dao.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;

@@ -1,4 +1,4 @@
-package com.shotty.shotty.domain.auth.application;
+package com.shotty.shotty.global.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

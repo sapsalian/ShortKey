@@ -1,6 +1,6 @@
-package com.shotty.shotty.domain.auth.dao;
+package com.shotty.shotty.domain.user.dao;
 
-import com.shotty.shotty.domain.auth.domain.User;
+import com.shotty.shotty.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
