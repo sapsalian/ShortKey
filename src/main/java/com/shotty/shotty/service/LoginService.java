@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LoginService {
     private final UserRepository userRepository;
-    public User login(String email, String password) {
+    public User login(String userId, String password) {
         //db조회
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByUserId(userId).orElseThrow(() -> new LoginFailureException("존재하지 않는 id입니다."));
         //로그인 실패
-        if(user == null || !user.getPassword().equals(password)) {
+        if(!user.getPassword().equals(password)) {
             throw new LoginFailureException("로그인실패");
         }
 

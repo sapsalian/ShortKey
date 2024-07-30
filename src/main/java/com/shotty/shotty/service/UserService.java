@@ -1,29 +1,29 @@
 package com.shotty.shotty.service;
 
 import com.shotty.shotty.Domain.User;
-import com.shotty.shotty.Domain.UserRole;
+import com.shotty.shotty.dto.EncryptedUserDto;
+import com.shotty.shotty.dto.UserResponseDto;
+import com.shotty.shotty.exception.custom_exception.user.UserIdDuplicateException;
 import com.shotty.shotty.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    public Long joinUser(String email, String password, UserRole userRole) {
-        User user = User.createUser(email, password, userRole);
-        userRepository.save(user);
-        return user.getId();
-    }
+    public UserResponseDto register(EncryptedUserDto encryptedUserDto) {
+        User user;
+        try {
+            user = userRepository.save(User.from(encryptedUserDto));
+        } catch (DataIntegrityViolationException e) {
+            throw new UserIdDuplicateException("이미 존재하는 사용자입니다.");
+        }
 
-    public User findOneById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    public User findOneByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return UserResponseDto.from(user);
     }
 }
