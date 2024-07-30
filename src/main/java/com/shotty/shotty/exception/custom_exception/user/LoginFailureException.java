@@ -1,4 +1,4 @@
-package com.shotty.shotty.exception;
+package com.shotty.shotty.exception.custom_exception.user;
 
 public class LoginFailureException extends RuntimeException{
     public LoginFailureException(String message){
