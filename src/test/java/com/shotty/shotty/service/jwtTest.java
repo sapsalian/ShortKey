@@ -1,7 +1,7 @@
 package com.shotty.shotty.service;
 
-import com.shotty.shotty.domain.auth.application.JwtProvider;
-import com.shotty.shotty.domain.auth.enums.UserRoleEnum;
+import com.shotty.shotty.global.util.JwtProvider;
+import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import io.jsonwebtoken.security.Keys;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
