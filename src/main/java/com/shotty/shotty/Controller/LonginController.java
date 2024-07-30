@@ -52,7 +52,7 @@ public class LonginController {
     //refresh 토큰
     @PatchMapping("/refresh")
     public ResponseEntity<ResponseDto<TokenBundle>> refresh(HttpServletRequest request, HttpServletResponse response) {
-        String refreshToken = request.getHeader("refresh-token");
+        String refreshToken = request.getHeader("Authorization").substring(7);
         Map<String, Object> claims = jwtProvider.getClaims(refreshToken);
         Long user_id = (Long)claims.get("user_id");
         UserRole userRole = UserRole.valueOf((String)claims.get("userRole"));
