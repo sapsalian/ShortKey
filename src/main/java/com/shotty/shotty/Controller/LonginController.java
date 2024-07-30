@@ -4,6 +4,7 @@ import com.shotty.shotty.Domain.RefreshToken;
 import com.shotty.shotty.Domain.User;
 import com.shotty.shotty.Domain.UserRole;
 import com.shotty.shotty.dto.UserDto;
+import com.shotty.shotty.dto.common.ResponseDto;
 import com.shotty.shotty.exception.LoginFailureException;
 import com.shotty.shotty.repository.RefreshTokenRepository;
 import com.shotty.shotty.service.JwtProvider;
@@ -34,7 +35,7 @@ public class LonginController {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody UserDto.loginRequest userDto) {
+    public ResponseEntity<ResponseDto<LoginSucessResponse>> login(@RequestBody UserDto.loginRequest userDto) {
         log.info("로그인 컨트롤러");
         User user;
         //db조회
@@ -90,18 +91,7 @@ public class LonginController {
     @Data
     @AllArgsConstructor
     private class LoginSucessResponse implements LoginResponse {
-        private String code;
-        private String statusMsg;
 
-        //객체로 변환해야할듯#########################
-        private String[] data;
-    }
-
-    @Data
-    @AllArgsConstructor
-    private class LoginFailLureResponse implements LoginResponse {
-        private String code;
-        private String statusMsg;
     }
 
 }
