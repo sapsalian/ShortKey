@@ -1,8 +1,8 @@
 package com.shotty.shotty.dto.common;
 
-public record ResponseDto(
+public record ResponseDto<T>(
         short code,
         String statusMsg,
-        Object data
+        T data
 ) {
 }
