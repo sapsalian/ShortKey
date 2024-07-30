@@ -13,17 +13,17 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public Long joinUser(String email, String password, UserRole userRole) {
-        User user = User.createUser(email, password, userRole);
+    public Long joinUser(String userId, String password, UserRole userRole) {
+        User user = User.createUser(userId, password, userRole);
         userRepository.save(user);
         return user.getId();
     }
-
-    public User findOneById(Long id) {
-        return userRepository.findById(id);
-    }
-
-    public User findOneByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+//
+//    public User findOneById(Long id) {
+//        return userRepository.findById(id);
+//    }
+//
+//    public User findOneByEmail(String email) {
+//        return userRepository.findByUserId(email);
+//    }
 }
