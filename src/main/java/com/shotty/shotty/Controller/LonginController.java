@@ -5,11 +5,9 @@ import com.shotty.shotty.Domain.User;
 import com.shotty.shotty.Domain.UserRole;
 import com.shotty.shotty.dto.UserDto;
 import com.shotty.shotty.dto.common.ResponseDto;
-import com.shotty.shotty.exception.LoginFailureException;
 import com.shotty.shotty.repository.RefreshTokenRepository;
 import com.shotty.shotty.service.JwtProvider;
 import com.shotty.shotty.service.LoginService;
-import com.shotty.shotty.service.UserService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,10 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.login.LoginException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController

@@ -1,7 +1,10 @@
 package com.shotty.shotty.exception.handler;
 
 import com.shotty.shotty.dto.common.ResponseDto;
+import com.shotty.shotty.exception.custom_exception.user.LoginFailureException;
 import com.shotty.shotty.exception.custom_exception.user.UserIdDuplicateException;
+import jakarta.validation.constraints.Null;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -45,5 +48,16 @@ public class AuthExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(responseDto);
+    }
+
+    @ExceptionHandler(LoginFailureException.class)
+    public ResponseEntity<ResponseDto<Null>> handleLoginFailureException(LoginFailureException exception) {
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                4001,
+                "올바르지 않은 id 또는 비밀번호입니다.",
+                null
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
     }
 }
