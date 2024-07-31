@@ -1,6 +1,6 @@
 package com.shotty.shotty.domain.user.api;
 
-import com.shotty.shotty.exception.custom_exception.auth.InvalidRefreshTokenException;
+import com.shotty.shotty.global.auth.exception.custom_exception.InvalidRefreshTokenException;
 import com.shotty.shotty.global.auth.entity.RefreshToken;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.enums.UserRoleEnum;
