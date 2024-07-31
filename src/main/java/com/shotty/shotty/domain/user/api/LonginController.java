@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.user.api;
 
+import com.shotty.shotty.exception.custom_exception.auth.InvalidRefreshTokenException;
 import com.shotty.shotty.global.auth.entity.RefreshToken;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.enums.UserRoleEnum;
@@ -8,7 +9,6 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import com.shotty.shotty.global.auth.dao.RefreshTokenRepository;
 import com.shotty.shotty.global.util.JwtProvider;
 import com.shotty.shotty.domain.user.application.LoginService;
-import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
@@ -49,7 +49,7 @@ public class LonginController {
         log.info("refreshToken"+refreshToken);
         Map<String, Object> claims = jwtProvider.getClaims(refreshToken);
         Long user_id = Long.valueOf(claims.get("user_id").toString());
-        UserRole userRole = UserRole.valueOf((String)claims.get("userRole"));
+        UserRoleEnum userRole = UserRoleEnum.valueOf((String)claims.get("userRole"));
 
         refreshTokenRepository.findByUserId(user_id).
                 orElseThrow(() ->new InvalidRefreshTokenException("일치하는 refreshToken이 없음"));

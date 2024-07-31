@@ -1,9 +1,8 @@
 package com.shotty.shotty.exception.handler;
 
-import com.shotty.shotty.dto.common.ResponseDto;
 import com.shotty.shotty.exception.custom_exception.auth.InvalidRefreshTokenException;
+import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
