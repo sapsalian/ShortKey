@@ -1,6 +1,6 @@
-package com.shotty.shotty.exception.handler;
+package com.shotty.shotty.global.auth.exception.handler;
 
-import com.shotty.shotty.global.auth.exception.InvalidRefreshTokenException;
+import com.shotty.shotty.global.auth.exception.custom_exception.InvalidRefreshTokenException;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;

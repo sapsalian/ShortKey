@@ -20,5 +20,4 @@ Content-Type: application/json
 
 ### access token refresh
 PATCH localhost:8080/api/auth/refresh
-refresh-token: eyJhbGciOiJIUzI1NiJ9.eyJib2R5Ijoie1widXNlcl9pZFwiOjEsXCJ1c2VyUm9sZVwiOlwiQURWRVJUSVNFUlwifSIsImV4cCI6MTcyMjMyNjEzNX0.Lp5IsjnKfC0lsPeP436FYUR_x1PhpsSNNne-86ys_co
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkFEVkVSVElTRVIiLCJleHAiOjE3MjI0MDQ5MzN9.7ihzVQYqwUQAYM6RfhMyIlqzoLevll-lu4nw2sNGuEg

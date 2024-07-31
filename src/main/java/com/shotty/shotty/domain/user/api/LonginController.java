@@ -1,6 +1,6 @@
 package com.shotty.shotty.domain.user.api;
 
-import com.shotty.shotty.global.auth.exception.InvalidRefreshTokenException;
+import com.shotty.shotty.global.auth.exception.custom_exception.InvalidRefreshTokenException;
 import com.shotty.shotty.global.auth.entity.RefreshToken;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.enums.UserRoleEnum;
@@ -42,7 +42,14 @@ public class LonginController {
         //로그인 성공
         TokenBundle tokenBundle = createTokens(user.getId(), user.getRole());
 
-        ResponseDto<TokenBundle> loginResponse = new ResponseDto<TokenBundle>(2000, "로그인 성공", tokenBundle);
+
+        RefreshToken refreshToken = refreshTokenRepository.findByUserId(user.getId()).orElse(new RefreshToken(user.getId(), null));
+
+        refreshToken.setRefreshToken(tokenBundle.refreshToken());
+        refreshTokenRepository.save(refreshToken);
+
+
+        ResponseDto<TokenBundle> loginResponse = new ResponseDto<TokenBundle>(2000,"로그인 성공", tokenBundle);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(loginResponse);
     }
@@ -57,10 +64,17 @@ public class LonginController {
         Long user_id = Long.valueOf(claims.get("user_id").toString());
         UserRoleEnum userRole = UserRoleEnum.valueOf((String)claims.get("userRole"));
 
-        refreshTokenRepository.findByUserId(user_id).
+        RefreshToken originalRefreshToken = refreshTokenRepository.findByUserId(user_id).
                 orElseThrow(() ->new InvalidRefreshTokenException("일치하는 refreshToken이 없음"));
 
+        if (!originalRefreshToken.getRefreshToken().equals(refreshToken)) {
+            throw new InvalidRefreshTokenException("Refresh token이 일치하지 않음.");
+        }
+
         TokenBundle tokenBundle = createTokens(user_id, userRole);
+
+        originalRefreshToken.setRefreshToken(tokenBundle.refreshToken());
+        refreshTokenRepository.save(originalRefreshToken);
 
         ResponseDto<TokenBundle> responseDto = new ResponseDto<>(2010, "토큰 재발급 성공", tokenBundle);
         return ResponseEntity.status(HttpStatus.OK)
@@ -79,7 +93,6 @@ public class LonginController {
         String refreshToken = jwtProvider.getToken(claims, 48);
         log.info("accessToken" + accessToken);
         log.info("refreshToken" + refreshToken);
-        refreshTokenRepository.save(new RefreshToken(user_id,refreshToken));
         return new TokenBundle(accessToken, refreshToken);
     }
 

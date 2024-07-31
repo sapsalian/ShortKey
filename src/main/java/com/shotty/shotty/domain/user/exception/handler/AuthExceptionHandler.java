@@ -1,8 +1,8 @@
 package com.shotty.shotty.domain.user.exception.handler;
 
 import com.shotty.shotty.global.common.dto.ResponseDto;
-import com.shotty.shotty.domain.user.exception.custom_exception.user.LoginFailureException;
-import com.shotty.shotty.domain.user.exception.custom_exception.user.UserIdDuplicateException;
+import com.shotty.shotty.domain.user.exception.custom_exception.LoginFailureException;
+import com.shotty.shotty.domain.user.exception.custom_exception.UserIdDuplicateException;
 import jakarta.validation.constraints.Null;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
