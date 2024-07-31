@@ -33,7 +33,7 @@ public class JwtProvider {
         Date accessTokenExpires = new Date(now + hours * 60 * 1000L);
 
         return Jwts.builder()
-                .claim("body", mapToJson(claims))
+                .setClaims(claims)
                 .setExpiration(accessTokenExpires)
                 .signWith(getSecretKey(), SignatureAlgorithm.HS256)
                 .compact();
@@ -49,31 +49,11 @@ public class JwtProvider {
     }
 
     // claim 디코딩
-    public Map<String ,Object> getClaims(String token) {
-        String body = Jwts.parserBuilder()
+    public Map<String ,Object> getClaims(String token)  {
+        return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey())
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .get("body", String.class);
-        //log.info(body);
-        return jsonToMap(body);
+                .getBody();
     }
-
-    private Object mapToJson(Map<String, Object> map) {
-        try {
-            return new ObjectMapper().writeValueAsString(map);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private  Map<String, Object> jsonToMap(String jsonStr) {
-        try {
-            return new ObjectMapper().readValue(jsonStr, HashMap.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

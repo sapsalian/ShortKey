@@ -32,12 +32,10 @@ public class LonginController {
     @PostMapping("/login")
     public ResponseEntity<ResponseDto<TokenBundle>> login(@RequestBody UserDto.loginRequest userDto) {
         log.info("로그인 컨트롤러");
-        User user;
         //db조회
-            user = loginService.login(userDto.getUserId(), userDto.getUserPassword());
+        User user = loginService.login(userDto.getUserId(), userDto.getUserPassword());
         //로그인 성공
         TokenBundle tokenBundle = createTokens(user.getId(), user.getRole());
-
 
         ResponseDto<TokenBundle> loginResponse = new ResponseDto<TokenBundle>(2000,"로그인 성공", tokenBundle);
         return ResponseEntity.status(HttpStatus.OK)
@@ -47,14 +45,16 @@ public class LonginController {
     //refresh 토큰
     @PatchMapping("/refresh")
     public ResponseEntity<ResponseDto<TokenBundle>> refresh(HttpServletRequest request, HttpServletResponse response) {
-        String refreshToken = request.getHeader("refresh-token");
+        String refreshToken = request.getHeader("Authorization").substring(7);
+        log.info("refreshToken"+refreshToken);
         Map<String, Object> claims = jwtProvider.getClaims(refreshToken);
-        Long user_id = (Long)claims.get("user_id");
-        UserRoleEnum userRoleEnum = UserRoleEnum.valueOf((String)claims.get("userRole"));
-        refreshTokenRepository.findByUserId(user_id).orElseThrow(() ->
-            new JwtException("유효하지않은")
-        );
-        TokenBundle tokenBundle = createTokens(user_id, userRoleEnum);
+        Long user_id = Long.valueOf(claims.get("user_id").toString());
+        UserRole userRole = UserRole.valueOf((String)claims.get("userRole"));
+
+        refreshTokenRepository.findByUserId(user_id).
+                orElseThrow(() ->new InvalidRefreshTokenException("일치하는 refreshToken이 없음"));
+
+        TokenBundle tokenBundle = createTokens(user_id, userRole);
 
         ResponseDto<TokenBundle> responseDto = new ResponseDto<>(2010, "토큰 재발급 성공", tokenBundle);
         return ResponseEntity.status(HttpStatus.OK)
