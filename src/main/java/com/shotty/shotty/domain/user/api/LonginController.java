@@ -9,6 +9,9 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import com.shotty.shotty.global.auth.dao.RefreshTokenRepository;
 import com.shotty.shotty.global.util.JwtProvider;
 import com.shotty.shotty.domain.user.application.LoginService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
@@ -23,12 +26,14 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
+@Tag(name = "로그인 API")
 @Slf4j
 public class LonginController {
     private final LoginService loginService;
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    @Operation(summary = "로그인", description = "파라미터로 받은 UserDto를 통해 DB조회 및 JWT토큰 발급")
     @PostMapping("/login")
     public ResponseEntity<ResponseDto<TokenBundle>> login(@RequestBody UserDto.loginRequest userDto) {
         log.info("로그인 컨트롤러");
@@ -37,12 +42,13 @@ public class LonginController {
         //로그인 성공
         TokenBundle tokenBundle = createTokens(user.getId(), user.getRole());
 
-        ResponseDto<TokenBundle> loginResponse = new ResponseDto<TokenBundle>(2000,"로그인 성공", tokenBundle);
+        ResponseDto<TokenBundle> loginResponse = new ResponseDto<TokenBundle>(2000, "로그인 성공", tokenBundle);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(loginResponse);
     }
 
     //refresh 토큰
+    @Operation(summary = "토큰 재발급",description = "refresh토큰의 유효성 검증 및 토큰 재발급")
     @PatchMapping("/refresh")
     public ResponseEntity<ResponseDto<TokenBundle>> refresh(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken = request.getHeader("Authorization").substring(7);

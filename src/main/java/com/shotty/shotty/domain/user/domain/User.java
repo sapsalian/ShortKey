@@ -23,8 +23,12 @@ public class User {
 
     private String name;
 
+    private boolean gender;
+
     @CreatedDate
     private LocalDateTime created_at;
+
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
