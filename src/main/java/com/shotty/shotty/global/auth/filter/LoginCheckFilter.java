@@ -17,7 +17,7 @@ import java.util.List;
 public class LoginCheckFilter implements Filter {
     private final JwtProvider jwtProvider;
     private static final List<String> whiteList = Arrays.asList(
-            "/api/auth/"
+            "/"
     );
 
     @Override
