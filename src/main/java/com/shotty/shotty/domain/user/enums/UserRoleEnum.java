@@ -1,7 +1,7 @@
 package com.shotty.shotty.domain.user.enums;
 
 public enum UserRoleEnum {
-    ADVERTISER((short)0),
+    COMMON((short)0),
     INFLUENCER((short)1);
 
     private final short roleNum;
