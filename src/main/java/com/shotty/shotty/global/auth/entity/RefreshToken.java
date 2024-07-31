@@ -22,4 +22,7 @@ public class RefreshToken {
         this.refreshToken = refreshToken;
     }
 
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }
