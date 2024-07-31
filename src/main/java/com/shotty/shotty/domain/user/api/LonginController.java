@@ -51,8 +51,12 @@ public class LonginController {
         Long user_id = Long.valueOf(claims.get("user_id").toString());
         UserRoleEnum userRole = UserRoleEnum.valueOf((String)claims.get("userRole"));
 
-        refreshTokenRepository.findByUserId(user_id).
+        RefreshToken originalRefreshToken = refreshTokenRepository.findByUserId(user_id).
                 orElseThrow(() ->new InvalidRefreshTokenException("일치하는 refreshToken이 없음"));
+
+        if (!originalRefreshToken.getRefreshToken().equals(refreshToken)) {
+            throw new InvalidRefreshTokenException("Refresh token이 일치하지 않음.");
+        }
 
         TokenBundle tokenBundle = createTokens(user_id, userRole);
 
