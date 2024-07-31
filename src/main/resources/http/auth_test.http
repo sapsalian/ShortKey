@@ -6,7 +6,7 @@ Content-Type: application/json
   "userId": "yongjin5351",
   "userName": "안용진",
   "userPassword": "12345678aA",
-  "userRole": 0
+  "userRoleEnum": 0
 }
 
 ### login test

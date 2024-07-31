@@ -1,9 +1,7 @@
 package com.shotty.shotty.service;
 
-import com.shotty.shotty.Domain.UserRole;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
+import com.shotty.shotty.global.util.JwtProvider;
+import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import io.jsonwebtoken.security.Keys;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,14 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 
 @SpringBootTest
 public class jwtTest {
-    @Autowired JwtProvider jwtProvider;
+    @Autowired
+    JwtProvider jwtProvider;
 
     @Value("${jwt.secretKey}")
     private String secretKeyPlain;
@@ -39,7 +37,7 @@ public class jwtTest {
         //given
         Map<String, Object> claims = new HashMap<>();
         claims.put("memberid", "test");
-        claims.put("role", UserRole.ADVERTISER);
+        claims.put("role", UserRoleEnum.ADVERTISER);
 
         //when
         String token = jwtProvider.getToken(claims, 120);
@@ -56,7 +54,7 @@ public class jwtTest {
         //given
         Map<String, Object> claims = new HashMap<>();
         claims.put("memberid", "test");
-        claims.put("role", UserRole.ADVERTISER);
+        claims.put("role", UserRoleEnum.ADVERTISER);
         //when
         String accessToken = jwtProvider.getToken(claims, -1);
 
