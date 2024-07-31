@@ -1,7 +1,7 @@
 package com.shotty.shotty.service;
 
 import com.shotty.shotty.Domain.User;
-import com.shotty.shotty.exception.custom_exception.auth.LoginFailureException;
+import com.shotty.shotty.exception.custom_exception.user.LoginFailureException;
 import com.shotty.shotty.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
