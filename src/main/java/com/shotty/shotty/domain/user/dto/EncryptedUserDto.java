@@ -3,6 +3,9 @@ package com.shotty.shotty.domain.user.dto;
 import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import com.shotty.shotty.global.util.Hasher;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Schema(description = "암호화된 유저 DTO")
 public record EncryptedUserDto (
@@ -12,20 +15,20 @@ public record EncryptedUserDto (
 
         String userName,
 
-        UserRoleEnum userRoleEnum
+        Boolean userGender,
+
+        String userEmail
 ) {
     public static EncryptedUserDto from(ResisterRequestDto resisterRequestDto) {
         String plainPassword = resisterRequestDto.userPassword();
         String encryptedPassword = Hasher.hashPassword(plainPassword);
 
-        short roleNum = resisterRequestDto.userRole();
-        UserRoleEnum userRoleEnum = UserRoleEnum.getUserRoleByRoleNum(roleNum);
-
         return new EncryptedUserDto(
                 resisterRequestDto.userId(),
                 encryptedPassword,
                 resisterRequestDto.userName(),
-                userRoleEnum
+                resisterRequestDto.userGender(),
+                resisterRequestDto.userEmail()
         );
     }
 }

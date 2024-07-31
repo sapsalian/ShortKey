@@ -35,19 +35,13 @@ public class User {
 
     public User() {}
 
-    private User(String userId, String password, String name, UserRoleEnum role) {
+    private User(String userId, String password, String name, boolean gender, String email) {
         this.userId = userId;
         this.password = password;
         this.name = name;
-        this.role = role;
-    }
-
-    public static User createUser(String email, String password, String name, UserRoleEnum role) {
-        User user = new User();
-        user.userId = email;
-        user.password = password;
-        user.role = role;
-        return user;
+        this.gender = gender;
+        this.email = email;
+        this.role = UserRoleEnum.COMMON;
     }
 
     public static User from(EncryptedUserDto encryptedUserDto) {
@@ -55,7 +49,8 @@ public class User {
                 encryptedUserDto.userId(),
                 encryptedUserDto.encryptedPassword(),
                 encryptedUserDto.userName(),
-                encryptedUserDto.userRoleEnum()
+                encryptedUserDto.userGender(),
+                encryptedUserDto.userEmail()
         );
     }
 

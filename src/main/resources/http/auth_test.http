@@ -3,10 +3,11 @@ POST localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-  "userId": "yongjin5351",
+  "userId": "yongjin5353",
   "userName": "안용진",
   "userPassword": "12345678aA",
-  "userRoleEnum": 0
+  "userGender": 0,
+  "userEmail": "yongjin5352@gmail.com"
 }
 
 ### login test
@@ -14,7 +15,7 @@ POST localhost:8080/api/auth/login
 Content-Type: application/json
 
 {
-  "userId": "yongjin5351",
+  "userId": "yongjin5353",
   "userPassword": "12345678aA"
 }
 
