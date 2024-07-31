@@ -8,13 +8,17 @@ public record UserResponseDto(
         Long id,
         String userId,
         String userName,
-        Short userRole
+        Boolean userGender,
+        String userEmail,
+        short userRole
 ) {
     public static UserResponseDto from(User user) {
         return new UserResponseDto(
                 user.getId(),
                 user.getUserId(),
                 user.getName(),
+                user.isGender(),
+                user.getEmail(),
                 user.getRole().getRoleNum()
         );
     }

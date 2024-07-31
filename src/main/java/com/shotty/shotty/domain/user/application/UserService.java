@@ -14,14 +14,11 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserResponseDto register(EncryptedUserDto encryptedUserDto) {
-        User user;
+    public void register(EncryptedUserDto encryptedUserDto) {
         try {
-            user = userRepository.save(User.from(encryptedUserDto));
+            userRepository.save(User.from(encryptedUserDto));
         } catch (DataIntegrityViolationException e) {
             throw new UserIdDuplicateException("이미 존재하는 사용자입니다.");
         }
-
-        return UserResponseDto.from(user);
     }
 }
