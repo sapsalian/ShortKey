@@ -9,6 +9,7 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,7 @@ public class UserController {
 
     @PatchMapping("/api/users")
     @Operation(summary = "현재 로그인된 사용자 정보 수정")
-    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@TokenId Long id, @RequestBody UserPatchRequestDto userPatchRequestDto) {
+    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@TokenId Long id, @Valid @RequestBody UserPatchRequestDto userPatchRequestDto) {
         UserPatch userPatch = UserPatch.from(userPatchRequestDto);
         UserResponseDto userResponseDto = userService.patch(id, userPatch);
 
