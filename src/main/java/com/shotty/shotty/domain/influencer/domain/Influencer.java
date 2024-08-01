@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "influencers")
 public class Influencer {
-    @Id
+    @Id @Column(name = "influencer_id")
     @GeneratedValue
     private Long id;
 

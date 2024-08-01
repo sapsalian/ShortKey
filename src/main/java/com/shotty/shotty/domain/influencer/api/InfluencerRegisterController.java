@@ -20,6 +20,19 @@ import java.util.List;
 @RequestMapping("/api")
 public class InfluencerRegisterController {
     private final InfluencerService influencerService;
+
+    @GetMapping("/influencers/{id}")
+    public ResponseEntity<ResponseDto<ResponseInfluencerDto>> getInfluencer(@PathVariable("id") Long influencer_id) {
+        ResponseInfluencerDto responseInfluencerDto = influencerService.findOne(influencer_id);
+
+        ResponseDto<ResponseInfluencerDto> influence = new ResponseDto<>(
+                2004,
+                "인플루언서 개별 조회 성공",
+                responseInfluencerDto
+        );
+        return ResponseEntity.ok(influence);
+    }
+
     @GetMapping("/influencers")
     public ResponseEntity<ResponseDto<List<ResponseInfluencerDto>>> getAllInfluencers() {
         List<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers();

@@ -53,4 +53,13 @@ public class InfluencerService {
 
         return collect;
     }
+
+    public ResponseInfluencerDto findOne(Long influencerId) {
+        Influencer influencer = influencerRepository.findById(influencerId).orElseThrow(
+                () -> {
+                    throw new InfluencerNotFoundException();
+                }
+        );
+        return ResponseInfluencerDto.convertToDto(influencer);
+    }
 }

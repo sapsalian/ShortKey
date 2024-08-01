@@ -9,21 +9,23 @@ import lombok.Data;
 
 @Data
 public class ResponseInfluencerDto {
+    private Long id;
     private String channelId;
     private Long subscribers;
     private boolean verified;
     private Niche niche;
     private String profile_image;
-    private UserResponseDto userResponseDto;
+    private UserResponseDto userInfo;
 
     public static ResponseInfluencerDto convertToDto(Influencer influencer) {
         ResponseInfluencerDto dto = new ResponseInfluencerDto();
+        dto.setId(influencer.getId());
         dto.setChannelId(influencer.getChannelId());
         dto.setSubscribers(influencer.getSubscribers());
         dto.setVerified(influencer.isVerified());
         dto.setNiche(influencer.getNiche());
         dto.setProfile_image(influencer.getProfile_image());
-        dto.setUserResponseDto(UserResponseDto.from(influencer.getUser()));
+        dto.setUserInfo(UserResponseDto.from(influencer.getUser()));
         return dto;
     }
 
