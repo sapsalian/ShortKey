@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PatchUtil {
-    public static <S, T> void applypatch(T original, S patch) {
+    public static <S, T> void applyPatch(T original, S patch) {
         Field[] patchFields = patch.getClass().getDeclaredFields();
         Map<String, Field> OriginalFieldsMap = getFieldMap(original.getClass());
 
