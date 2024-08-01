@@ -8,8 +8,10 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +45,20 @@ public class UserController {
                 2002,
                 "사용자 정보 조회 성공",
                 userResponseDto
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @DeleteMapping("api/users")
+    @Operation(summary = "현재 로그인된 사용자의 게정 삭제")
+    public ResponseEntity<ResponseDto<Null>> deleteUserById(@TokenId Long id) {
+        userService.delete(id);
+
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                2005,
+                "사용자 삭제 완료",
+                null
         );
 
         return ResponseEntity.ok(responseDto);
