@@ -21,7 +21,11 @@ Content-Type: application/json
 
 ### test : my user information search
 GET localhost:8080/api/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ4MTM0N30.Lyjj6Bu31A8mMFv8REVCCO2ro2Q_aBh83tEviYgCSRs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5Njk1Mn0.jnZHXc5QW1f7ITpUyGDIbD6Mqk8UK06ScUNQ2CiFtKw
 
 ### test : user information search
 GET localhost:8080/api/users/1
+
+### test : my user data delete
+DELETE localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5Njk1Mn0.jnZHXc5QW1f7ITpUyGDIbD6Mqk8UK06ScUNQ2CiFtKw
