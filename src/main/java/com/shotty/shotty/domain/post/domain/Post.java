@@ -28,15 +28,24 @@ public class Post {
 
     private int extra_price;
 
+    private String image;
+
+    private LocalDateTime endDate;
+
+    private boolean active;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Post(String title, String content, int price, int extra_price, User user) {
+    public Post(String title, String content, int price, int extra_price, String image, LocalDateTime endDate, User user) {
         this.title = title;
         this.content = content;
         this.price = price;
         this.extra_price = extra_price;
+        this.image = image;
+        this.endDate = endDate;
+        this.active = true;
         this.user = user;
     }
 }
