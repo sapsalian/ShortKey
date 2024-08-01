@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,6 +28,20 @@ public class UserController {
         ResponseDto<UserResponseDto> responseDto = new ResponseDto<>(
                 2002,
                 "내 정보 조회 성공",
+                userResponseDto
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("api/users/{id}")
+    @Operation(summary = "id를 이용해 사용자 정보 조회")
+    public ResponseEntity<ResponseDto<UserResponseDto>> getUserById(@PathVariable Long id) {
+        UserResponseDto userResponseDto = userService.findById(id);
+
+        ResponseDto<UserResponseDto> responseDto = new ResponseDto<>(
+                2002,
+                "사용자 정보 조회 성공",
                 userResponseDto
         );
 
