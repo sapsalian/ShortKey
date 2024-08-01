@@ -8,6 +8,7 @@ import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,6 +33,10 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        try {
+            userRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new UserNotFoundException("존재하지 않는 사용자입니다.");
+        }
     }
 }
