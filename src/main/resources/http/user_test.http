@@ -1,0 +1,24 @@
+### require 1 : signup
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "yongjin5353",
+  "userName": "안용진",
+  "userPassword": "12345678aA",
+  "userGender": 0,
+  "userEmail": "yongjin5352@gmail.com"
+}
+
+### require 2 : login
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "yongjin5353",
+  "userPassword": "12345678aA"
+}
+
+### test : my user information search
+GET localhost:8080/api/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ4MTM0N30.Lyjj6Bu31A8mMFv8REVCCO2ro2Q_aBh83tEviYgCSRs
