@@ -4,7 +4,7 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 
-public record UserPatchDto(
+public record UserPatchRequestDto(
         @Nullable
         @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]{3,15}$", message = "아이디는 영문 대소문자와 숫자만 허용되며, 3~15자 사이여야 합니다.")
         String userId,

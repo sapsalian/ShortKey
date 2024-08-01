@@ -1,8 +1,9 @@
 package com.shotty.shotty.domain.user.application;
 
 import com.shotty.shotty.domain.user.domain.User;
+import com.shotty.shotty.domain.user.domain.UserPatch;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
-import com.shotty.shotty.domain.user.dto.UserPatchDto;
+import com.shotty.shotty.domain.user.dto.UserPatchRequestDto;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserIdDuplicateException;
 import com.shotty.shotty.domain.user.dao.UserRepository;
@@ -33,13 +34,13 @@ public class UserService {
         return UserResponseDto.from(user);
     }
 
-    public UserResponseDto patch(Long id, UserPatchDto patchDto) {
+    public UserResponseDto patch(Long id, UserPatch userPatch) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new UserNotFoundException("존재하지 않는 사용자입니다.")
         );
 
-        PatchUtil.applyPatch(user, patchDto);
-        userRepository.save(user);
+        PatchUtil.applyPatch(user, userPatch);
+        user = userRepository.save(user);
 
         return UserResponseDto.from(user);
     }

@@ -1,8 +1,8 @@
 package com.shotty.shotty.domain.user.api;
 
 import com.shotty.shotty.domain.user.application.UserService;
-import com.shotty.shotty.domain.user.domain.User;
-import com.shotty.shotty.domain.user.dto.UserPatchDto;
+import com.shotty.shotty.domain.user.domain.UserPatch;
+import com.shotty.shotty.domain.user.dto.UserPatchRequestDto;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,8 +49,9 @@ public class UserController {
 
     @PatchMapping("/api/users")
     @Operation(summary = "현재 로그인된 사용자 정보 수정")
-    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@TokenId Long id, UserPatchDto userPatchDto) {
-        UserResponseDto userResponseDto = userService.patch(id, userPatchDto);
+    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@TokenId Long id, @RequestBody UserPatchRequestDto userPatchRequestDto) {
+        UserPatch userPatch = UserPatch.from(userPatchRequestDto);
+        UserResponseDto userResponseDto = userService.patch(id, userPatch);
 
         ResponseDto<UserResponseDto> responseDto = new ResponseDto<>(
                 2003,
