@@ -1,7 +1,8 @@
 package com.shotty.shotty.domain.user.api;
 
 import com.shotty.shotty.domain.user.application.UserService;
-import com.shotty.shotty.domain.user.domain.User;
+import com.shotty.shotty.domain.user.domain.UserPatch;
+import com.shotty.shotty.domain.user.dto.UserPatchRequestDto;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +39,7 @@ public class UserController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping("api/users/{id}")
+    @GetMapping("/api/users/{id}")
     @Operation(summary = "id를 이용해 사용자 정보 조회")
     public ResponseEntity<ResponseDto<UserResponseDto>> getUserById(@PathVariable Long id) {
         UserResponseDto userResponseDto = userService.findById(id);
@@ -59,6 +62,21 @@ public class UserController {
                 2005,
                 "사용자 삭제 완료",
                 null
+        );
+      
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PatchMapping("/api/users")
+    @Operation(summary = "현재 로그인된 사용자 정보 수정")
+    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@TokenId Long id, @Valid @RequestBody UserPatchRequestDto userPatchRequestDto) {
+        UserPatch userPatch = UserPatch.from(userPatchRequestDto);
+        UserResponseDto userResponseDto = userService.patch(id, userPatch);
+
+        ResponseDto<UserResponseDto> responseDto = new ResponseDto<>(
+                2003,
+                "사용자 정보 수정 성공",
+                userResponseDto
         );
 
         return ResponseEntity.ok(responseDto);

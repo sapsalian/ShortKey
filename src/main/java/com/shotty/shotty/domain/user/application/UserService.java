@@ -1,11 +1,14 @@
 package com.shotty.shotty.domain.user.application;
 
 import com.shotty.shotty.domain.user.domain.User;
+import com.shotty.shotty.domain.user.domain.UserPatch;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
+import com.shotty.shotty.domain.user.dto.UserPatchRequestDto;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserIdDuplicateException;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
+import com.shotty.shotty.global.util.PatchUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,11 +35,23 @@ public class UserService {
         return UserResponseDto.from(user);
     }
 
+
     public void delete(Long id) {
         try {
             userRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new UserNotFoundException("존재하지 않는 사용자입니다.");
         }
+    }
+
+    public UserResponseDto patch(Long id, UserPatch userPatch) {
+        User user = userRepository.findById(id).orElseThrow(() ->
+                new UserNotFoundException("존재하지 않는 사용자입니다.")
+        );
+
+        PatchUtil.applyPatch(user, userPatch);
+        user = userRepository.save(user);
+
+        return UserResponseDto.from(user);
     }
 }

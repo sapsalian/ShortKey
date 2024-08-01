@@ -29,3 +29,19 @@ GET localhost:8080/api/users/1
 ### test : my user data delete
 DELETE localhost:8080/api/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5Njk1Mn0.jnZHXc5QW1f7ITpUyGDIbD6Mqk8UK06ScUNQ2CiFtKw
+
+### test : my information edit
+PATCH localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MTY4MH0.Gmbxcmbqkq4t1_9i4dL466nlEkkWZDwmqLg-lrJjxF0
+Content-Type: application/json
+
+{
+  "userId": "yongjin5355"
+}
+###{
+###  "userId": "yongjin5355",
+###  "userName": "안용진",
+###  "userPassword": "12345678aA",
+###  "userGender": 0,
+###  "userEmail": "yongjin5352@gmail.com"
+###}
