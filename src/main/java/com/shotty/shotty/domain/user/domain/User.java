@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.user.domain;
 
+import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import jakarta.persistence.*;
@@ -33,6 +34,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
+    @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
+    private Influencer influencer;
+
+
     public User() {}
 
     private User(String userId, String password, String name, UserRoleEnum role) {
@@ -59,4 +64,7 @@ public class User {
         );
     }
 
+    public void changeRole(UserRoleEnum userRoleEnum) {
+        role = userRoleEnum;
+    }
 }

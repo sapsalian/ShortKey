@@ -28,12 +28,17 @@ public class Influencer {
 
     private String profile_image;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    //연관관계 메서드 작성
+    private void setUserAsInfluencer(User user) {
+        this.user = user;
+        user.changeRole(UserRoleEnum.INFLUENCER);
+    }
 
     private Influencer(User user, String profile_image, Niche niche, Long subscribers, String channelId, boolean verified) {
-        this.user = user;
+        this.setUserAsInfluencer(user);
         this.profile_image = profile_image;
         this.niche = niche;
         this.subscribers = subscribers;
