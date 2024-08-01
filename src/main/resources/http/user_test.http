@@ -28,11 +28,11 @@ GET localhost:8080/api/users/1
 
 ### test : my information edit
 PATCH localhost:8080/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MTY4MH0.Gmbxcmbqkq4t1_9i4dL466nlEkkWZDwmqLg-lrJjxF0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5Nzc5Mn0.i-bnv0tIdAtRT-tizbSJfiIKzlpXfolUYaL2EFuQJt0
 Content-Type: application/json
 
 {
-  "userId": "yongjin5355"
+  "userPassword": "12341234aA"
 }
 ###{
 ###  "userId": "yongjin5355",
