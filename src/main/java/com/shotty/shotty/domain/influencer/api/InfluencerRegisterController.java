@@ -3,6 +3,7 @@ package com.shotty.shotty.domain.influencer.api;
 import com.shotty.shotty.domain.influencer.application.InfluencerService;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.dto.RegisterInfluencerDto;
+import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
@@ -19,6 +20,17 @@ import java.util.List;
 @RequestMapping("/api")
 public class InfluencerRegisterController {
     private final InfluencerService influencerService;
+    @GetMapping("/influencers")
+    public ResponseEntity<ResponseDto<List<ResponseInfluencerDto>>> getAllInfluencers() {
+        List<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers();
+
+        ResponseDto<List<ResponseInfluencerDto>> responseDto = new ResponseDto<>(
+                2003,
+                "인플루언서 전체 조회 성공",
+                influencers
+        );
+        return ResponseEntity.ok(responseDto);
+    }
     @PostMapping("/influencers")
     public ResponseEntity<ResponseDto<Null>> registerInfluencer(@TokenId Long user_id, @RequestBody RegisterInfluencerDto registerInfluencerDto) {
         SaveInfluencerDto saveInfluencerDto = SaveInfluencerDto.from(registerInfluencerDto);

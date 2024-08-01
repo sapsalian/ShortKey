@@ -2,8 +2,10 @@ package com.shotty.shotty.domain.influencer.application;
 
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
+import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInfluencerException;
+import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
 import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
@@ -13,7 +15,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Getter
 @Service
@@ -37,4 +43,14 @@ public class InfluencerService {
     }
 
 
+    public List<ResponseInfluencerDto> findAllInfluencers() {
+        List<Influencer> influencers = influencerRepository.findAll();
+        if(influencers.isEmpty()) throw new InfluencerNotFoundException();
+
+        List<ResponseInfluencerDto> collect = influencers.stream()
+                .map(ResponseInfluencerDto::convertToDto)
+                .toList();
+
+        return collect;
+    }
 }

@@ -1,0 +1,41 @@
+### signup test
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "Test",
+  "userName": "테스트",
+  "userPassword": "Test1Test1",
+  "userGender": 0,
+  "userEmail": "test@gmail.com"
+}
+
+### login test
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "Test",
+  "userPassword": "Test1Test1"
+}
+### influencer register test
+POST localhost:8080/api/influencers
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MTg4Mn0.OC1Nj9k72lRo1Ou9z_smDExG37O9T0LUaZz46t7tSQo
+
+{
+  "userId": "Test",
+  "channelId": "channelId",
+  "subscribers": "123",
+  "niche": "FISHING",
+  "profile_image": "asdasdadasd"
+}
+
+### influencer register test
+GET localhost:8080/api/influencers
+Content-Type: application/json
+
+{
+}
+
+
