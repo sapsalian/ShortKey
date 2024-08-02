@@ -21,6 +21,7 @@ Content-Type: application/json
 
 ### test : post 등록
 POST localhost:8080/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjU4MTk1NX0.RPVU6gTgcaF-8p75NQEZX4fNXKRk6XA3qsENMz8m1yY
 Content-Type: application/json
 
 {
@@ -28,5 +29,5 @@ Content-Type: application/json
   "content": "공고입니다.",
   "price": 3000000,
   "extraPrice": 20000,
-  "endDate": "2024-03-05 12:12:12"
+  "endDate": "2024-03-05T12:12:12.000Z"
 }
