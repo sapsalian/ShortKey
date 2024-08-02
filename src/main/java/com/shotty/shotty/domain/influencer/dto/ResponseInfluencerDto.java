@@ -2,13 +2,13 @@ package com.shotty.shotty.domain.influencer.dto;
 
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.enums.Niche;
-import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ResponseInfluencerDto {
     private Long id;
     private String channelId;
@@ -19,16 +19,17 @@ public class ResponseInfluencerDto {
     private UserResponseDto userInfo;
 
     @Schema(description = "응답을 위한 인플루언서 Dto ")
-    public static ResponseInfluencerDto convertToDto(Influencer influencer) {
-        ResponseInfluencerDto dto = new ResponseInfluencerDto();
-        dto.setId(influencer.getId());
-        dto.setChannelId(influencer.getChannelId());
-        dto.setSubscribers(influencer.getSubscribers());
-        dto.setVerified(influencer.isVerified());
-        dto.setNiche(influencer.getNiche());
-        dto.setProfile_image(influencer.getProfile_image());
-        dto.setUserInfo(UserResponseDto.from(influencer.getUser()));
-        return dto;
+    public static ResponseInfluencerDto from(Influencer influencer) {
+        return new ResponseInfluencerDto(
+                influencer.getId(),
+                influencer.getChannelId(),
+                influencer.getSubscribers(),
+                influencer.isVerified(),
+                influencer.getNiche(),
+                influencer.getProfile_image(),
+                UserResponseDto.from(influencer.getUser())
+
+        );
     }
 
 }
