@@ -76,7 +76,7 @@ public class LonginController {
         originalRefreshToken.setRefreshToken(tokenBundle.refreshToken());
         refreshTokenRepository.save(originalRefreshToken);
 
-        ResponseDto<TokenBundle> responseDto = new ResponseDto<>(2010, "토큰 재발급 성공", tokenBundle);
+        ResponseDto<TokenBundle> responseDto = new ResponseDto<>(2019, "토큰 재발급 성공", tokenBundle);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(responseDto);
     }

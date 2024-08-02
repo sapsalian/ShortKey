@@ -1,0 +1,70 @@
+### signup test
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "Test",
+  "userName": "테스트",
+  "userPassword": "Test1Test1",
+  "userGender": 0,
+  "userEmail": "test@gmail.com"
+}
+
+### login test
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "Test",
+  "userPassword": "Test1Test1"
+}
+
+### signup test
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "Jongwon",
+  "userName": "종원",
+  "userPassword": "Test1Test1",
+  "userGender": 0,
+  "userEmail": "test@gmail.com"
+}
+
+### login test
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "Jongwon",
+  "userPassword": "Test1Test1"
+}
+
+### influencer register test
+POST localhost:8080/api/influencers
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MzkzM30.q16fA-B0m5pKR3UQJuSJH_15jE4SCoI4xMjqZkYIx9c
+
+{
+  "userId": "Test1",
+  "channelId": "channelId",
+  "subscribers": "123",
+  "niche": "FISHING",
+  "profile_image": "asdasdadasd"
+}
+
+### influencer findAll test
+GET localhost:8080/api/influencers
+Content-Type: application/json
+
+{
+}
+
+### influencer findOne Test
+GET localhost:8080/api/influencers/1
+Content-Type: application/json
+
+{
+}
+
+

@@ -2,18 +2,22 @@ package com.shotty.shotty.domain.influencer.application;
 
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
+import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInfluencerException;
-import com.shotty.shotty.domain.user.application.UserService;
+import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Getter
 @Service
@@ -37,4 +41,26 @@ public class InfluencerService {
     }
 
 
+    public Page<ResponseInfluencerDto> findAllInfluencers(Pageable pageable) {
+        Page<Influencer> influencers = influencerRepository.findAll(pageable);
+        if(influencers.isEmpty()) throw new InfluencerNotFoundException();
+
+        List<ResponseInfluencerDto> dtos = influencers.stream()
+                .map(ResponseInfluencerDto::convertToDto)
+                .toList();
+
+        // Page로 변환
+        Page<ResponseInfluencerDto> dtoPage = new PageImpl<>(dtos, pageable, influencers.getTotalElements());
+
+        return dtoPage;
+    }
+
+    public ResponseInfluencerDto findOne(Long influencerId) {
+        Influencer influencer = influencerRepository.findById(influencerId).orElseThrow(
+                () -> {
+                    throw new InfluencerNotFoundException();
+                }
+        );
+        return ResponseInfluencerDto.convertToDto(influencer);
+    }
 }
