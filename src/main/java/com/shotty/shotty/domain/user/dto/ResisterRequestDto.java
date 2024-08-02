@@ -14,7 +14,7 @@ public record ResisterRequestDto(
         String userPassword,
 
         @NotNull(message = "이름은 필수 입력해야 합니다.")
-        @Pattern(regexp = "^[가-힣]{2,20}$", message = "이름은 2~20자 사이어야 합니다.")
+        @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,20}$", message = "이름은 2~20자 사이어야 합니다.")
         String userName,
 
         Boolean userGender,
