@@ -7,7 +7,7 @@ import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 @Data
-@Schema(description = "인플루언서 등록을 위한 Dto")
+@Schema(description = "인플루언서 등록 요청 형식")
 public class RegisterInfluencerDto {
     private String userId;
     private String channelId;

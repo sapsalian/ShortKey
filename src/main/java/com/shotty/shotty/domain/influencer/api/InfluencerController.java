@@ -64,6 +64,7 @@ public class InfluencerController {
     }
 
     @PatchMapping("/influencers/{id}")
+    @Operation(summary = "인플루언서 정보 수정",description = "수정 폼을 통해 인플루언서 수정")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> updateInfluencer(
             @PathVariable("id") Long influencer_id,@Valid @RequestBody InfluencerPatchRequestDto influencerPatchRequestDto) {
         InfluencerPatch influencerPatch = InfluencerPatch.from(influencerPatchRequestDto);
