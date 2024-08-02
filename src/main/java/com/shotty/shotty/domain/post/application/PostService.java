@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-    private final UserService userService;
     private final UserRepository userRepository;
 
     public PostResponseDto save(long authorId, PostRequestDto postRequestDto) {
