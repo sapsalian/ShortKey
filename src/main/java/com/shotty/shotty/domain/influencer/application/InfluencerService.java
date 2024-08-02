@@ -6,20 +6,18 @@ import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInfluencerException;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
-import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Getter
 @Service
@@ -43,15 +41,18 @@ public class InfluencerService {
     }
 
 
-    public List<ResponseInfluencerDto> findAllInfluencers() {
-        List<Influencer> influencers = influencerRepository.findAll();
+    public Page<ResponseInfluencerDto> findAllInfluencers(Pageable pageable) {
+        Page<Influencer> influencers = influencerRepository.findAll(pageable);
         if(influencers.isEmpty()) throw new InfluencerNotFoundException();
 
-        List<ResponseInfluencerDto> collect = influencers.stream()
+        List<ResponseInfluencerDto> dtos = influencers.stream()
                 .map(ResponseInfluencerDto::convertToDto)
                 .toList();
 
-        return collect;
+        // Page로 변환
+        Page<ResponseInfluencerDto> dtoPage = new PageImpl<>(dtos, pageable, influencers.getTotalElements());
+
+        return dtoPage;
     }
 
     public ResponseInfluencerDto findOne(Long influencerId) {

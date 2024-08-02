@@ -1,7 +1,6 @@
 package com.shotty.shotty.domain.influencer.api;
 
 import com.shotty.shotty.domain.influencer.application.InfluencerService;
-import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.dto.RegisterInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
@@ -9,8 +8,9 @@ import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class InfluencerRegisterController {
+public class InfluencerController {
     private final InfluencerService influencerService;
 
     @GetMapping("/influencers/{id}")
@@ -34,10 +34,10 @@ public class InfluencerRegisterController {
     }
 
     @GetMapping("/influencers")
-    public ResponseEntity<ResponseDto<List<ResponseInfluencerDto>>> getAllInfluencers() {
-        List<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers();
+    public ResponseEntity<ResponseDto<Page<ResponseInfluencerDto>>> getAllInfluencers(Pageable pageable) {
+        Page<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers(pageable);
 
-        ResponseDto<List<ResponseInfluencerDto>> responseDto = new ResponseDto<>(
+        ResponseDto<Page<ResponseInfluencerDto>> responseDto = new ResponseDto<>(
                 2003,
                 "인플루언서 전체 조회 성공",
                 influencers
