@@ -7,11 +7,12 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
-@Schema(description = "인플루언서 등록 요청 형식")
-public class RegisterInfluencerDto {
-    @NotNull(message = "채널ID는 필수 입력해야 합니다")
+@Schema(description = "인플루언서 수정 요청 형식")
+public class InfluencerPatchRequestDto {
+    @Nullable
     private String channelId;
     @Nullable
     private Long subscribers;
@@ -19,5 +20,4 @@ public class RegisterInfluencerDto {
     private Niche niche;
     @Nullable
     private String profile_image;
-
 }

@@ -2,6 +2,7 @@ package com.shotty.shotty.domain.influencer.application;
 
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
+import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
 import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInfluencerException;
@@ -9,6 +10,7 @@ import com.shotty.shotty.domain.influencer.exception.custom_exception.Influencer
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
+import com.shotty.shotty.global.util.PatchUtil;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +48,7 @@ public class InfluencerService {
         if(influencers.isEmpty()) throw new InfluencerNotFoundException();
 
         List<ResponseInfluencerDto> dtos = influencers.stream()
-                .map(ResponseInfluencerDto::convertToDto)
+                .map(ResponseInfluencerDto::from)
                 .toList();
 
         // Page로 변환
@@ -57,10 +59,19 @@ public class InfluencerService {
 
     public ResponseInfluencerDto findOne(Long influencerId) {
         Influencer influencer = influencerRepository.findById(influencerId).orElseThrow(
+                () -> {throw new InfluencerNotFoundException();}
+        );
+        return ResponseInfluencerDto.from(influencer);
+    }
+
+    public ResponseInfluencerDto patch(Long influencerId, InfluencerPatch influencerPatch) {
+        Influencer influencer = influencerRepository.findById(influencerId).orElseThrow(
                 () -> {
                     throw new InfluencerNotFoundException();
                 }
         );
-        return ResponseInfluencerDto.convertToDto(influencer);
+        PatchUtil.applyPatch(influencer,influencerPatch);
+
+        return ResponseInfluencerDto.from(influencer);
     }
 }
