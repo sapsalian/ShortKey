@@ -32,7 +32,7 @@ public class PostService {
         return PostResponseDto.from(post);
     }
 
-    // TODO: S3 이용해 image 저장하고 url 반환하는 메서드 
+    // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
     private String imageSave() {
         return "";
     }
