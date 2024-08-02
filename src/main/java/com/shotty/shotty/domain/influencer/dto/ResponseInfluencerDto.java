@@ -4,6 +4,7 @@ import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.enums.Niche;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class ResponseInfluencerDto {
     private String profile_image;
     private UserResponseDto userInfo;
 
+    @Schema(description = "응답을 위한 인플루언서 Dto ")
     public static ResponseInfluencerDto convertToDto(Influencer influencer) {
         ResponseInfluencerDto dto = new ResponseInfluencerDto();
         dto.setId(influencer.getId());
