@@ -9,7 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 @Schema(description = "인플루언서 등록 서비스단에서 저장을 위한 dto")
 public class SaveInfluencerDto {
-    private String userId;
     private String channelId;
     private Long subscribers;
     private Niche niche;
@@ -17,7 +16,6 @@ public class SaveInfluencerDto {
 
     public static SaveInfluencerDto from(RegisterInfluencerDto registerInfluencerDto){
         return new SaveInfluencerDto(
-                registerInfluencerDto.getUserId(),
                 registerInfluencerDto.getChannelId(),
                 registerInfluencerDto.getSubscribers(),
                 registerInfluencerDto.getNiche(),
