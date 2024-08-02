@@ -1,0 +1,32 @@
+### require 1 : signup
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "yongjin5353",
+  "userName": "안용진",
+  "userPassword": "12345678aA",
+  "userGender": 0,
+  "userEmail": "yongjin5352@gmail.com"
+}
+
+### require 2 : login
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "yongjin5353",
+  "userPassword": "12345678aA"
+}
+
+### test : post 등록
+POST localhost:8080/api/posts
+Content-Type: application/json
+
+{
+  "title": "공고11",
+  "content": "공고입니다.",
+  "price": 3000000,
+  "extraPrice": 20000,
+  "endDate": "2024-03-05 12:12:12"
+}
