@@ -43,7 +43,7 @@ public class PostController {
     @GetMapping("/api/posts")
     @Operation(summary = "공고 전체 조회")
     public ResponseEntity<ResponseDto<Page<PostResponseDto>>> getPosts(
-            @PageableDefault(size = 10, page = 0, sort = "created_at", direction = Sort.Direction.DESC)
+            @PageableDefault(size = 10, page = 0, sort = "createdAt", direction = Sort.Direction.DESC)
             Pageable pageable
     ) {
         Page<PostResponseDto> postPage = postService.findAll(pageable);
