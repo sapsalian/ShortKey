@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.post.api;
 
 import com.shotty.shotty.domain.post.application.PostService;
+import com.shotty.shotty.domain.post.dto.PostPatchDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.post.dto.PostResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
@@ -15,10 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,6 +50,24 @@ public class PostController {
                 2002,
                 "공고 전체 조회 성공",
                 postPage
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PatchMapping("/api/posts/{postId}")
+    @Operation(summary = "공고 수정")
+    public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
+            @TokenId Long userId,
+            @PathVariable Long postId,
+            @Valid @RequestBody PostPatchDto postPatchDto
+    ) {
+        PostResponseDto postResponseDto = postService.edit(postId, postPatchDto, userId);
+
+        ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
+                2003,
+                "공고 수정 완료",
+                postResponseDto
         );
 
         return ResponseEntity.ok(responseDto);

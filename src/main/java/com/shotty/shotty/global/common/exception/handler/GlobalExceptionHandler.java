@@ -2,8 +2,11 @@ package com.shotty.shotty.global.common.exception.handler;
 
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import com.shotty.shotty.global.common.dto.ResponseDto;
+import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
+import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import jakarta.validation.constraints.Null;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,5 +22,27 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.badRequest().body(responseDto);
+    }
+
+    @ExceptionHandler(NoSuchResourcException.class)
+    public ResponseEntity<ResponseDto<Null>> handleNoSuchResourcException(NoSuchResourcException e) {
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                4041,
+                e.getMessage(),
+                null
+        );
+
+        return new ResponseEntity<>(responseDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PermissionException.class)
+    public ResponseEntity<ResponseDto<PermissionException>> handlePermissionException(PermissionException e) {
+        ResponseDto<PermissionException> responseDto = new ResponseDto<>(
+                4030,
+                e.getMessage(),
+                null
+        );
+
+        return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
     }
 }
