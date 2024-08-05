@@ -6,6 +6,7 @@ import com.shotty.shotty.domain.influencer.dto.*;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Null;
@@ -52,7 +53,7 @@ public class InfluencerController {
     }
     @PostMapping("/influencers")
     @Operation(summary = "인플루언서 등록", description = "등록 폼을 통해 인플루언서 등록")
-    public ResponseEntity<ResponseDto<Null>> registerInfluencer(@TokenId Long user_id,@Valid     @RequestBody RegisterInfluencerDto registerInfluencerDto) {
+    public ResponseEntity<ResponseDto<Null>> registerInfluencer(@Parameter(hidden = true) @TokenId Long user_id, @Valid @RequestBody RegisterInfluencerDto registerInfluencerDto) {
         SaveInfluencerDto saveInfluencerDto = SaveInfluencerDto.from(registerInfluencerDto);
         influencerService.register(user_id, saveInfluencerDto);
         ResponseDto<Null> responseDto = new ResponseDto<>(

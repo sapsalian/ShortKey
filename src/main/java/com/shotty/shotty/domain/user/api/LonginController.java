@@ -13,6 +13,7 @@ import com.shotty.shotty.global.util.JwtProvider;
 import com.shotty.shotty.domain.user.application.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -55,8 +56,9 @@ public class LonginController {
                 .body(loginResponse);
     }
 
+    @Operation(summary = "로그아웃")
     @PostMapping("/logout")
-    public ResponseEntity<ResponseDto<Null>> logout(@TokenId Long user_id){
+    public ResponseEntity<ResponseDto<Null>> logout(@Parameter(hidden = true) @TokenId Long user_id){
         userService.logout(user_id);
         ResponseDto<Null> responseDto = new ResponseDto<>(
                 2006,

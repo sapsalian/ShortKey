@@ -6,6 +6,7 @@ import com.shotty.shotty.domain.post.dto.PostResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ public class PostController {
 
     @PostMapping("/api/posts")
     @Operation(summary = "공고 등록", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<ResponseDto<PostResponseDto>> postPost(@TokenId Long authorId, @Valid @RequestBody PostRequestDto postRequestDto) {
+    public ResponseEntity<ResponseDto<PostResponseDto>> postPost(@Parameter(hidden = true) @TokenId Long authorId, @Valid @RequestBody PostRequestDto postRequestDto) {
         PostResponseDto postResponseDto = postService.save(authorId, postRequestDto);
 
         ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(

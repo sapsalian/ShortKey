@@ -11,7 +11,9 @@ public class UserDto {
     @Setter
     @AllArgsConstructor
     public static class loginRequest{
+        @Schema(description = "영문 대소문자와 숫자만 허용되며, 3~15자 사이", example = "myid12345")
         String userId;
+        @Schema(description = "영문 대문자, 소문자, 숫자가 각각 하나 이상 포함되어야 하며, 8~15자 사이", example = "Password123")
         String userPassword;
     }
 

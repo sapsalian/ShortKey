@@ -17,6 +17,7 @@ import java.util.List;
 public class LoginCheckFilter implements Filter {
     private final JwtProvider jwtProvider;
     private static final List<String> whiteList = Arrays.asList(
+            //"/api/auth","/swagger-ui","/v3/api-docs"
             "/"
     );
 
@@ -29,11 +30,12 @@ public class LoginCheckFilter implements Filter {
 
         if( whiteList.stream().anyMatch(path::startsWith)){
             filterChain.doFilter(request, response);
+            log.info("화이트리스트: path= {}", path);
             return;
         }
         //토큰 여부 확인
         String accessToken = getAccessToken(httpRequest);
-        log.info("Access token: {}", accessToken);
+        log.info("Access token: {},path= {}", accessToken,path);
         if(accessToken == null ) {
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             httpResponse.getWriter().write("Missing header");
