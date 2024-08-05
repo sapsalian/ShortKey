@@ -3,7 +3,7 @@ package com.shotty.shotty.domain.post.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record PostRequestDto(
         @NotNull(message = "공고 제목은 필수 입력 사항입니다.")
@@ -19,6 +19,6 @@ public record PostRequestDto(
         int extraPrice,
 
 
-        LocalDateTime endDate
+        LocalDate endDate
 ) {
 }

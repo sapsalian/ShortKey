@@ -1,13 +1,13 @@
 package com.shotty.shotty.domain.post.domain;
 
 import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
-import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,7 +23,7 @@ public class Post {
 
     private String content;
 
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     private int price;
@@ -32,7 +32,7 @@ public class Post {
 
     private String image;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     private boolean active;
 
@@ -40,7 +40,7 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User author;
 
-    public Post(String title, String content, int price, int extra_price, String image, LocalDateTime endDate, User author) {
+    public Post(String title, String content, int price, int extra_price, String image, LocalDate endDate, User author) {
         this.title = title;
         this.content = content;
         this.price = price;

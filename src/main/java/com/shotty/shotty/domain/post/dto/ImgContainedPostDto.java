@@ -1,7 +1,7 @@
 package com.shotty.shotty.domain.post.dto;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record ImgContainedPostDto(
         String title,
@@ -9,7 +9,7 @@ public record ImgContainedPostDto(
         int price,
         int extraPrice,
         String imageUrl,
-        LocalDateTime endDate
+        LocalDate endDate
 ) {
     public static ImgContainedPostDto of(PostRequestDto postRequestDto, String imageUrl) {
         return new ImgContainedPostDto(
