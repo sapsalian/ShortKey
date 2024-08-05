@@ -58,6 +58,6 @@ public class UserService {
     }
 
     public void logout(Long user_id) {
-        refreshTokenRepository.deleteById(user_id);
+        refreshTokenRepository.deleteByUserId(user_id);
     }
 }
