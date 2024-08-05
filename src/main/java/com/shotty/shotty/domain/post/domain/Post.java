@@ -28,7 +28,7 @@ public class Post {
 
     private int price;
 
-    private int extra_price;
+    private int extraPrice;
 
     private String image;
 
@@ -40,11 +40,11 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User author;
 
-    public Post(String title, String content, int price, int extra_price, String image, LocalDate endDate, User author) {
+    public Post(String title, String content, int price, int extraPrice, String image, LocalDate endDate, User author) {
         this.title = title;
         this.content = content;
         this.price = price;
-        this.extra_price = extra_price;
+        this.extraPrice = extraPrice;
         this.image = image;
         this.endDate = endDate;
         this.active = true;
