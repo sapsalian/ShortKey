@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -27,7 +27,7 @@ public class User {
     private boolean gender;
 
     @CreatedDate
-    private LocalDateTime created_at;
+    private LocalDate created_at;
 
     private String email;
 

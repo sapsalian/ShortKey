@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -24,7 +24,7 @@ public class Post {
     private String content;
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     private int price;
 
@@ -32,7 +32,7 @@ public class Post {
 
     private String image;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     private boolean active;
 
@@ -40,7 +40,7 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User author;
 
-    public Post(String title, String content, int price, int extra_price, String image, LocalDateTime endDate, User author) {
+    public Post(String title, String content, int price, int extra_price, String image, LocalDate endDate, User author) {
         this.title = title;
         this.content = content;
         this.price = price;
