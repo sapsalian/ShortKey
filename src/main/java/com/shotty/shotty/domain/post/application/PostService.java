@@ -9,9 +9,11 @@ import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
+import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,7 +36,13 @@ public class PostService {
     }
 
     public Page<PostResponseDto> findAll(Pageable pageable) {
-        Page<Post> posts = postRepository.findAll(pageable);
+        Page<Post> posts = null;
+
+        try {
+            posts = postRepository.findAll(pageable);
+        } catch (PropertyReferenceException e) {
+            throw new NoSuchSortFieldException();
+        }
 
         return posts.map(PostResponseDto::from);
     }
