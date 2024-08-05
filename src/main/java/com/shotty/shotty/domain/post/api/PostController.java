@@ -60,7 +60,8 @@ public class PostController {
     @PatchMapping("/api/posts/{postId}")
     @Operation(summary = "공고 수정")
     public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
-            @TokenId Long userId,
+
+            @Parameter(hidden = true) @TokenId Long userId,
             @PathVariable Long postId,
             @Valid @RequestBody PostPatchDto postPatchDto
     ) {
@@ -78,7 +79,7 @@ public class PostController {
     @DeleteMapping("/api/posts/{postId}")
     @Operation(summary = "공고 삭제")
     public ResponseEntity<ResponseDto<Null>> deletePost(
-            @TokenId Long userId,
+            @Parameter(hidden = true) @TokenId Long userId,
             @PathVariable Long postId
     ) {
         postService.softDelete(postId, userId);
