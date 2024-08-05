@@ -1,14 +1,14 @@
 package com.shotty.shotty.domain.post.domain;
 
 import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
-import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,8 +23,8 @@ public class Post {
 
     private String content;
 
-    @CreatedDate
-    private LocalDate createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     private int price;
 

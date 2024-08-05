@@ -5,9 +5,10 @@ import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,8 +27,8 @@ public class User {
 
     private boolean gender;
 
-    @CreatedDate
-    private LocalDate created_at;
+    @CreationTimestamp
+    private LocalDateTime created_at;
 
     private String email;
 
