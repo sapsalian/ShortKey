@@ -3,13 +3,19 @@ package com.shotty.shotty.domain.post.application;
 import com.shotty.shotty.domain.post.dao.PostRepository;
 import com.shotty.shotty.domain.post.domain.Post;
 import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
+import com.shotty.shotty.domain.post.dto.PostPatchDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.post.dto.PostResponseDto;
 import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
+import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
+import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
+import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
+import com.shotty.shotty.global.util.PatchUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +28,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public PostResponseDto save(long authorId, PostRequestDto postRequestDto) {
+    public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
         String imgUrl = imageSave();
         ImgContainedPostDto imgContainedPostDto = ImgContainedPostDto.of(postRequestDto, imgUrl);
 
@@ -45,6 +51,19 @@ public class PostService {
         }
 
         return posts.map(PostResponseDto::from);
+    }
+
+    public PostResponseDto edit(Long postId, PostPatchDto postPatchDto, Long userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
+
+        if (!post.getAuthor().getId().equals(userId)) {
+            throw new PermissionException("공고에 대한 수정권한이 없는 사용자입니다.");
+        }
+
+        PatchUtil.applyPatch(post, postPatchDto);
+        post = postRepository.save(post);
+
+        return PostResponseDto.from(post);
     }
 
     // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
