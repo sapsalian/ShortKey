@@ -4,6 +4,7 @@ import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundExce
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
+import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import jakarta.validation.constraints.Null;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,5 +33,16 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(responseDto, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PermissionException.class)
+    public ResponseEntity<ResponseDto<PermissionException>> handlePermissionException(PermissionException e) {
+        ResponseDto<PermissionException> responseDto = new ResponseDto<>(
+                4030,
+                e.getMessage(),
+                null
+        );
+
+        return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
     }
 }
