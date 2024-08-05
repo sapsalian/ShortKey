@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -69,6 +70,23 @@ public class PostController {
                 2003,
                 "공고 수정 완료",
                 postResponseDto
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @DeleteMapping("/api/posts/{postId}")
+    @Operation(summary = "공고 삭제")
+    public ResponseEntity<ResponseDto<Null>> deletePost(
+            @TokenId Long userId,
+            @PathVariable Long postId
+    ) {
+        postService.softDelete(postId, userId);
+
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                2006,
+                "공고 삭제 완료",
+                null
         );
 
         return ResponseEntity.ok(responseDto);
