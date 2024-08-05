@@ -1,4 +1,4 @@
-package com.shotty.shotty.global.common.exception;
+package com.shotty.shotty.global.common.exception.custom_exception;
 
 public class NoSuchSortFieldException extends RuntimeException {
     public NoSuchSortFieldException() {
