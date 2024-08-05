@@ -9,7 +9,11 @@ import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
+import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +33,18 @@ public class PostService {
         post = postRepository.save(post);
 
         return PostResponseDto.from(post);
+    }
+
+    public Page<PostResponseDto> findAll(Pageable pageable) {
+        Page<Post> posts = null;
+
+        try {
+            posts = postRepository.findAll(pageable);
+        } catch (PropertyReferenceException e) {
+            throw new NoSuchSortFieldException();
+        }
+
+        return posts.map(PostResponseDto::from);
     }
 
     // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
