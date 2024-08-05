@@ -8,6 +8,7 @@ import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserIdDuplicateException;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
+import com.shotty.shotty.global.auth.dao.RefreshTokenRepository;
 import com.shotty.shotty.global.util.PatchUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public void register(EncryptedUserDto encryptedUserDto) {
         try {
@@ -53,5 +55,9 @@ public class UserService {
         user = userRepository.save(user);
 
         return UserResponseDto.from(user);
+    }
+
+    public void logout(Long user_id) {
+        refreshTokenRepository.deleteByUserId(user_id);
     }
 }

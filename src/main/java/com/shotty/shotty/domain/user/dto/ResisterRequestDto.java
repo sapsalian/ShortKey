@@ -6,21 +6,26 @@ import jakarta.validation.constraints.*;
 @Schema(description = "회원가입요청 DTO")
 public record ResisterRequestDto(
         @NotNull(message = "Id는 필수 입력해야 합니다.")
+        @Schema(description = "영문 대소문자와 숫자만 허용되며, 3~15자 사이",example = "myid12345")
         @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9]{3,15}$", message = "아이디는 영문 대소문자와 숫자만 허용되며, 3~15자 사이여야 합니다.")
         String userId,
 
         @NotNull(message = "password는 필수 입력해야 합니다.")
+        @Schema(description = "영문 대문자, 소문자, 숫자가 각각 하나 이상 포함되어야 하며, 8~15자 사이",example = "Password123")
         @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,15}$", message = "비밀번호는 영문 대문자, 소문자, 숫자가 각각 하나 이상 포함되어야 하며, 8~15자 사이여야 합니다.")
         String userPassword,
 
         @NotNull(message = "이름은 필수 입력해야 합니다.")
+        @Schema(description = "2~20자 사이",example = "tester")
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,20}$", message = "이름은 2~20자 사이어야 합니다.")
         String userName,
 
+        @Schema(description = "성별) 남자:true,여자:false",example = "true")
         Boolean userGender,
 
         @NotNull(message = "email은 필수 입력해야 합니다.")
         @Email(message = "올바른 email 형식이 아닙니다.")
+        @Schema(description = "사용자 이메일",example = "test1234@test.com")
         String userEmail
 ) {
 }

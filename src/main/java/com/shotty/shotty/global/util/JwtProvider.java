@@ -45,7 +45,6 @@ public class JwtProvider {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-
     }
 
     // claim 디코딩

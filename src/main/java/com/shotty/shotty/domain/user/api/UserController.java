@@ -7,6 +7,7 @@ import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Null;
@@ -27,7 +28,7 @@ public class UserController {
 
     @GetMapping("/api/me")
     @Operation(summary = "현재 접속중인 사용자 정보 조회", security = @SecurityRequirement(name = "bearerAuth"))
-    public ResponseEntity<ResponseDto<UserResponseDto>> getCurrentUser(@TokenId Long id) {
+    public ResponseEntity<ResponseDto<UserResponseDto>> getCurrentUser(@Parameter(hidden = true) @TokenId Long id) {
         UserResponseDto userResponseDto = userService.findById(id);
 
         ResponseDto<UserResponseDto> responseDto = new ResponseDto<>(
@@ -55,7 +56,7 @@ public class UserController {
 
     @DeleteMapping("api/users")
     @Operation(summary = "현재 로그인된 사용자의 게정 삭제")
-    public ResponseEntity<ResponseDto<Null>> deleteUserById(@TokenId Long id) {
+    public ResponseEntity<ResponseDto<Null>> deleteUserById(@Parameter(hidden = true) @TokenId Long id) {
         userService.delete(id);
 
         ResponseDto<Null> responseDto = new ResponseDto<>(
@@ -69,7 +70,7 @@ public class UserController {
 
     @PatchMapping("/api/users")
     @Operation(summary = "현재 로그인된 사용자 정보 수정")
-    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@TokenId Long id, @Valid @RequestBody UserPatchRequestDto userPatchRequestDto) {
+    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@Parameter(hidden = true) @TokenId Long id, @Valid @RequestBody UserPatchRequestDto userPatchRequestDto) {
         UserPatch userPatch = UserPatch.from(userPatchRequestDto);
         UserResponseDto userResponseDto = userService.patch(id, userPatch);
 
