@@ -10,7 +10,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +35,23 @@ public class PostController {
                 2011,
                 "공고 생성 완료",
                 postResponseDto
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/api/posts")
+    @Operation(summary = "공고 전체 조회")
+    public ResponseEntity<ResponseDto<Page<PostResponseDto>>> getPosts(
+            @PageableDefault(size = 10, page = 0, sort = "created_at", direction = Sort.Direction.DESC)
+            Pageable pageable
+    ) {
+        Page<PostResponseDto> postPage = postService.findAll(pageable);
+
+        ResponseDto<Page<PostResponseDto>> responseDto = new ResponseDto<>(
+                2002,
+                "공고 전체 조회 성공",
+                postPage
         );
 
         return ResponseEntity.ok(responseDto);
