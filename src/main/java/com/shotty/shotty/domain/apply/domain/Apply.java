@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.apply.domain;
 
+import com.shotty.shotty.domain.apply.dto.ApplyRequestDto;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.post.domain.Post;
 import jakarta.persistence.*;
@@ -41,5 +42,15 @@ public class Apply {
         this.videoLink = videoLink;
         this.influencer = influencer;
         this.post = post;
+    }
+
+    public static Apply from(ApplyRequestDto applyRequestDto,Influencer influencer,Post post) {
+        return new Apply(
+                applyRequestDto.getTitle(),
+                applyRequestDto.getContent(),
+                applyRequestDto.getVideoLink(),
+                influencer,
+                post
+        );
     }
 }
