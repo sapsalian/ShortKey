@@ -66,6 +66,17 @@ public class PostService {
         return PostResponseDto.from(post);
     }
 
+    public void softDelete(Long postId, Long userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
+
+        if (!post.getAuthor().getId().equals(userId)) {
+            throw new PermissionException("해당 공고에 대한 삭제권한이 없는 사용자입니다.");
+        }
+
+        post.deactivate();
+        post = postRepository.save(post);
+    }
+
     // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
     private String imageSave() {
         return "";

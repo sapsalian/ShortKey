@@ -51,6 +51,10 @@ public class Post {
         this.author = author;
     }
 
+    public void deactivate() {
+        this.active = false;
+    }
+
     public static Post of(ImgContainedPostDto imgContainedPoastDto, User author) {
         return new Post(
                 imgContainedPoastDto.title(),
