@@ -1,0 +1,85 @@
+### require 1-1 : advertiser signup
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "yongjin5353",
+  "userName": "안용진",
+  "userPassword": "12345678aA",
+  "userGender": 0,
+  "userEmail": "yongjin5352@gmail.com"
+}
+
+### require 1-2 : advertiser login
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "yongjin5353",
+  "userPassword": "12345678aA"
+}
+
+### require 1-3 : advertiser post 등록
+POST localhost:8080/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQxMH0.G0O7nRdBg0f1T_CIhc4ujKxKehd1kJZu2J3JrScSfmM
+Content-Type: application/json
+
+{
+  "title": "공고11",
+  "content": "공고입니다.",
+  "price": 3000000,
+  "extraPrice": 20000,
+  "endDate": "2024-03-05"
+}
+
+### require 2-1 : influencer signup
+POST localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+  "userId": "yongjin5354",
+  "userName": "안용진2",
+  "userPassword": "12345678aA",
+  "userGender": 0,
+  "userEmail": "yongjin5352@naver.com"
+}
+
+### require 2-2 : influencer login
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "yongjin5354",
+  "userPassword": "12345678aA"
+}
+
+### require 2-3 : influencer register
+POST localhost:8080/api/influencers
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MzkzM30.q16fA-B0m5pKR3UQJuSJH_15jE4SCoI4xMjqZkYIx9c
+
+{
+  "userId": "Test1",
+  "channelId": "channelId",
+  "subscribers": "123",
+  "niche": "FISHING",
+  "profile_image": "asdasdadasd"
+}
+
+### require 2-4 : influencer apply
+POST localhost:8080/api/applies?post_id=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MzkzM30.q16fA-B0m5pKR3UQJuSJH_15jE4SCoI4xMjqZkYIx9c
+Content-Type: application/json
+
+{
+  "title": "Apply",
+  "content": "aaaaaaaaaaaa",
+  "videoLink": "dlkfjdlkjfoieojef"
+}
+
+### test : 입찰 등록
+POST localhost:8080/api/applies/1/bids
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MzkzM30.q16fA-B0m5pKR3UQJuSJH_15jE4SCoI4xMjqZkYIx9c
+
+
+

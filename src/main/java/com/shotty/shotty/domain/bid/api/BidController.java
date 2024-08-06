@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BidController {
     private final BidService bidService;
 
-    @PostMapping("applies/{applyId}/bids")
+    @PostMapping("/api/applies/{applyId}/bids")
     public ResponseEntity<ResponseDto<BidResponseDto>> doBid(
             @Parameter(hidden = true)
             @TokenId
