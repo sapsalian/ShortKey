@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ApplyController {
     private final ApplyService applyService;
 
-    @PostMapping("/applys")
+    @PostMapping("/applies")
     @Operation(summary = "지원 등록",description = "요청 폼으로 받은 정보로 지원등록")
     public ResponseEntity<ResponseDto<ApplyResponseDto>> apply(
             @Parameter(hidden = true) @TokenId Long user_id, @RequestParam Long post_id, @RequestBody ApplyRequestDto applyRequestDto) {
