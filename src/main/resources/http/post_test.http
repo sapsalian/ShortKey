@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### test : post 등록
 POST localhost:8080/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg0MTU3Nn0.vlOlwQY7gS94d2FMLiYztonXlqhrQuabUJkSPWnP_uA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQxMH0.G0O7nRdBg0f1T_CIhc4ujKxKehd1kJZu2J3JrScSfmM
 Content-Type: application/json
 
 {
@@ -37,9 +37,13 @@ GET localhost:8080/api/posts
 
 ### test : 공고 수정
 PATCH localhost:8080/api/posts/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg0MTU3Nn0.vlOlwQY7gS94d2FMLiYztonXlqhrQuabUJkSPWnP_uA
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQ3Nn0.020kZQ86UOTGhUwP-yheYY44gasbAEqhIShPYAAxeHU
 Content-Type: application/json
 
 {
   "price": 10000000
 }
+
+### test : 공고 삭제
+DELETE localhost:8080/api/posts/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQ3Nn0.020kZQ86UOTGhUwP-yheYY44gasbAEqhIShPYAAxeHU
