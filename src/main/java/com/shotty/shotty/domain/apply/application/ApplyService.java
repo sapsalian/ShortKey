@@ -30,6 +30,7 @@ public class ApplyService {
         Post post = getPost(post_id);
 
         Apply apply = Apply.from(applyRequestDto, influencer, post);
+
         applyRepository.save(apply);
 
         return ApplyResponseDto.from(apply);
