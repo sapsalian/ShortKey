@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### require 1-3 : advertiser post 등록
 POST localhost:8080/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQxMH0.G0O7nRdBg0f1T_CIhc4ujKxKehd1kJZu2J3JrScSfmM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY1OX0.NQUZs3t1P8MsjvKeD1xwzzeFO6RKYRq6VlV5jhM4h0Y
 Content-Type: application/json
 
 {
@@ -56,7 +56,7 @@ Content-Type: application/json
 ### require 2-3 : influencer register
 POST localhost:8080/api/influencers
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MzkzM30.q16fA-B0m5pKR3UQJuSJH_15jE4SCoI4xMjqZkYIx9c
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY5Mn0.EDUYv_VjFOSYsFizIvZ2DwzXQzPHABIuPr3E1aSqyXQ
 
 {
   "userId": "Test1",
@@ -68,7 +68,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPT
 
 ### require 2-4 : influencer apply
 POST localhost:8080/api/applies?post_id=1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MzkzM30.q16fA-B0m5pKR3UQJuSJH_15jE4SCoI4xMjqZkYIx9c
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY5Mn0.EDUYv_VjFOSYsFizIvZ2DwzXQzPHABIuPr3E1aSqyXQ
 Content-Type: application/json
 
 {
@@ -77,9 +77,9 @@ Content-Type: application/json
   "videoLink": "dlkfjdlkjfoieojef"
 }
 
-### test : 입찰 등록
+### test : 입찰 등록(advertise의 액세스토큰 필요)
 POST localhost:8080/api/applies/1/bids
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5MzkzM30.q16fA-B0m5pKR3UQJuSJH_15jE4SCoI4xMjqZkYIx9c
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY1OX0.NQUZs3t1P8MsjvKeD1xwzzeFO6RKYRq6VlV5jhM4h0Y
 
 
 

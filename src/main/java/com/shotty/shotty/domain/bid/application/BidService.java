@@ -9,6 +9,9 @@ import com.shotty.shotty.domain.bid.dto.BidResponseDto;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import lombok.RequiredArgsConstructor;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,7 +32,13 @@ public class BidService {
             throw new PermissionException("입찰은 공고 작성자만 가능합니다.");
         }
 
-        Bid bid = bidRepository.save(new Bid(apply));
+        Bid bid = new Bid(apply);
+        try {
+            bid = bidRepository.save(bid);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException("이미 입찰된 지원 내역입니다.");
+        }
+
 
         return BidResponseDto.from(bid);
     }
