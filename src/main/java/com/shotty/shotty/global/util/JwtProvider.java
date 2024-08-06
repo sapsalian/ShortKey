@@ -30,7 +30,7 @@ public class JwtProvider {
 
     public String getToken(Map<String, Object> claims,int hours) {
         Long now = new Date().getTime();
-        Date accessTokenExpires = new Date(now + hours * 60 * 1000L);
+        Date accessTokenExpires = new Date(now + hours * 60 * 60 * 1000L);
 
         return Jwts.builder()
                 .setClaims(claims)
