@@ -18,7 +18,11 @@ public class ShottyApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:5173", "https://shotty-one.vercel.app");
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:5173", "https://shotty-one.vercel.app")
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+						.allowedHeaders("*")
+						.allowCredentials(true);
 			}
 		};
 	}
