@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -41,7 +42,7 @@ public class InfluencerController {
     @GetMapping("/influencers")
     @Operation(summary = "전체 조회", description = "쿼리 파라미터로 받은 페이지네이션 정보로 인플루언서 전체 조회")
     public ResponseEntity<ResponseDto<Page<ResponseInfluencerDto>>> getAllInfluencers(
-            @PageableDefault(size = 10, sort = "subscribers", direction = Sort.Direction.DESC) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, sort = "subscribers", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers(pageable);
 
         ResponseDto<Page<ResponseInfluencerDto>> responseDto = new ResponseDto<>(
