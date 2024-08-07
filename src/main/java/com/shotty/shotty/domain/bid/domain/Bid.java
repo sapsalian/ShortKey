@@ -18,13 +18,14 @@ public class Bid {
     @JoinColumn(name = "apply_id")
     private Apply apply;
 
-    private Boolean upload;
-
     private String shortsId;
 
-    public Bid(Apply apply, Boolean upload, String shortsId) {
+    public Bid(Apply apply) {
         this.apply = apply;
-        this.upload = upload;
+        shortsId = null;
+    }
+
+    public void setShortsId(String shortsId) {
         this.shortsId = shortsId;
     }
 }
