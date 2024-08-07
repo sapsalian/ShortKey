@@ -6,6 +6,7 @@ import com.shotty.shotty.domain.bid.dao.BidRepository;
 import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.bid.dto.BidRequestDto;
 import com.shotty.shotty.domain.bid.dto.BidResponseDto;
+import com.shotty.shotty.domain.bid.dto.ShortsIdUploadDto;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +45,11 @@ public class BidService {
         return bidRepository.existsByApplyId(applyId);
     }
 
-    public void updateShortsId(Long bidId, String shortsId) {
-        Bid bid = bidRepository.findById(bidId)
+    public void updateShortsId(ShortsIdUploadDto shortsIdUploadDto) {
+        Bid bid = bidRepository.findById(shortsIdUploadDto.bidId())
                 .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 입찰내역입니다."));
 
-        bid.setShortsId(shortsId);
+        bid.setShortsId(shortsIdUploadDto.shortsId());
         bidRepository.save(bid);
     }
 }
