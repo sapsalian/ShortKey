@@ -39,7 +39,10 @@ public class BidService {
             throw new DataIntegrityViolationException("이미 입찰된 지원 내역입니다.");
         }
 
-
         return BidResponseDto.from(bid);
+    }
+
+    public boolean isBidded(Long applyId) {
+        return bidRepository.existsByApplyId(applyId);
     }
 }
