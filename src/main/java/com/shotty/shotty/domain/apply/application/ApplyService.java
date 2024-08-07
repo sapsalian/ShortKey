@@ -5,6 +5,7 @@ import com.shotty.shotty.domain.apply.domain.Apply;
 import com.shotty.shotty.domain.apply.dto.ApplyRequestDto;
 import com.shotty.shotty.domain.apply.dto.ApplyResponseDto;
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
+import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.post.dao.PostRepository;
@@ -29,7 +30,7 @@ public class ApplyService {
     public ApplyResponseDto apply(Long user_id,Long post_id ,ApplyRequestDto applyRequestDto) {
         Influencer influencer = getInfluencer(user_id);
         applyRepository.findByInfluencerId(influencer.getId()).ifPresent(
-                Apply->{throw new AlreadyApplyException("해당 공고에 이미 신청하였습니다.");}
+                Apply->{throw new AlreadyApplyException("해당 공고에 이미 지원하였습니다.");}
         );
         Post post = getPost(post_id);
         Apply apply = Apply.from(applyRequestDto, influencer, post);
@@ -44,7 +45,7 @@ public class ApplyService {
                 () -> {throw new NoSuchResourcException("해당 공고가 존재 하지 않습니다.");}
         );
         if (!post.isActive()) {
-            throw new RuntimeException("만료된 공고입니다.");
+            throw new ExpiredPostException("만료된 공고입니다.");
         }
         return post;
     }

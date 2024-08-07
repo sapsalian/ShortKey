@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.apply.exception.handler;
 
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
+import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import jakarta.validation.constraints.Null;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,16 @@ public class ApplyExceptionHandler {
     public ResponseEntity<ResponseDto<Null>> handleAlreadyApplyException(AlreadyApplyException e) {
         ResponseDto<Null> responseDto = new ResponseDto<>(
                 4094,
+                e.getMessage(),
+                null
+        );
+        return ResponseEntity.status(409).body(responseDto);
+    }
+
+    @ExceptionHandler(value = ExpiredPostException.class)
+    public ResponseEntity<ResponseDto<Null>> handleExpiredPostException(ExpiredPostException e) {
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                4095,
                 e.getMessage(),
                 null
         );
