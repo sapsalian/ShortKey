@@ -77,6 +77,13 @@ public class PostService {
         post = postRepository.save(post);
     }
 
+    public PostResponseDto findById(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
+
+        return PostResponseDto.from(post);
+    }
+
     // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
     private String imageSave() {
         return "";
