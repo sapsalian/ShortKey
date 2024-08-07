@@ -1,15 +1,15 @@
 package com.shotty.shotty.domain.post.custom_annotation.annotation;
 
-import com.shotty.shotty.domain.post.custom_annotation.validator.AfterNowValidator;
+import com.shotty.shotty.domain.post.custom_annotation.validator.AfterOrEqualTodayValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = AfterNowValidator.class)
+@Constraint(validatedBy = AfterOrEqualTodayValidator.class)
 @Target({ElementType.FIELD})
-public @interface AfterNow {
+public @interface AfterOrEqualToday {
     String message() default "현재 날짜보다 이후여야 합니다.";
 
     Class<?>[] groups() default {};

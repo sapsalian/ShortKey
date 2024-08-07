@@ -1,14 +1,14 @@
 package com.shotty.shotty.domain.post.custom_annotation.validator;
 
-import com.shotty.shotty.domain.post.custom_annotation.annotation.AfterNow;
+import com.shotty.shotty.domain.post.custom_annotation.annotation.AfterOrEqualToday;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
 
-public class AfterNowValidator implements ConstraintValidator<AfterNow, LocalDate> {
+public class AfterOrEqualTodayValidator implements ConstraintValidator<AfterOrEqualToday, LocalDate> {
     @Override
-    public void initialize(AfterNow constraintAnnotation) {
+    public void initialize(AfterOrEqualToday constraintAnnotation) {
     }
 
     @Override

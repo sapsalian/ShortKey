@@ -1,6 +1,6 @@
 package com.shotty.shotty.domain.post.dto;
 
-import com.shotty.shotty.domain.post.custom_annotation.annotation.AfterNow;
+import com.shotty.shotty.domain.post.custom_annotation.annotation.AfterOrEqualToday;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +25,7 @@ public record PostRequestDto(
         int extraPrice,
 
         @Schema(description = "마감 일자",example = "2024-08-26")
-        @AfterNow(message = "마감일은 현재 날짜 이후여야 합니다.")
+        @AfterOrEqualToday(message = "마감일은 현재 날짜 이후여야 합니다.")
         LocalDate endDate
 ) {
 }
