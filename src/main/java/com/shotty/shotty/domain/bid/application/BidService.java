@@ -9,9 +9,7 @@ import com.shotty.shotty.domain.bid.dto.BidResponseDto;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import lombok.RequiredArgsConstructor;
-import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,5 +42,13 @@ public class BidService {
 
     public boolean isBidded(Long applyId) {
         return bidRepository.existsByApplyId(applyId);
+    }
+
+    public void updateShortsId(Long bidId, String shortsId) {
+        Bid bid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 입찰내역입니다."));
+
+        bid.setShortsId(shortsId);
+        bidRepository.save(bid);
     }
 }
