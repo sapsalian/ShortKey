@@ -1,11 +1,11 @@
 package com.shotty.shotty.global.common.exception.handler;
 
-import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import jakarta.validation.constraints.Null;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -36,13 +36,24 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(PermissionException.class)
-    public ResponseEntity<ResponseDto<PermissionException>> handlePermissionException(PermissionException e) {
-        ResponseDto<PermissionException> responseDto = new ResponseDto<>(
+    public ResponseEntity<ResponseDto<Null>> handlePermissionException(PermissionException e) {
+        ResponseDto<Null> responseDto = new ResponseDto<>(
                 4030,
                 e.getMessage(),
                 null
         );
 
         return new ResponseEntity<>(responseDto, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ResponseDto<Null>> handleDuplicateKeyException(DataIntegrityViolationException e) {
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                4094,
+                e.getMessage(),
+                null
+        );
+
+        return new ResponseEntity<>(responseDto, HttpStatus.CONFLICT);
     }
 }
