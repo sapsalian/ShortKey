@@ -36,6 +36,12 @@ public class Apply {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    private boolean bid = false;
+
+    public void setBid(boolean bid) {
+        this.bid = bid;
+    }
+
     public Apply(String title, String content, String videoLink, Influencer influencer, Post post) {
         this.title = title;
         this.content = content;

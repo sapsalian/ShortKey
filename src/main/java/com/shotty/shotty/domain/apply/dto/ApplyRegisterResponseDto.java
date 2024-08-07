@@ -7,8 +7,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ApplyResponseDto {
-
+public class ApplyRegisterResponseDto {
+    @Schema(description = "지원 식별 Id",example = "1L")
     private Long id;
     @Schema(description = "지원 폼 제목",example = "구름빵 홍보 영상 지원합니다")
     private String title;
@@ -24,8 +24,8 @@ public class ApplyResponseDto {
     @Schema(description = "등록한 공고의 title",example = "구름빵 홍보 영상")
     private String postTitle;
 
-    public static ApplyResponseDto from(Apply apply) {
-        return new ApplyResponseDto(
+    public static ApplyRegisterResponseDto from(Apply apply) {
+        return new ApplyRegisterResponseDto(
                 apply.getId(),
                 apply.getTitle(),
                 apply.getContent(),
