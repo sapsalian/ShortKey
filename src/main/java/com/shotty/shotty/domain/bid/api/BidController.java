@@ -44,13 +44,17 @@ public class BidController {
 
     @PostMapping("/api/bids/{bidId}/shorts")
     public ResponseEntity<ResponseDto<Null>> uploadShortsId(
+            @TokenId
+            @Parameter(hidden = true)
+            Long userId,
+
             @PathVariable
             Long bidId,
 
             @RequestBody
             ShortsIdRequestDto shortsIdRequestDto
     ) {
-        ShortsIdUploadDto shortsIdUploadDto = ShortsIdUploadDto.of(bidId, shortsIdRequestDto);
+        ShortsIdUploadDto shortsIdUploadDto = ShortsIdUploadDto.of(bidId, userId, shortsIdRequestDto);
 
         bidService.updateShortsId(shortsIdUploadDto);
 

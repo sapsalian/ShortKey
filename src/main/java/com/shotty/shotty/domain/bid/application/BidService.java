@@ -49,6 +49,12 @@ public class BidService {
         Bid bid = bidRepository.findById(shortsIdUploadDto.bidId())
                 .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 입찰내역입니다."));
 
+        Long applierId = bid.getApply().getInfluencer().getUser().getId();
+
+        if (!shortsIdUploadDto.requesterId().equals(applierId)) {
+            throw new PermissionException("지원자 본인만 쇼츠 Id를 등록할 수 있습니다.");
+        }
+
         bid.setShortsId(shortsIdUploadDto.shortsId());
         bidRepository.save(bid);
     }
