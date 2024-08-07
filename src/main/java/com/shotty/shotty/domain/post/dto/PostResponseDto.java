@@ -30,7 +30,10 @@ public record PostResponseDto(
     LocalDate endDate,
 
     @Schema(description = "작성자의 Id(식별키 값)",example = "1")
-    Long authorId
+    Long authorId,
+
+    @Schema(description = "작성자의 이름", example = "김수한무")
+    String authorName
 ) {
     public static PostResponseDto from(Post post) {
         return new PostResponseDto(
@@ -42,7 +45,8 @@ public record PostResponseDto(
                 post.getExtraPrice(),
                 post.getImage(),
                 post.getEndDate(),
-                post.getAuthor().getId()
+                post.getAuthor().getId(),
+                post.getAuthor().getName()
         );
     }
 }
