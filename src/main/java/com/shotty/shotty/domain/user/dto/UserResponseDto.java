@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.user.dto;
 
+import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -16,16 +17,24 @@ public record UserResponseDto(
         @Schema(description = "사용자의 email", example = "test1234@test.com")
         String userEmail,
         @Schema(description = "사용자가 인플루언서로 등록되어 있으면 1, 아니면 0", example = "1")
-        short userRole
+        short userRole,
+        @Schema(description = "사용자가 인플루언서로 등록되어 있으면 인플루언서 Id, 아니면 null", example = "3")
+        Long influencerId
 ) {
     public static UserResponseDto from(User user) {
+        Influencer influencer = user.getInfluencer();
+        Long influencerId = influencer != null
+                ? influencer.getId()
+                : null;
+
         return new UserResponseDto(
                 user.getId(),
                 user.getUserId(),
                 user.getName(),
                 user.isGender(),
                 user.getEmail(),
-                user.getRole().getRoleNum()
+                user.getRole().getRoleNum(),
+                influencerId
         );
     }
 }
