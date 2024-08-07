@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### require 1-3 : advertiser post 등록
 POST localhost:8080/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY1OX0.NQUZs3t1P8MsjvKeD1xwzzeFO6RKYRq6VlV5jhM4h0Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMTk3NX0.67heObBeXVBlzvhnUclwRu6z04RJo7t4boKdecGEhX4
 Content-Type: application/json
 
 {
@@ -29,7 +29,7 @@ Content-Type: application/json
   "content": "공고입니다.",
   "price": 3000000,
   "extraPrice": 20000,
-  "endDate": "2024-03-05"
+  "endDate": "2024-09-05"
 }
 
 ### require 2-1 : influencer signup
@@ -56,7 +56,7 @@ Content-Type: application/json
 ### require 2-3 : influencer register
 POST localhost:8080/api/influencers
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY5Mn0.EDUYv_VjFOSYsFizIvZ2DwzXQzPHABIuPr3E1aSqyXQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMjAwMn0.V600U166uL4o3h1CGvFXSkz_lkob8VathbeP_-LvFCs
 
 {
   "userId": "Test1",
@@ -68,7 +68,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPT
 
 ### require 2-4 : influencer apply
 POST localhost:8080/api/applies?post_id=1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY5Mn0.EDUYv_VjFOSYsFizIvZ2DwzXQzPHABIuPr3E1aSqyXQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMjAwMn0.V600U166uL4o3h1CGvFXSkz_lkob8VathbeP_-LvFCs
 Content-Type: application/json
 
 {
@@ -79,7 +79,13 @@ Content-Type: application/json
 
 ### test : 입찰 등록(advertise의 액세스토큰 필요)
 POST localhost:8080/api/applies/1/bids
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjk1MjY1OX0.NQUZs3t1P8MsjvKeD1xwzzeFO6RKYRq6VlV5jhM4h0Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMTk3NX0.67heObBeXVBlzvhnUclwRu6z04RJo7t4boKdecGEhX4
 
+### test : 쇼츠 Id 등록(influencer의 액세스 토큰 필요)
+POST localhost:8080/api/bids/1/shorts
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMjAwMn0.V600U166uL4o3h1CGvFXSkz_lkob8VathbeP_-LvFCs
+Content-Type: application/json
 
-
+{
+  "shortsId": "dkfjkd"
+}
