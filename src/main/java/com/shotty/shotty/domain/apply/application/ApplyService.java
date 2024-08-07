@@ -54,10 +54,15 @@ public class ApplyService {
         return ApplyResponseDto.from(apply);
     }
 
-    public ApplyResponseDto patch(Long apply_id , ApplyPatchRequestDto applyRequestDto) {
+    public ApplyResponseDto patch(Long user_id, Long apply_id , ApplyPatchRequestDto applyRequestDto) {
         Apply apply = applyRepository.findById(apply_id).orElseThrow(
                 () -> new NoSuchResourcException("존재하지 않는 지원Id")
         );
+        Long applier_user_id = apply.getInfluencer().getUser().getId();//###쿼리 개수 확인
+        if (applier_user_id.equals(user_id)) {
+            throw new PermissionException("지원자 본인만 지원 내용을 수정할 수 있습니다.");
+        }
+
         PatchUtil.applyPatch(apply,applyRequestDto);
 
         return ApplyResponseDto.from(apply);

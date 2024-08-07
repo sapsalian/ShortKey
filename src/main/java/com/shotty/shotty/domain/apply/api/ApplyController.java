@@ -55,9 +55,9 @@ public class ApplyController {
     }
 
     @PatchMapping("/applies/{id}")
-    public ResponseEntity<ResponseDto<ApplyResponseDto>> updateApply(
-            @RequestBody ApplyPatchRequestDto applyPatchRequestDto, @PathVariable("id") Long apply_id) {
-        ApplyResponseDto applyResponseDto = applyService.patch(apply_id, applyPatchRequestDto);
+    public ResponseEntity<ResponseDto<ApplyResponseDto>> patchApply(
+           @TokenId Long user_id, @RequestBody ApplyPatchRequestDto applyPatchRequestDto, @PathVariable("id") Long apply_id) {
+        ApplyResponseDto applyResponseDto = applyService.patch(user_id,apply_id, applyPatchRequestDto);
         ResponseDto<ApplyResponseDto> responseDto = new ResponseDto<>(
                 2003,
                 "지원 내용 수정 성공",
