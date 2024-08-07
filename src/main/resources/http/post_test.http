@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### test : post 등록
 POST localhost:8080/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQxMH0.G0O7nRdBg0f1T_CIhc4ujKxKehd1kJZu2J3JrScSfmM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAxNDAyMn0.NiIYRqo-ke2SjEQ5I7Lx89NUfjpuOx309-SB1ZcyIiM
 Content-Type: application/json
 
 {
@@ -29,11 +29,14 @@ Content-Type: application/json
   "content": "공고입니다.",
   "price": 3000000,
   "extraPrice": 20000,
-  "endDate": "2024-03-05"
+  "endDate": "2024-09-05"
 }
 
 ### test : 공고 전체 조회
 GET localhost:8080/api/posts
+
+### test : 공고 개별 조회
+GET localhost:8080/api/posts/1
 
 ### test : 공고 수정
 PATCH localhost:8080/api/posts/1

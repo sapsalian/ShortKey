@@ -58,6 +58,20 @@ public class PostController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @GetMapping("/api/posts/{postId}")
+    @Operation(summary = "공고 개별 조회")
+    public ResponseEntity<ResponseDto<PostResponseDto>> getPost(@PathVariable Long postId) {
+        PostResponseDto postResponseDto = postService.findById(postId);
+
+        ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
+                2002,
+                "공고 개별 조회 성공",
+                postResponseDto
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @PatchMapping("/api/posts/{postId}")
     @Operation(summary = "공고 수정")
     public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
