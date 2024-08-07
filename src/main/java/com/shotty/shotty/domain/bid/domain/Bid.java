@@ -20,8 +20,14 @@ public class Bid {
 
     private String shortsId;
 
-    public Bid(Apply apply) {
+    //연관관계 메서드
+    private void setApply(Apply apply) {
         this.apply = apply;
+        apply.setBid(true);
+    }
+
+    public Bid(Apply apply) {
+        setApply(apply);
         shortsId = null;
     }
 
