@@ -39,6 +39,7 @@ public class ApplyController {
     }
 
     @GetMapping("/applies")
+    @Operation(summary = "지원 목록 조회",description = "쿼리 파라미터로 받은 인플루언서Id로 해당 인플루언서가 지원한 목록 조회")
     public ResponseEntity<ResponseDto<List<ApplySearchResponseDto>>> getApplies(
             @RequestParam Long influencer_id) {
         List<ApplySearchResponseDto> applies = applyService.findAppliesByInfluencerId(influencer_id);
@@ -56,8 +57,9 @@ public class ApplyController {
     }
 
     @PutMapping("/applies/{id}")
+    @Operation(summary = "지원 내용 수정",description = "수정 폼을 통해 지원 내용 수정")
     public ResponseEntity<ResponseDto<ApplyResponseDto>> patchApply(
-           @TokenId Long user_id, @RequestBody ApplyPatchRequestDto applyPatchRequestDto, @PathVariable("id") Long apply_id) {
+           @Parameter(hidden = true) @TokenId Long user_id, @RequestBody ApplyPatchRequestDto applyPatchRequestDto, @PathVariable("id") Long apply_id) {
         ApplyResponseDto applyResponseDto = applyService.patch(user_id,apply_id, applyPatchRequestDto);
         ResponseDto<ApplyResponseDto> responseDto = new ResponseDto<>(
                 2003,
@@ -68,8 +70,9 @@ public class ApplyController {
     }
 
     @DeleteMapping("/applies/{id}")
+    @Operation(summary = "지원 취소",description = "패스 파라미터로 받은 지원id로 해당 지원 삭제")
     public ResponseEntity<ResponseDto<Null>> cancelApply(
-            @TokenId Long user_id, @PathVariable("id") Long apply_id
+            @Parameter(hidden = true) @TokenId Long user_id, @PathVariable("id") Long apply_id
     ) {
         applyService.cancel(user_id, apply_id);
         ResponseDto<Null> responseDto = new ResponseDto<>(
