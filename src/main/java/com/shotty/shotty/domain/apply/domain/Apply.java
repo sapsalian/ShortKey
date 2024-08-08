@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.apply.domain;
 
 import com.shotty.shotty.domain.apply.dto.ApplyRequestDto;
+import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.post.domain.Post;
 import jakarta.persistence.*;
@@ -36,10 +37,13 @@ public class Apply {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    private boolean bid = false;
+    @OneToOne(mappedBy = "apply",cascade = CascadeType.REMOVE)
+    private Bid bid;
 
-    public void setBid(boolean bid) {
-        this.bid = bid;
+    private boolean bidded = false;
+
+    public void setBidded(boolean bidded) {
+        this.bidded = bidded;
     }
 
     public Apply(String title, String content, String videoLink, Influencer influencer, Post post) {

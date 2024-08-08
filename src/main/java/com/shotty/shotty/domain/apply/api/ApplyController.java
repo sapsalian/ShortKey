@@ -10,6 +10,7 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -62,6 +63,19 @@ public class ApplyController {
                 2003,
                 "지원 내용 수정 성공",
                 applyResponseDto
+        );
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @DeleteMapping("/applies/{id}")
+    public ResponseEntity<ResponseDto<Null>> cancelApply(
+            @TokenId Long user_id, @PathVariable("id") Long apply_id
+    ) {
+        applyService.cancel(user_id, apply_id);
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                2005,
+                "지원 취소 성공",
+                null
         );
         return ResponseEntity.ok(responseDto);
     }
