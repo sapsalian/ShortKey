@@ -54,7 +54,7 @@ public class ApplyController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/applies/{id}")
+    @PutMapping("/applies/{id}")
     public ResponseEntity<ResponseDto<ApplyResponseDto>> patchApply(
            @TokenId Long user_id, @RequestBody ApplyPatchRequestDto applyPatchRequestDto, @PathVariable("id") Long apply_id) {
         ApplyResponseDto applyResponseDto = applyService.patch(user_id,apply_id, applyPatchRequestDto);
