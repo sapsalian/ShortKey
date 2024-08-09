@@ -6,7 +6,7 @@ Content-Type: application/json
   "userId": "yongjin5353",
   "userName": "안용진",
   "userPassword": "12345678aA",
-  "userGender": 0,
+  "userGender": false,
   "userEmail": "yongjin5352@gmail.com"
 }
 
@@ -31,12 +31,16 @@ DELETE localhost:8080/api/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5Njk1Mn0.jnZHXc5QW1f7ITpUyGDIbD6Mqk8UK06ScUNQ2CiFtKw
 
 ### test : my information edit
-PATCH localhost:8080/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjQ5Nzc5Mn0.i-bnv0tIdAtRT-tizbSJfiIKzlpXfolUYaL2EFuQJt0
+PUT localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3ODA2MX0.Izn2GtJUUeI6Fh9NLpVhJhfayp54c5TXjRQvoPJVzYs
 Content-Type: application/json
 
 {
-  "userPassword": "12341234aA"
+  "userId": "yongjin5353",
+  "userName": "안용진",
+  "userPassword": "12345678aA23",
+  "userGender": true,
+  "userEmail": "yongjin5352@gmail.com"
 }
 ###{
 ###  "userId": "yongjin5355",
