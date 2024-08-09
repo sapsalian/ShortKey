@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Null;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
@@ -75,9 +74,9 @@ public class InfluencerController {
     @PutMapping("/influencers/{id}")
     @Operation(summary = "인플루언서 정보 수정",description = "수정 폼을 통해 인플루언서 수정")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> updateInfluencer(
-            @PathVariable("id") Long influencer_id,@Valid @RequestBody InfluencerPatchRequestDto influencerPatchRequestDto) {
-        InfluencerPatch influencerPatch = InfluencerPatch.from(influencerPatchRequestDto);
-        ResponseInfluencerDto responseInfluencerDto = influencerService.patch(influencer_id, influencerPatch);
+            @Parameter(hidden = true) @TokenId Long user_id, @PathVariable("id") Long influencer_id,@Valid @RequestBody InfluencerUpdateRequestDto influencerUpdateRequestDto) {
+        InfluencerPatch influencerPatch = InfluencerPatch.from(influencerUpdateRequestDto);
+        ResponseInfluencerDto responseInfluencerDto = influencerService.update(user_id,influencer_id, influencerPatch);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
                 2006,
                 "인플루언서 정보 수정 성공",

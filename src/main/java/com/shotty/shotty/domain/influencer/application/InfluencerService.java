@@ -11,6 +11,7 @@ import com.shotty.shotty.domain.influencer.exception.custom_exception.Influencer
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
+import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import com.shotty.shotty.global.util.PatchUtil;
 import jakarta.transaction.Transactional;
 import lombok.Getter;
@@ -67,12 +68,17 @@ public class InfluencerService {
         return ResponseInfluencerDto.from(influencer);
     }
 
-    public ResponseInfluencerDto patch(Long influencerId, InfluencerPatch influencerPatch) {
-        Influencer influencer = influencerRepository.findById(influencerId).orElseThrow(
+    public ResponseInfluencerDto update(Long user_id,Long influencer_id, InfluencerPatch influencerPatch) {
+        Influencer influencer = influencerRepository.findById(influencer_id).orElseThrow(
                 () -> {
                     throw new InfluencerNotFoundException();
                 }
         );
+
+        if (!influencer.getUser().getId().equals(user_id)) {
+            throw new PermissionException("수정 권한 없음");
+        }
+
         PatchUtil.applyPatch(influencer,influencerPatch);
 
         return ResponseInfluencerDto.from(influencer);

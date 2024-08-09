@@ -1,6 +1,6 @@
 package com.shotty.shotty.domain.influencer.domain;
 
-import com.shotty.shotty.domain.influencer.dto.InfluencerPatchRequestDto;
+import com.shotty.shotty.domain.influencer.dto.InfluencerUpdateRequestDto;
 import com.shotty.shotty.domain.influencer.enums.Niche;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class InfluencerPatch {
     private Niche niche;
     private String profile_image;
 
-    public static InfluencerPatch from(InfluencerPatchRequestDto requestDto) {
+    public static InfluencerPatch from(InfluencerUpdateRequestDto requestDto) {
         return new InfluencerPatch(
                 requestDto.getChannelId(),
                 requestDto.getSubscribers(),
