@@ -24,7 +24,7 @@ public class ApplySearchResponseDto {
                 apply.getId(),
                 apply.getTitle(),
                 apply.getPost().getTitle(),
-                apply.isBid()
+                apply.isBidded()
         );
     }
 }

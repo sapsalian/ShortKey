@@ -2,8 +2,9 @@ package com.shotty.shotty.domain.apply.application;
 
 import com.shotty.shotty.domain.apply.dao.ApplyRepository;
 import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.apply.dto.ApplyPatchRequestDto;
 import com.shotty.shotty.domain.apply.dto.ApplyRequestDto;
-import com.shotty.shotty.domain.apply.dto.ApplyRegisterResponseDto;
+import com.shotty.shotty.domain.apply.dto.ApplyResponseDto;
 import com.shotty.shotty.domain.apply.dto.ApplySearchResponseDto;
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
 import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
@@ -18,13 +19,13 @@ import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
+import com.shotty.shotty.global.util.PatchUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -36,7 +37,7 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final InfluencerRepository influencerRepository;
 
-    public ApplyRegisterResponseDto apply(Long user_id, Long post_id , ApplyRequestDto applyRequestDto) {
+    public ApplyResponseDto apply(Long user_id, Long post_id , ApplyRequestDto applyRequestDto) {
         Influencer influencer = getInfluencer(user_id);
         //지원 여부 확인
         applyRepository.findByInfluencerIdAndPostId(influencer.getId(),post_id).ifPresent(
@@ -50,7 +51,21 @@ public class ApplyService {
 
         applyRepository.save(apply);
 
-        return ApplyRegisterResponseDto.from(apply);
+        return ApplyResponseDto.from(apply);
+    }
+
+    public ApplyResponseDto patch(Long user_id, Long apply_id , ApplyPatchRequestDto applyRequestDto) {
+        Apply apply = applyRepository.findById(apply_id).orElseThrow(
+                () -> new NoSuchResourcException("존재하지 않는 지원Id")
+        );
+        Long applier_user_id = apply.getInfluencer().getUser().getId();//###쿼리 개수 확인
+        if (!applier_user_id.equals(user_id)) {
+            throw new PermissionException("지원자 본인만 지원 내용을 수정할 수 있습니다.");
+        }
+
+        PatchUtil.applyPatch(apply,applyRequestDto);
+
+        return ApplyResponseDto.from(apply);
     }
 
     public List<ApplySearchResponseDto> findAppliesByInfluencerId(Long influencer_id) {
@@ -84,5 +99,16 @@ public class ApplyService {
         }
 
         return user.getInfluencer();
+    }
+
+    public void cancel(Long user_id, Long apply_id) {
+        Apply apply = applyRepository.findById(apply_id).orElseThrow(
+                () -> new NoSuchResourcException("존재하지 않는 지원Id")
+        );
+        Long applier_user_id = apply.getInfluencer().getUser().getId();//###쿼리 개수 확인
+        if (!applier_user_id.equals(user_id)) {
+            throw new PermissionException("지원자 본인만 지원을 취소할 수 있습니다.");
+        }
+        applyRepository.delete(apply);
     }
 }
