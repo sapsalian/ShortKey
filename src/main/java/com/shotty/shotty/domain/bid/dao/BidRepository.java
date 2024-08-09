@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface BidRepository extends JpaRepository<Bid, Long> {
     boolean existsByApplyId(Long applyId);
+    void deleteByApplyId(Long applyId);
 }
