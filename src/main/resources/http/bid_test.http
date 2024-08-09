@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### require 1-3 : advertiser post 등록
 POST localhost:8080/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMTk3NX0.67heObBeXVBlzvhnUclwRu6z04RJo7t4boKdecGEhX4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3ODUzOH0.XY23GPeOQVLy_d28-Fmws-PvH7aPG3MNz6NsTGz7qHA
 Content-Type: application/json
 
 {
@@ -56,7 +56,7 @@ Content-Type: application/json
 ### require 2-3 : influencer register
 POST localhost:8080/api/influencers
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMjAwMn0.V600U166uL4o3h1CGvFXSkz_lkob8VathbeP_-LvFCs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3ODU1OX0.i0dmmTTt4DwGaOlUjxsTM9yRddVm3DYULimtjLcbDBc
 
 {
   "userId": "Test1",
@@ -68,7 +68,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPT
 
 ### require 2-4 : influencer apply
 POST localhost:8080/api/applies?post_id=1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMjAwMn0.V600U166uL4o3h1CGvFXSkz_lkob8VathbeP_-LvFCs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3ODU1OX0.i0dmmTTt4DwGaOlUjxsTM9yRddVm3DYULimtjLcbDBc
 Content-Type: application/json
 
 {
@@ -79,11 +79,11 @@ Content-Type: application/json
 
 ### test : 입찰 등록(advertise의 액세스토큰 필요)
 POST localhost:8080/api/applies/1/bids
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMTk3NX0.67heObBeXVBlzvhnUclwRu6z04RJo7t4boKdecGEhX4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3ODUzOH0.XY23GPeOQVLy_d28-Fmws-PvH7aPG3MNz6NsTGz7qHA
 
 ### test : 쇼츠 Id 등록(influencer의 액세스 토큰 필요)
-POST localhost:8080/api/bids/1/shorts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAyMjAwMn0.V600U166uL4o3h1CGvFXSkz_lkob8VathbeP_-LvFCs
+PATCH localhost:8080/api/bids/1/shorts
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3ODU1OX0.i0dmmTTt4DwGaOlUjxsTM9yRddVm3DYULimtjLcbDBc
 Content-Type: application/json
 
 {
