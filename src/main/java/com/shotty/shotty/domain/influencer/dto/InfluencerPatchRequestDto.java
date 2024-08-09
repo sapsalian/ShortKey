@@ -12,16 +12,16 @@ import lombok.NonNull;
 @Data
 @Schema(description = "인플루언서 수정 요청 형식")
 public class InfluencerPatchRequestDto {
-    @Nullable
+    @NotNull
     @Schema(description = "유튜브 채널 ID",example = "channelid")
     private String channelId;
-    @Nullable
+    @NotNull
     @Schema(description = "유튜브 구독자 수",example = "50000")
     private Long subscribers;
-    @Nullable
+    @NotNull
     @Schema(description = "관심분야",example = "FISHING")
     private Niche niche;
-    @Nullable
+    @NotNull
     @Schema(description = "프로필 이미지 url",example = "https//asdasdad...")
     private String profile_image;
 }

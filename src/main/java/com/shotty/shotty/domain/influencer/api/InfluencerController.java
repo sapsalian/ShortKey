@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Null;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
@@ -42,7 +43,8 @@ public class InfluencerController {
     @GetMapping("/influencers")
     @Operation(summary = "전체 조회", description = "쿼리 파라미터로 받은 페이지네이션 정보로 인플루언서 전체 조회")
     public ResponseEntity<ResponseDto<Page<ResponseInfluencerDto>>> getAllInfluencers(
-            @ParameterObject @PageableDefault(size = 10, sort = "subscribers", direction = Sort.Direction.DESC) Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, sort = "subscribers", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam String channelId) {
         Page<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers(pageable);
 
         ResponseDto<Page<ResponseInfluencerDto>> responseDto = new ResponseDto<>(
@@ -65,7 +67,7 @@ public class InfluencerController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PatchMapping("/influencers/{id}")
+    @PutMapping("/influencers/{id}")
     @Operation(summary = "인플루언서 정보 수정",description = "수정 폼을 통해 인플루언서 수정")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> updateInfluencer(
             @PathVariable("id") Long influencer_id,@Valid @RequestBody InfluencerPatchRequestDto influencerPatchRequestDto) {
