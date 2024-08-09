@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### test : post 등록
 POST localhost:8080/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzAxNDAyMn0.NiIYRqo-ke2SjEQ5I7Lx89NUfjpuOx309-SB1ZcyIiM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3NTk3N30.Bylxz7B356rFpiz_ZK3rnXd4fkPI7FkNEedXI-VX8tI
 Content-Type: application/json
 
 {
@@ -39,12 +39,16 @@ GET localhost:8080/api/posts
 GET localhost:8080/api/posts/1
 
 ### test : 공고 수정
-PATCH localhost:8080/api/posts/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQ3Nn0.020kZQ86UOTGhUwP-yheYY44gasbAEqhIShPYAAxeHU
+PUT localhost:8080/api/posts/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3NTk3N30.Bylxz7B356rFpiz_ZK3rnXd4fkPI7FkNEedXI-VX8tI
 Content-Type: application/json
 
 {
-  "price": 10000000
+  "title": "공고11",
+  "content": "공고입니닷",
+  "price": 3000000,
+  "extraPrice": 20000,
+  "endDate": "2024-09-05"
 }
 
 ### test : 공고 삭제

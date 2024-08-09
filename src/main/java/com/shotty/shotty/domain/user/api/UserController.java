@@ -2,7 +2,7 @@ package com.shotty.shotty.domain.user.api;
 
 import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.domain.UserPatch;
-import com.shotty.shotty.domain.user.dto.UserPatchRequestDto;
+import com.shotty.shotty.domain.user.dto.UserPutRequestDto;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
@@ -68,10 +68,10 @@ public class UserController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PatchMapping("/api/users")
+    @PutMapping("/api/users")
     @Operation(summary = "현재 로그인된 사용자 정보 수정")
-    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@Parameter(hidden = true) @TokenId Long id, @Valid @RequestBody UserPatchRequestDto userPatchRequestDto) {
-        UserPatch userPatch = UserPatch.from(userPatchRequestDto);
+    public ResponseEntity<ResponseDto<UserResponseDto>> editUser(@Parameter(hidden = true) @TokenId Long id, @RequestBody @Valid UserPutRequestDto userPutRequestDto) {
+        UserPatch userPatch = UserPatch.from(userPutRequestDto);
         UserResponseDto userResponseDto = userService.patch(id, userPatch);
 
         ResponseDto<UserResponseDto> responseDto = new ResponseDto<>(

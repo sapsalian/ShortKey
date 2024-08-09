@@ -72,15 +72,15 @@ public class PostController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PatchMapping("/api/posts/{postId}")
+    @PutMapping("/api/posts/{postId}")
     @Operation(summary = "공고 수정")
     public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
 
             @Parameter(hidden = true) @TokenId Long userId,
             @PathVariable Long postId,
-            @Valid @RequestBody PostPatchDto postPatchDto
+            @Valid @RequestBody PostRequestDto postRequestDto
     ) {
-        PostResponseDto postResponseDto = postService.edit(postId, postPatchDto, userId);
+        PostResponseDto postResponseDto = postService.update(postId, postRequestDto, userId);
 
         ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
                 2003,

@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,7 +39,7 @@ public class BidController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping("/api/bids/{bidId}/shorts")
+    @PatchMapping("/api/bids/{bidId}/shorts")
     public ResponseEntity<ResponseDto<Null>> uploadShortsId(
             @TokenId
             @Parameter(hidden = true)

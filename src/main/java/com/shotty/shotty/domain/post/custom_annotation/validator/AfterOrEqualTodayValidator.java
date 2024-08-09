@@ -15,6 +15,10 @@ public class AfterOrEqualTodayValidator implements ConstraintValidator<AfterOrEq
     public boolean isValid(LocalDate date, ConstraintValidatorContext constraintValidatorContext) {
         LocalDate today = LocalDate.now();
 
+        if (date == null) {
+            return false;
+        }
+
         return date.isAfter(today) || date.isEqual(today);
     }
 }

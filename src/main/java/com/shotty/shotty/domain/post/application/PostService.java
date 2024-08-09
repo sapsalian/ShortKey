@@ -90,4 +90,16 @@ public class PostService {
     }
 
 
+    public PostResponseDto update(Long postId, PostRequestDto postRequestDto, Long userId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
+
+        if (!post.getAuthor().getId().equals(userId)) {
+            throw new PermissionException("공고에 대한 수정권한이 없는 사용자입니다.");
+        }
+
+        PatchUtil.applyPatch(post, postRequestDto);
+        post = postRepository.save(post);
+
+        return PostResponseDto.from(post);
+    }
 }
