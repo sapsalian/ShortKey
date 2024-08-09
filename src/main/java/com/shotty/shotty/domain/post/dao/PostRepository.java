@@ -13,15 +13,15 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query(
             "UPDATE Post post " +
-                    "SET post.author_id = :newUserId " +
-                    "WHERE post.author_id = :oldUserId"
+                    "SET post.author.id = :newUserId " +
+                    "WHERE post.author.id = :oldUserId"
     )
     void updateAllByUserId(Long oldUserId, Long newUserId);
 
     @Query(
             "UPDATE Post post " +
                     "SET post.active = false " +
-                    "WHERE post.author_id = :userId"
+                    "WHERE post.author.id = :userId"
     )
     void deactivateAllByUserId(Long userId);
 }
