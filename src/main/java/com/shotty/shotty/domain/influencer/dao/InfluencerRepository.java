@@ -19,5 +19,4 @@ public interface InfluencerRepository extends JpaRepository<Influencer, Long> {
     @Query("select i from Influencer i join i.user u where u.name like %:userName% and (i.niche = :niche or :niche is null)")
     Page<Influencer> findAll(@Param("userName")String userName,@Param("niche") Niche niche,Pageable pageable);
 
-    List<Influencer> findAllByChannelIdContaining(String channelId);
 }
