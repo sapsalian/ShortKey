@@ -65,21 +65,4 @@ public class UserService {
     public void logout(Long user_id) {
         refreshTokenRepository.deleteByUserId(user_id);
     }
-
-    public User getDummy() {
-        return userRepository.findByName("탈퇴한 사용자 그룹")
-                .orElseGet(this::createDummy);
-    }
-
-    private User createDummy() {
-        EncryptedUserDto encryptedUserDto = new EncryptedUserDto(
-                "imDummy1234",
-                "dummyPW123",
-                "탈퇴한 사용자 그룹",
-                true,
-                ""
-        );
-
-        return userRepository.save(User.from(encryptedUserDto));
-    }
 }
