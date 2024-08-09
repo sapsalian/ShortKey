@@ -3,6 +3,7 @@ package com.shotty.shotty.domain.influencer.application;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
+import com.shotty.shotty.domain.influencer.dto.InfluencerSearchInfo;
 import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInfluencerException;
@@ -43,8 +44,10 @@ public class InfluencerService {
     }
 
 
-    public Page<ResponseInfluencerDto> findAllInfluencers(Pageable pageable) {
-        Page<Influencer> influencers = influencerRepository.findAll(pageable);
+    public Page<ResponseInfluencerDto> findAllInfluencers(Pageable pageable,InfluencerSearchInfo influencerSearchInfo) {
+        Page<Influencer> influencers = influencerRepository
+                .findAll(influencerSearchInfo.getUserName(), influencerSearchInfo.getNiche(),pageable);
+
         if(influencers.isEmpty()) throw new InfluencerNotFoundException();
 
         List<ResponseInfluencerDto> dtos = influencers.stream()
