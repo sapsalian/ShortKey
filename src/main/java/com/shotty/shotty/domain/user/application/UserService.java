@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.user.application;
 
+import com.shotty.shotty.domain.influencer.application.InfluencerService;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.domain.UserPatch;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final InfluencerService influencerService;
 
     public void register(EncryptedUserDto encryptedUserDto) {
         try {
@@ -39,11 +41,12 @@ public class UserService {
 
 
     public void delete(Long id) {
-        try {
-            userRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
+        if (!userRepository.existsById(id)) {
             throw new UserNotFoundException("존재하지 않는 사용자입니다.");
         }
+
+        influencerService.deleteByUserId(id);
+        userRepository.deleteById(id);
     }
 
     public UserResponseDto patch(Long id, UserPatch userPatch) {
