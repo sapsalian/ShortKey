@@ -4,9 +4,24 @@ import com.shotty.shotty.domain.post.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAll(Pageable pageable);
+
+    @Query(
+            "UPDATE Post post " +
+                    "SET post.author_id = :newUserId " +
+                    "WHERE post.author_id = :oldUserId"
+    )
+    void updateAllByUserId(Long oldUserId, Long newUserId);
+
+    @Query(
+            "UPDATE Post post " +
+                    "SET post.active = false " +
+                    "WHERE post.author_id = :userId"
+    )
+    void deactivateAllByUserId(Long userId);
 }

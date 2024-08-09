@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
         String imgUrl = imageSave();
@@ -82,6 +83,13 @@ public class PostService {
                 .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
 
         return PostResponseDto.from(post);
+    }
+
+    public void deleteAllByUserId(Long userId) {
+        User dummy = userService.getDummy();
+
+        postRepository.updateAllByUserId(userId, dummy.getId());
+        postRepository.deactivateAllByUserId(userId);
     }
 
     // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
