@@ -9,6 +9,7 @@ import com.shotty.shotty.domain.post.dto.PostResponseDto;
 import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
+import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
@@ -27,7 +28,6 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final UserService userService;
 
     public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
         String imgUrl = imageSave();
@@ -86,10 +86,27 @@ public class PostService {
     }
 
     public void deleteAllByUserId(Long userId) {
-        User dummy = userService.getDummy();
+        User dummy = getDummy();
 
         postRepository.updateAllByUserId(userId, dummy.getId());
         postRepository.deactivateAllByUserId(userId);
+    }
+
+    private User getDummy() {
+        return userRepository.findByName("탈퇴한 사용자 그룹")
+                .orElseGet(this::createDummy);
+    }
+
+    private User createDummy() {
+        EncryptedUserDto encryptedUserDto = new EncryptedUserDto(
+                "imDummy1234",
+                "dummyPW123",
+                "탈퇴한 사용자 그룹",
+                true,
+                ""
+        );
+
+        return userRepository.save(User.from(encryptedUserDto));
     }
 
     // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
