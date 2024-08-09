@@ -14,10 +14,13 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     void deleteByApplyId(Long applyId);
 
     @SQL(
-            "DELETE bid FROM Bid bid " +
-                    "INNER JOIN bid.apply apply ON bid.apply_id = apply.id " +
-                    "INNER JOIN apply.influencer influencer ON apply.influencer_id = influencer.id " +
-                    "WHERE :influencerId = influencer.id"
+            "DELETE bid From Bid bid WHERE bid.id IN (" +
+                    "SELECT bid.id " +
+                    "FROM Bid bid " +
+                    "INNER JOIN Apply apply ON bid.apply_id = apply.id " +
+                    "INNER JOIN Influencer influencer ON apply.influencer_id = influencer.id " +
+                    "WHERE :influencerId = influencer.id" +
+                    ")"
     )
     void deleteAllByInfluencerId(@Param("influencerId") Long influencerId);
 }

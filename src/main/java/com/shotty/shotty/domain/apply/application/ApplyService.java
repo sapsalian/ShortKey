@@ -8,6 +8,7 @@ import com.shotty.shotty.domain.apply.dto.ApplyResponseDto;
 import com.shotty.shotty.domain.apply.dto.ApplySearchResponseDto;
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
 import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
+import com.shotty.shotty.domain.bid.application.BidService;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
@@ -36,6 +37,8 @@ public class ApplyService {
     private final PostRepository postRepository;
     private final ApplyRepository applyRepository;
     private final InfluencerRepository influencerRepository;
+
+    private final BidService bidService;
 
     public ApplyResponseDto apply(Long user_id, Long post_id , ApplyRequestDto applyRequestDto) {
         Influencer influencer = getInfluencer(user_id);
@@ -110,5 +113,10 @@ public class ApplyService {
             throw new PermissionException("지원자 본인만 지원을 취소할 수 있습니다.");
         }
         applyRepository.delete(apply);
+    }
+
+    public void deleteByInfluencerId(Long influencer_id) {
+        bidService.deleteByInfluencerId(influencer_id);
+        applyRepository.deleteByInfluencerId(influencer_id);
     }
 }
