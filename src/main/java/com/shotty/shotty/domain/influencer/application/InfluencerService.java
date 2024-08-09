@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.influencer.application;
 
+import com.shotty.shotty.domain.apply.application.ApplyService;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
@@ -28,6 +29,7 @@ import java.util.List;
 public class InfluencerService {
     private final InfluencerRepository influencerRepository;
     private final UserRepository userRepository;
+    private final ApplyService applyService;
 
     public void register(Long user_id,SaveInfluencerDto saveInfluencerDto) {
         User user = userRepository.findById(user_id).orElseThrow(
@@ -73,5 +75,14 @@ public class InfluencerService {
         PatchUtil.applyPatch(influencer,influencerPatch);
 
         return ResponseInfluencerDto.from(influencer);
+    }
+
+    public void deleteByUserId(Long userId) {
+        influencerRepository.findByUserId(userId).ifPresent(
+                (influencer) -> {
+                    applyService.deleteByInfluencerId(influencer.getId());
+                    influencerRepository.delete(influencer);
+                }
+        );
     }
 }

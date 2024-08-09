@@ -17,12 +17,5 @@ public interface ApplyRepository extends JpaRepository<Apply,Long> {
 
     List<Apply> findAllByInfluencerId(Long influencerId);
 
-    @Query(
-            "DELETE apply FROM Apply apply WHERE apply.id IN ( " +
-                    "SELECT apply.id FROM Apply apply " +
-                    "INNER JOIN Influencer influencer ON apply.influencer_id = influencer.id " +
-                    "WHERE influencer.id = :influencerId" +
-                    ")"
-    )
-    void deleteByInfluencerId(@Param("influencerId") Long influencerId);
+    void deleteByInfluencerId(Long influencerId);
 }
