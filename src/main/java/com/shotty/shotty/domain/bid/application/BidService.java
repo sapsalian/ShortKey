@@ -64,4 +64,8 @@ public class BidService {
     public void deleteByApplyId(Long applyId) {
         bidRepository.deleteByApplyId(applyId);
     }
+
+    public void deleteByInfluencerId(Long influencerId) {
+        bidRepository.deleteAllByInfluencerId(influencerId);
+    }
 }
