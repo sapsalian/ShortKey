@@ -2,6 +2,8 @@ package com.shotty.shotty.domain.apply.dao;
 
 import com.shotty.shotty.domain.apply.domain.Apply;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +17,5 @@ public interface ApplyRepository extends JpaRepository<Apply,Long> {
 
     List<Apply> findAllByInfluencerId(Long influencerId);
 
+    void deleteByInfluencerId(Long influencerId);
 }

@@ -60,4 +60,12 @@ public class BidService {
         bid.setShortsId(shortsIdUploadDto.shortsId());
         bidRepository.save(bid);
     }
+
+    public void deleteByApplyId(Long applyId) {
+        bidRepository.deleteByApplyId(applyId);
+    }
+
+    public void deleteByInfluencerId(Long influencerId) {
+        bidRepository.deleteAllByInfluencerId(influencerId);
+    }
 }
