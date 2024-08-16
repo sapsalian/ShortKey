@@ -1,6 +1,6 @@
-package com.shotty.shotty.domain.balance.exception.handler;
+package com.shotty.shotty.domain.account.exception.handler;
 
-import com.shotty.shotty.domain.balance.exception.custom_exception.NoBankAccountException;
+import com.shotty.shotty.domain.account.exception.custom_exception.NoBankAccountException;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import jakarta.validation.constraints.Null;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class BalanceExceptionHandler {
+public class AccountExceptionHandler {
     @ExceptionHandler(NoBankAccountException.class)
     public ResponseEntity<ResponseDto<Null>> noBankAccountHandler(NoBankAccountException e) {
         ResponseDto<Null> responseDto = new ResponseDto<>(

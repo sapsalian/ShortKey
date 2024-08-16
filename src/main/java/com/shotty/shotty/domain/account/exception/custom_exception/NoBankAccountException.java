@@ -1,4 +1,4 @@
-package com.shotty.shotty.domain.balance.exception.custom_exception;
+package com.shotty.shotty.domain.account.exception.custom_exception;
 
 public class NoBankAccountException extends RuntimeException {
     public NoBankAccountException() {

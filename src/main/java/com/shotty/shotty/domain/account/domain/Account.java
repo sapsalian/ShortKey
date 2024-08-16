@@ -1,4 +1,4 @@
-package com.shotty.shotty.domain.balance.domain;
+package com.shotty.shotty.domain.account.domain;
 
 import com.shotty.shotty.domain.user.domain.User;
 import jakarta.persistence.*;
@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "balances")
 @Getter
 @NoArgsConstructor
-public class Balance {
+public class Account {
     @Id
     @GeneratedValue
     private Long id;
-
-    private Long totalAmount;
 
     private String account;
 
@@ -23,12 +21,4 @@ public class Balance {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
-
-    public void deposit(Long amount) {
-        totalAmount += amount;
-    }
-
-    public void withdraw(Long amount) {
-        totalAmount -= amount;
-    }
 }

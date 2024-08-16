@@ -34,6 +34,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
+    private Long balance;
+
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private Influencer influencer;
 
@@ -61,5 +63,13 @@ public class User {
 
     public void changeRole(UserRoleEnum userRoleEnum) {
         role = userRoleEnum;
+    }
+
+    public void deposit(Long amount) {
+        balance += amount;
+    }
+
+    public void withdraw(Long amount) {
+        balance -= amount;
     }
 }
