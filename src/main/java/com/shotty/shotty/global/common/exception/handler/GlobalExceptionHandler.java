@@ -56,4 +56,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(responseDto, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseDto<Null>> handleException(Exception e) {
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                5000,
+                e.getMessage(),
+                null
+        );
+
+        return new ResponseEntity<>(responseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
