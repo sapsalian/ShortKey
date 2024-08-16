@@ -49,6 +49,7 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.role = UserRoleEnum.COMMON;
+        this.balance = 0L;
     }
 
     public static User from(EncryptedUserDto encryptedUserDto) {
