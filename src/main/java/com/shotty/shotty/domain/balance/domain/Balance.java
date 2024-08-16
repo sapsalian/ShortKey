@@ -3,10 +3,12 @@ package com.shotty.shotty.domain.balance.domain;
 import com.shotty.shotty.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "balances")
 @Getter
+@NoArgsConstructor
 public class Balance {
     @Id
     @GeneratedValue
