@@ -51,8 +51,6 @@ public class InfluencerService {
         Page<Influencer> influencers = influencerRepository
                 .findAll(influencerSearchInfo.getUserName(), influencerSearchInfo.getNiche(),pageable);
 
-        if(influencers.isEmpty()) throw new InfluencerNotFoundException();
-
         List<ResponseInfluencerDto> dtos = influencers.stream()
                 .map(ResponseInfluencerDto::from)
                 .toList();
