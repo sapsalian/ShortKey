@@ -9,6 +9,7 @@ import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.Null;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,25 @@ public class BidController {
         ResponseDto<Null> responseDto = new ResponseDto<>(
                 2007,
                 "쇼츠 ID 등록 성공",
+                null
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @PostMapping("/api/bids/{bidId}/accept")
+    public ResponseEntity<ResponseDto<Null>> acceptBid(
+            @PathParam("bidId")
+            Long bidId,
+
+            @TokenId
+            Long accepterId
+    ) {
+        bidService.acceptBid(accepterId, bidId);
+
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                2008,
+                "광고주 승인 완료",
                 null
         );
 
