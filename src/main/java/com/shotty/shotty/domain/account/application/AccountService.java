@@ -26,4 +26,11 @@ public class AccountService {
 
         return AccountResDto.from(account);
     }
+
+    public AccountResDto getAccountOf(Long userId) {
+        Account account = accountRepository.findByUserId(userId)
+                .orElseThrow(NoBankAccountException::new);
+
+        return AccountResDto.from(account);
+    }
 }
