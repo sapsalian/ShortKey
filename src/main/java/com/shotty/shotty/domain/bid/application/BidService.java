@@ -68,4 +68,19 @@ public class BidService {
     public void deleteByInfluencerId(Long influencerId) {
         bidRepository.deleteAllByInfluencerId(influencerId);
     }
+
+    public void acceptBid(Long accepterId, Long bidId) {
+        Bid bid = bidRepository.findById(bidId).orElseThrow(
+                () -> new NoSuchResourcException("존재하지 않는 입찰내역입니다.")
+        );
+
+        Long advertiserId = bid.getApply().getPost().getAuthor().getId();
+
+        if (!accepterId.equals(advertiserId)) {
+            throw new PermissionException("해당 입찰 내역에 대해 승인 권한이 없습니다.");
+        }
+
+        bid.accept();
+        bidRepository.save(bid);
+    }
 }
