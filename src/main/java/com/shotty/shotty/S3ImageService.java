@@ -33,7 +33,7 @@ public class S3ImageService {
 
     public String upload(MultipartFile image) {
         if(image.isEmpty() || Objects.isNull(image.getOriginalFilename())){
-            return null;
+            throw new S3Exception("비어있는 이미지 파일");
         }
         return this.uploadImage(image);
     }
@@ -97,6 +97,9 @@ public class S3ImageService {
     }
 
     public void deleteImageFromS3(String imageAddress){
+        if (imageAddress == null) {
+            return;
+        }
         String key = getKeyFromImageAddress(imageAddress);
         try{
             amazonS3.deleteObject(new DeleteObjectRequest(bucketName, key));

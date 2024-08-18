@@ -67,12 +67,9 @@ public class InfluencerController {
     @Operation(summary = "인플루언서 등록", description = "등록 폼을 통해 인플루언서 등록")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> registerInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
-            @RequestPart("influencerInfo") RegisterInfluencerDto registerInfluencerDto,
-            @Nullable @RequestPart("file") MultipartFile file
+            @ModelAttribute RegisterInfluencerDto registerInfluencerDto
     ) {
-        String profileImageUrl = s3ImageService.upload(file);
-        SaveInfluencerDto saveInfluencerDto = SaveInfluencerDto.of(registerInfluencerDto, profileImageUrl);
-        ResponseInfluencerDto responseInfluencerDto = influencerService.register(user_id, saveInfluencerDto);
+        ResponseInfluencerDto responseInfluencerDto = influencerService.register(user_id,registerInfluencerDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
                 2011,
                 "인플루언서 등록 성공",

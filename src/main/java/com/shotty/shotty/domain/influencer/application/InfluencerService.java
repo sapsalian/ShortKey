@@ -6,6 +6,7 @@ import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
 import com.shotty.shotty.domain.influencer.dto.InfluencerSearchInfo;
+import com.shotty.shotty.domain.influencer.dto.RegisterInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
 import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInfluencerException;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -36,7 +38,41 @@ public class InfluencerService {
     private final ApplyService applyService;
     private final S3ImageService s3ImageService;
 
-    public ResponseInfluencerDto register(Long user_id,SaveInfluencerDto saveInfluencerDto) {
+//    public ResponseInfluencerDto register(Long user_id,SaveInfluencerDto saveInfluencerDto) {
+//        User user = userRepository.findById(user_id).orElseThrow(
+//                ()->{throw new UserNotFoundException();}
+//        );
+//
+//        influencerRepository.findByUserId(user_id).ifPresent(
+//                influencer->{throw new AlreadyInfluencerException();}
+//        );
+//
+//        Influencer influencer = Influencer.from(user, saveInfluencerDto);
+//        influencerRepository.save(influencer);
+//        return ResponseInfluencerDto.from(influencer);
+//    }
+
+    public ResponseInfluencerDto register(Long user_id, RegisterInfluencerDto registerInfluencerDto) {
+        User user = getUser(user_id);
+        MultipartFile profileImage = registerInfluencerDto.getProfile_image();
+        String imageUrl = imageSave(registerInfluencerDto, profileImage);
+        SaveInfluencerDto saveInfluencerDto = SaveInfluencerDto.of(registerInfluencerDto, imageUrl);
+        Influencer influencer = Influencer.from(user, saveInfluencerDto);
+        influencerRepository.save(influencer);
+        return ResponseInfluencerDto.from(influencer);
+    }
+
+    private String imageSave(RegisterInfluencerDto registerInfluencerDto, MultipartFile profileImage) {
+        String imageUrl;
+        if (profileImage != null) {
+            imageUrl = s3ImageService.upload(registerInfluencerDto.getProfile_image());
+        } else {
+            imageUrl = null;
+        }
+        return imageUrl;
+    }
+
+    private User getUser(Long user_id) {
         User user = userRepository.findById(user_id).orElseThrow(
                 ()->{throw new UserNotFoundException();}
         );
@@ -44,10 +80,7 @@ public class InfluencerService {
         influencerRepository.findByUserId(user_id).ifPresent(
                 influencer->{throw new AlreadyInfluencerException();}
         );
-
-        Influencer influencer = Influencer.from(user, saveInfluencerDto);
-        influencerRepository.save(influencer);
-        return ResponseInfluencerDto.from(influencer);
+        return user;
     }
 
 

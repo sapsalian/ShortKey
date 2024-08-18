@@ -21,8 +21,8 @@ public class RegisterInfluencerDto {
     @Nullable
     @Schema(description = "관심분야",example = "FISHING")
     private Niche niche;
-//    @Nullable
-//    @Schema(description = "프로필 이미지 url",example = "https//asdasdad...")
-//    private MultipartFile profile_image;
+    @Nullable
+    @Schema(description = "프로필 이미지 url",example = "hanni.png")
+    private MultipartFile profile_image;
 
 }

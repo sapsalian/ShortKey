@@ -80,7 +80,6 @@ public class PostController {
     @PutMapping("/api/posts/{postId}")
     @Operation(summary = "공고 수정")
     public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
-
             @Parameter(hidden = true) @TokenId Long userId,
             @PathVariable Long postId,
             @Valid @RequestBody PostRequestDto postRequestDto
