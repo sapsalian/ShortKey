@@ -83,12 +83,8 @@ public class InfluencerController {
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> updateInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
             @PathVariable("id") Long influencer_id,
-            @Valid @RequestPart("influencerInfo") InfluencerUpdateRequestDto influencerUpdateRequestDto,
-            @Nullable @RequestPart("file") MultipartFile file) {
-        String profileImageUrl = s3ImageService.upload(file);
-//        InfluencerPatch influencerPatch = InfluencerPatch.from(influencerUpdateRequestDto);
-        InfluencerPatch influencerPatch = InfluencerPatch.of(influencerUpdateRequestDto, profileImageUrl);
-        ResponseInfluencerDto responseInfluencerDto = influencerService.update(user_id, influencer_id, influencerPatch);
+            @Valid @ModelAttribute InfluencerUpdateRequestDto influencerUpdateRequestDto) {
+        ResponseInfluencerDto responseInfluencerDto = influencerService.update(user_id, influencer_id, influencerUpdateRequestDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
                 2006,
                 "인플루언서 정보 수정 성공",

@@ -32,6 +32,9 @@ public class S3ImageService {
     private String bucketName;
 
     public String upload(MultipartFile image) {
+        if (image == null) {
+            return null;
+        }
         if(image.isEmpty() || Objects.isNull(image.getOriginalFilename())){
             throw new S3Exception("비어있는 이미지 파일");
         }

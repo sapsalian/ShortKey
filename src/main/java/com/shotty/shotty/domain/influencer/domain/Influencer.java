@@ -46,7 +46,7 @@ public class Influencer {
         this.verified = verified;
     }
 
-    public static Influencer from(User user, SaveInfluencerDto saveInfluencerDto) {
+    public static Influencer of(User user, SaveInfluencerDto saveInfluencerDto) {
         return new Influencer(
                 user,
                 saveInfluencerDto.getProfile_image(),

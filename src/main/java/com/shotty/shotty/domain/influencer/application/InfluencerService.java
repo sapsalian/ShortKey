@@ -5,10 +5,7 @@ import com.shotty.shotty.domain.apply.application.ApplyService;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
-import com.shotty.shotty.domain.influencer.dto.InfluencerSearchInfo;
-import com.shotty.shotty.domain.influencer.dto.RegisterInfluencerDto;
-import com.shotty.shotty.domain.influencer.dto.ResponseInfluencerDto;
-import com.shotty.shotty.domain.influencer.dto.SaveInfluencerDto;
+import com.shotty.shotty.domain.influencer.dto.*;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInfluencerException;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
 import com.shotty.shotty.domain.user.dao.UserRepository;
@@ -38,51 +35,18 @@ public class InfluencerService {
     private final ApplyService applyService;
     private final S3ImageService s3ImageService;
 
-//    public ResponseInfluencerDto register(Long user_id,SaveInfluencerDto saveInfluencerDto) {
-//        User user = userRepository.findById(user_id).orElseThrow(
-//                ()->{throw new UserNotFoundException();}
-//        );
-//
-//        influencerRepository.findByUserId(user_id).ifPresent(
-//                influencer->{throw new AlreadyInfluencerException();}
-//        );
-//
-//        Influencer influencer = Influencer.from(user, saveInfluencerDto);
-//        influencerRepository.save(influencer);
-//        return ResponseInfluencerDto.from(influencer);
-//    }
-
     public ResponseInfluencerDto register(Long user_id, RegisterInfluencerDto registerInfluencerDto) {
         User user = getUser(user_id);
+
         MultipartFile profileImage = registerInfluencerDto.getProfile_image();
-        String imageUrl = imageSave(registerInfluencerDto, profileImage);
+
+        String imageUrl = imageSave(profileImage);
+
         SaveInfluencerDto saveInfluencerDto = SaveInfluencerDto.of(registerInfluencerDto, imageUrl);
-        Influencer influencer = Influencer.from(user, saveInfluencerDto);
+        Influencer influencer = Influencer.of(user, saveInfluencerDto);
         influencerRepository.save(influencer);
         return ResponseInfluencerDto.from(influencer);
     }
-
-    private String imageSave(RegisterInfluencerDto registerInfluencerDto, MultipartFile profileImage) {
-        String imageUrl;
-        if (profileImage != null) {
-            imageUrl = s3ImageService.upload(registerInfluencerDto.getProfile_image());
-        } else {
-            imageUrl = null;
-        }
-        return imageUrl;
-    }
-
-    private User getUser(Long user_id) {
-        User user = userRepository.findById(user_id).orElseThrow(
-                ()->{throw new UserNotFoundException();}
-        );
-
-        influencerRepository.findByUserId(user_id).ifPresent(
-                influencer->{throw new AlreadyInfluencerException();}
-        );
-        return user;
-    }
-
 
     public Page<ResponseInfluencerDto> findAllInfluencers(Pageable pageable,InfluencerSearchInfo influencerSearchInfo) {
         Page<Influencer> influencers = influencerRepository
@@ -107,21 +71,17 @@ public class InfluencerService {
         return ResponseInfluencerDto.from(influencer);
     }
 
-    public ResponseInfluencerDto update(Long user_id,Long influencer_id, InfluencerPatch influencerPatch) {
-        Influencer influencer = influencerRepository.findById(influencer_id).orElseThrow(
-                () -> {
-                    throw new InfluencerNotFoundException();
-                }
-        );
+    public ResponseInfluencerDto update(Long user_id,Long influencer_id, InfluencerUpdateRequestDto influencerUpdateRequestDto) {
+        Influencer influencer = getInfluencer(user_id, influencer_id);
 
-        if (!influencer.getUser().getId().equals(user_id)) {
-            throw new PermissionException("수정 권한 없음");
-        }
+        String imageUrl = imageSave(influencerUpdateRequestDto.getProfile_image());
+        InfluencerPatch influencerPatch = InfluencerPatch.of(influencerUpdateRequestDto,imageUrl);
 
         PatchUtil.applyPatch(influencer,influencerPatch);
 
         return ResponseInfluencerDto.from(influencer);
     }
+
 
     public void deleteByUserId(Long userId) {
         influencerRepository.findByUserId(userId).ifPresent(
@@ -143,9 +103,36 @@ public class InfluencerService {
         deleteInfluencer(influencer);
     }
 
+    private Influencer getInfluencer(Long user_id, Long influencer_id) {
+        Influencer influencer = influencerRepository.findById(influencer_id).orElseThrow(
+                ()->new InfluencerNotFoundException()
+        );
+
+        if (!influencer.getUser().getId().equals(user_id)) {
+            throw new PermissionException("수정 권한 없음");
+        }
+        return influencer;
+    }
+
     private void deleteInfluencer(Influencer influencer) {
-        //S3 이미지 삭제
+        //인플루언서 등록 취소시 S3 저장된 프로필 이미지 삭제
         s3ImageService.deleteImageFromS3(influencer.getProfile_image());
         influencerRepository.delete(influencer);
+    }
+
+
+    private User getUser(Long user_id) {
+        User user = userRepository.findById(user_id).orElseThrow(
+                ()->{throw new UserNotFoundException();}
+        );
+
+        influencerRepository.findByUserId(user_id).ifPresent(
+                influencer->{throw new AlreadyInfluencerException();}
+        );
+        return user;
+    }
+
+    private String imageSave(MultipartFile file) {
+        return s3ImageService.upload(file);
     }
 }
