@@ -32,8 +32,8 @@ public class PostService {
     private final UserRepository userRepository;
     private final S3ImageService s3ImageService;
 
-    public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto, MultipartFile file) {
-        String imgUrl = imageSave(file);
+    public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
+        String imgUrl = imageSave(postRequestDto.post_image());
         ImgContainedPostDto imgContainedPostDto = ImgContainedPostDto.of(postRequestDto, imgUrl);
 
         User user = userRepository.findById(authorId).orElseThrow(() -> new UserNotFoundException("작성자는 존재하지 않는 유저입니다."));
@@ -112,12 +112,6 @@ public class PostService {
         return userRepository.save(User.from(encryptedUserDto));
     }
 
-    // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
-    private String imageSave(MultipartFile file) {
-        return s3ImageService.upload(file);
-    }
-
-
     public PostResponseDto update(Long postId, PostRequestDto postRequestDto, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
 
@@ -125,9 +119,23 @@ public class PostService {
             throw new PermissionException("공고에 대한 수정권한이 없는 사용자입니다.");
         }
 
-        PatchUtil.applyPatch(post, postRequestDto);
+        imageDelete(post.getPost_image());
+        String imgUrl = imageSave(postRequestDto.post_image());
+        ImgContainedPostDto imgContainedPostDto = ImgContainedPostDto.of(postRequestDto, imgUrl);
+        PatchUtil.applyPatch(post, imgContainedPostDto);
         post = postRepository.save(post);
 
         return PostResponseDto.from(post);
+    }
+
+    //S3에 저장된 이미지 삭제
+    private void imageDelete(String post_image) {
+        s3ImageService.deleteImageFromS3(post_image);
+
+    }
+
+    //S3에 이미지 저장
+    private String imageSave(MultipartFile file) {
+        return s3ImageService.upload(file);
     }
 }

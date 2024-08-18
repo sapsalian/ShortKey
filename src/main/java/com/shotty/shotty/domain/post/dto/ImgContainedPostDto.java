@@ -8,16 +8,16 @@ public record ImgContainedPostDto(
         String content,
         int price,
         int extraPrice,
-        String imageUrl,
+        String post_image,
         LocalDate endDate
 ) {
-    public static ImgContainedPostDto of(PostRequestDto postRequestDto, String imageUrl) {
+    public static ImgContainedPostDto of(PostRequestDto postRequestDto, String post_image) {
         return new ImgContainedPostDto(
                 postRequestDto.title(),
                 postRequestDto.content(),
                 postRequestDto.price(),
                 postRequestDto.extraPrice(),
-                imageUrl,
+                post_image,
                 postRequestDto.endDate()
         );
     }

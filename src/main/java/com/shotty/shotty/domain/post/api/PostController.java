@@ -33,9 +33,8 @@ public class PostController {
     @Operation(summary = "공고 등록", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ResponseDto<PostResponseDto>> postPost(
             @Parameter(hidden = true) @TokenId Long authorId,
-            @Valid @RequestPart("postInfo") PostRequestDto postRequestDto,
-            @RequestPart MultipartFile file) {
-        PostResponseDto postResponseDto = postService.save(authorId ,postRequestDto, file);
+            @Valid @ModelAttribute PostRequestDto postRequestDto) {
+        PostResponseDto postResponseDto = postService.save(authorId ,postRequestDto);
 
         ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
                 2011,
@@ -82,7 +81,7 @@ public class PostController {
     public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
             @Parameter(hidden = true) @TokenId Long userId,
             @PathVariable Long postId,
-            @Valid @RequestBody PostRequestDto postRequestDto
+            @Valid @ModelAttribute PostRequestDto postRequestDto
     ) {
         PostResponseDto postResponseDto = postService.update(postId, postRequestDto, userId);
 

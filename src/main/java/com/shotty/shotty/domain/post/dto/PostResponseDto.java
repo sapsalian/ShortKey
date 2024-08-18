@@ -43,7 +43,7 @@ public record PostResponseDto(
                 post.getCreatedAt().toLocalDate(),
                 post.getPrice(),
                 post.getExtraPrice(),
-                post.getImage(),
+                post.getPost_image(),
                 post.getEndDate(),
                 post.getAuthor().getId(),
                 post.getAuthor().getName()

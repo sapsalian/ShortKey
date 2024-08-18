@@ -2,8 +2,10 @@ package com.shotty.shotty.domain.post.dto;
 
 import com.shotty.shotty.domain.post.custom_annotation.annotation.AfterOrEqualToday;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -29,6 +31,10 @@ public record PostRequestDto(
         @Schema(description = "마감 일자",example = "2024-08-26")
         @AfterOrEqualToday(message = "마감일은 현재 날짜 이후여야 합니다.")
         @NotNull(message = "마감일은 필수 입력 사항입니다.")
-        LocalDate endDate
+        LocalDate endDate,
+
+        @Schema(description = "공고 이미지 파일",example = "hannie.png")
+        @Nullable
+        MultipartFile post_image
 ) {
 }
