@@ -74,6 +74,7 @@ public class InfluencerService {
     public ResponseInfluencerDto update(Long user_id,Long influencer_id, InfluencerUpdateRequestDto influencerUpdateRequestDto) {
         Influencer influencer = getInfluencer(user_id, influencer_id);
 
+        imageDelete(influencer);
         String imageUrl = imageSave(influencerUpdateRequestDto.getProfile_image());
         InfluencerPatch influencerPatch = InfluencerPatch.of(influencerUpdateRequestDto,imageUrl);
 
@@ -81,7 +82,6 @@ public class InfluencerService {
 
         return ResponseInfluencerDto.from(influencer);
     }
-
 
     public void deleteByUserId(Long userId) {
         influencerRepository.findByUserId(userId).ifPresent(
@@ -100,6 +100,7 @@ public class InfluencerService {
 
         applyService.deleteByInfluencerId(influencer.getId());
         influencer.getUser().changeRole(UserRoleEnum.COMMON);
+
         deleteInfluencer(influencer);
     }
 
@@ -116,7 +117,7 @@ public class InfluencerService {
 
     private void deleteInfluencer(Influencer influencer) {
         //인플루언서 등록 취소시 S3 저장된 프로필 이미지 삭제
-        s3ImageService.deleteImageFromS3(influencer.getProfile_image());
+        imageDelete(influencer);
         influencerRepository.delete(influencer);
     }
 
@@ -132,6 +133,15 @@ public class InfluencerService {
         return user;
     }
 
+    //S3에 저장된 이미지 삭제
+    private void imageDelete(Influencer influencer) {
+        String profileImage = influencer.getProfile_image();
+        if (profileImage != null) {
+            s3ImageService.deleteImageFromS3(profileImage);
+        }
+    }
+
+    //S3에 이미지 저장
     private String imageSave(MultipartFile file) {
         return s3ImageService.upload(file);
     }
