@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.influencer.application;
 
+import com.shotty.shotty.S3ImageService;
 import com.shotty.shotty.domain.apply.application.ApplyService;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
@@ -11,6 +12,7 @@ import com.shotty.shotty.domain.influencer.exception.custom_exception.AlreadyInf
 import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
+import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import com.shotty.shotty.global.util.PatchUtil;
@@ -32,6 +34,7 @@ public class InfluencerService {
     private final InfluencerRepository influencerRepository;
     private final UserRepository userRepository;
     private final ApplyService applyService;
+    private final S3ImageService s3ImageService;
 
     public ResponseInfluencerDto register(Long user_id,SaveInfluencerDto saveInfluencerDto) {
         User user = userRepository.findById(user_id).orElseThrow(
@@ -91,8 +94,25 @@ public class InfluencerService {
         influencerRepository.findByUserId(userId).ifPresent(
                 (influencer) -> {
                     applyService.deleteByInfluencerId(influencer.getId());
-                    influencerRepository.delete(influencer);
+                    deleteInfluencer(influencer);
                 }
         );
+    }
+
+    //인플루언서 등록 취소
+    public void cancel(Long user_id) {
+        Influencer influencer = influencerRepository.findByUserId(user_id).orElseThrow(
+                () -> new InfluencerNotFoundException("인플루언서로 등록된 회원이 아닙니다")
+        );
+
+        applyService.deleteByInfluencerId(influencer.getId());
+        influencer.getUser().changeRole(UserRoleEnum.COMMON);
+        deleteInfluencer(influencer);
+    }
+
+    private void deleteInfluencer(Influencer influencer) {
+        //S3 이미지 삭제
+        s3ImageService.deleteImageFromS3(influencer.getProfile_image());
+        influencerRepository.delete(influencer);
     }
 }
