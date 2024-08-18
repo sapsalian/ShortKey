@@ -33,7 +33,7 @@ public class S3ImageService {
 
     public String upload(MultipartFile image) {
         if(image.isEmpty() || Objects.isNull(image.getOriginalFilename())){
-            throw new S3Exception("파일이 존재하지 않습니다.");
+            return null;
         }
         return this.uploadImage(image);
     }

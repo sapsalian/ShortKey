@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Schema(description = "인플루언서 등록 요청 형식")
@@ -20,8 +21,8 @@ public class RegisterInfluencerDto {
     @Nullable
     @Schema(description = "관심분야",example = "FISHING")
     private Niche niche;
-    @Nullable
-    @Schema(description = "프로필 이미지 url",example = "https//asdasdad...")
-    private String profile_image;
+//    @Nullable
+//    @Schema(description = "프로필 이미지 url",example = "https//asdasdad...")
+//    private MultipartFile profile_image;
 
 }

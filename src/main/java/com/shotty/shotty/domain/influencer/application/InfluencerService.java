@@ -33,7 +33,7 @@ public class InfluencerService {
     private final UserRepository userRepository;
     private final ApplyService applyService;
 
-    public void register(Long user_id,SaveInfluencerDto saveInfluencerDto) {
+    public ResponseInfluencerDto register(Long user_id,SaveInfluencerDto saveInfluencerDto) {
         User user = userRepository.findById(user_id).orElseThrow(
                 ()->{throw new UserNotFoundException();}
         );
@@ -44,6 +44,7 @@ public class InfluencerService {
 
         Influencer influencer = Influencer.from(user, saveInfluencerDto);
         influencerRepository.save(influencer);
+        return ResponseInfluencerDto.from(influencer);
     }
 
 
