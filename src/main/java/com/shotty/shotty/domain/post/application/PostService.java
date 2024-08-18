@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.post.application;
 
+import com.shotty.shotty.S3ImageService;
 import com.shotty.shotty.domain.post.dao.PostRepository;
 import com.shotty.shotty.domain.post.domain.Post;
 import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
@@ -22,15 +23,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final S3ImageService s3ImageService;
 
-    public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
-        String imgUrl = imageSave();
+    public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto, MultipartFile file) {
+        String imgUrl = imageSave(file);
         ImgContainedPostDto imgContainedPostDto = ImgContainedPostDto.of(postRequestDto, imgUrl);
 
         User user = userRepository.findById(authorId).orElseThrow(() -> new UserNotFoundException("작성자는 존재하지 않는 유저입니다."));
@@ -110,8 +113,8 @@ public class PostService {
     }
 
     // TODO: S3 이용해 image 저장하고 url 반환하는 메서드
-    private String imageSave() {
-        return "";
+    private String imageSave(MultipartFile file) {
+        return s3ImageService.upload(file);
     }
 
 
