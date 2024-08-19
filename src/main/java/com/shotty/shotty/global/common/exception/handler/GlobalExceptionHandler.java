@@ -5,6 +5,8 @@ import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcE
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import jakarta.validation.constraints.Null;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchSortFieldException.class)
     public ResponseEntity<ResponseDto<Null>> handleNoSuchSortFieldException(NoSuchSortFieldException e) {
@@ -58,6 +61,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
+    @Order(Ordered.LOWEST_PRECEDENCE)
     public ResponseEntity<ResponseDto<Null>> handleException(Exception e) {
         ResponseDto<Null> responseDto = new ResponseDto<>(
                 5000,
