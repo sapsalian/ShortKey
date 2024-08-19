@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.account.domain;
 
 import com.shotty.shotty.domain.account.dto.AccountCreateReqDto;
+import com.shotty.shotty.domain.account.dto.AccountUpdateReqDto;
 import com.shotty.shotty.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,6 +28,11 @@ public class Account {
         this.account = account;
         this.bank = bank;
         this.user = user;
+    }
+
+    public void updateAccount(AccountUpdateReqDto accountUpdateReqDto) {
+        this.account = accountUpdateReqDto.account();
+        this.bank = accountUpdateReqDto.bank();
     }
 
     public static Account of(AccountCreateReqDto accountCreateReqDto, User user) {
