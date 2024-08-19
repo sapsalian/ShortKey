@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### private settings ###
-src/main/resources/application.properties
+/src/main/resources/application.properties
