@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### test : 출금 계좌 등록
 POST localhost:8080/api/accounts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzc5MzYwNX0.6NI_JPF-u7fRPmZZIAu7iyW704FC8fxqp10E6GrYhR0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDA0MTgwNH0.NPc0LX5Y2BdrTLBuly9SyaPOLxblzaZlU7WETm7ZJsU
 Content-Type: application/json
 
 {
@@ -31,4 +31,14 @@ Content-Type: application/json
 
 ### test : 출금 계좌 조회
 GET localhost:8080/api/accounts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzc5MzYwNX0.6NI_JPF-u7fRPmZZIAu7iyW704FC8fxqp10E6GrYhR0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDA0MTgwNH0.NPc0LX5Y2BdrTLBuly9SyaPOLxblzaZlU7WETm7ZJsU
+
+### test : 출금 계좌 수정
+PUT localhost:8080/api/accounts
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDA0MTgwNH0.NPc0LX5Y2BdrTLBuly9SyaPOLxblzaZlU7WETm7ZJsU
+Content-Type: application/json
+
+{
+  "bank": "국민은행",
+  "account": "012-111000-00002"
+}
