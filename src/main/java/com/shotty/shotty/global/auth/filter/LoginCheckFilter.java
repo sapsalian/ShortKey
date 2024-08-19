@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,12 +19,9 @@ import java.util.*;
 @RequiredArgsConstructor
 public class LoginCheckFilter implements Filter {
     private final JwtProvider jwtProvider;
-//    private static final List<String> whiteList = Arrays.asList(
-//            "/api/auth/register","/api/auth/login",
-//            "/api/influencers",
-//            "/swagger-ui","/v3/api-docs"
-//            //"/"
-//    );
+    private static final List<String> whiteListSwagger = Arrays.asList(
+            "/swagger-ui","/v3/api-docs"
+    );
     private final Map<String, Set<String>> whiteList = new HashMap<>();
 
     @Override
@@ -37,7 +35,6 @@ public class LoginCheckFilter implements Filter {
         whiteList.put("/api/users/{id}", new HashSet<>(Collections.singletonList("GET")));
         whiteList.put("/api/posts", new HashSet<>(Collections.singletonList("GET")));
         whiteList.put("/api/posts/{postId}", new HashSet<>(Collections.singletonList("GET")));
-
     }
 
     @Override
@@ -47,6 +44,16 @@ public class LoginCheckFilter implements Filter {
 
         String path = httpRequest.getRequestURI();
         String method = httpRequest.getMethod();
+
+        boolean isSwagger = whiteListSwagger.stream()
+                .anyMatch(path::startsWith);
+
+        if( isSwagger ){
+            filterChain.doFilter(request, response);
+            log.info("화이트리스트: path= {} method= {}", path,method);
+            return;
+        }
+
 
         boolean isAllowed = whiteList.entrySet().stream()
                 .anyMatch(entry -> matchesPath(entry.getKey(), path) &&
