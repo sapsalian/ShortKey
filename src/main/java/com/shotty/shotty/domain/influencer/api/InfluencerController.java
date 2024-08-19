@@ -24,6 +24,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -103,6 +106,23 @@ public class InfluencerController {
                 "인플루언서 등록 취소 성공",
                 null
         );
+      
+       return ResponseEntity.ok(responseDto);
+    }
+
+    @GetMapping("/influencers/niches")
+    @Operation(summary = "인플루언서 분야 조회", description = "인플루언서가 속할 수 있는 모든 분야를 조회")
+    public ResponseEntity<ResponseDto<List<String>>> getNiches() {
+        List<String> niches= Arrays.stream(Niche.values())
+                .map(Enum::toString)
+                .toList();
+
+        ResponseDto<List<String>> responseDto = new ResponseDto<>(
+                2002,
+                "인플루언서 분야 조회 완료",
+                niches
+        );
+
         return ResponseEntity.ok(responseDto);
     }
 }
