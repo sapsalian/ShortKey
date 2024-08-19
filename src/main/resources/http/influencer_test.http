@@ -43,7 +43,6 @@ Content-Type: application/json
 ### influencer register test
 POST localhost:8080/api/influencers
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjkyOTMzNH0.CtCeEUGxVuMhHoGl9dN9tkAzc-_DkQgecfrlTxs7IgU
 
 {
   "userId": "Test1",
