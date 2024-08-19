@@ -12,19 +12,33 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
 public class LoginCheckFilter implements Filter {
     private final JwtProvider jwtProvider;
-    private static final List<String> whiteList = Arrays.asList(
-            "/api/auth/register","/api/auth/login",
-            "/api/influencers",
-            "/swagger-ui","/v3/api-docs"
-            //"/"
-    );
+//    private static final List<String> whiteList = Arrays.asList(
+//            "/api/auth/register","/api/auth/login",
+//            "/api/influencers",
+//            "/swagger-ui","/v3/api-docs"
+//            //"/"
+//    );
+    private final Map<String, Set<String>> whiteList = new HashMap<>();
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // 화이트리스트 초기화
+        whiteList.put("/api/auth/register", new HashSet<>(Collections.singletonList("POST")));
+        whiteList.put("/api/auth/login", new HashSet<>(Collections.singletonList("POST")));
+        whiteList.put("/api/influencers", new HashSet<>(Collections.singletonList("GET")));
+        whiteList.put("/api/influencers/{id}", new HashSet<>(Collections.singletonList("GET")));
+        whiteList.put("/api/influencers/niches", new HashSet<>(Collections.singletonList("GET")));
+        whiteList.put("/api/users/{id}", new HashSet<>(Collections.singletonList("GET")));
+        whiteList.put("/api/posts", new HashSet<>(Collections.singletonList("GET")));
+        whiteList.put("/api/posts/{postId}", new HashSet<>(Collections.singletonList("GET")));
+
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -32,10 +46,15 @@ public class LoginCheckFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         String path = httpRequest.getRequestURI();
+        String method = httpRequest.getMethod();
 
-        if( whiteList.stream().anyMatch(path::startsWith)){
+        boolean isAllowed = whiteList.entrySet().stream()
+                .anyMatch(entry -> matchesPath(entry.getKey(), path) &&
+                        entry.getValue().contains(method));
+
+        if( isAllowed ){
             filterChain.doFilter(request, response);
-            log.info("화이트리스트: path= {}", path);
+            log.info("화이트리스트: path= {} method= {}", path,method);
             return;
         }
         //토큰 여부 확인
@@ -63,6 +82,11 @@ public class LoginCheckFilter implements Filter {
 
 
         filterChain.doFilter(request, response);
+    }
+    private boolean matchesPath(String pattern, String path) {
+        // 패턴의 '{id}' 부분을 실제 값으로 대체하여 경로 매칭
+        String regex = pattern.replaceAll("\\{[^/]+\\}", "[^/]+");
+        return path.matches(regex);
     }
 
     private void setResponse(HttpServletResponse httpResponse,int httpStatus,int code,String statusMsg) throws IOException {
