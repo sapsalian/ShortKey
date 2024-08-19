@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class ApplyResponseDto {
     @Schema(description = "지원 식별 Id",example = "1L")
-    private Long id;
+    private Long apply_id;
     @Schema(description = "지원 폼 제목",example = "구름빵 홍보 영상 지원합니다")
     private String title;
 
@@ -21,8 +21,14 @@ public class ApplyResponseDto {
 
     @Schema(description = "등록한 인플러언서의 채널 Id",example = "channelid")
     private String influencerChannelId;
-    @Schema(description = "등록한 공고의 title",example = "구름빵 홍보 영상")
+
+    @Schema(description = "공고 식별 Id",example = "1L")
+    private Long post_id;
+    @Schema(description = "등록한 공고의 제목",example = "구름빵 홍보 영상")
     private String postTitle;
+
+    @Schema(description = "등록한 공고의 내용",example = "구름빵 홍보 영상 지원 내용")
+    private String postContent;
 
     public static ApplyResponseDto from(Apply apply) {
         return new ApplyResponseDto(
@@ -31,7 +37,9 @@ public class ApplyResponseDto {
                 apply.getContent(),
                 apply.getVideoLink(),
                 apply.getInfluencer().getChannelId(),
-                apply.getPost().getTitle()
+                apply.getPost().getId(),
+                apply.getPost().getTitle(),
+                apply.getPost().getContent()
         );
     }
 }
