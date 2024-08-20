@@ -20,6 +20,8 @@ public class Bid {
 
     private String shortsId;
 
+    private Boolean accepted = false;
+
     //연관관계 메서드
     private void setApply(Apply apply) {
         this.apply = apply;
@@ -33,5 +35,9 @@ public class Bid {
 
     public void setShortsId(String shortsId) {
         this.shortsId = shortsId;
+    }
+
+    public void accept() {
+        this.accepted = true;
     }
 }
