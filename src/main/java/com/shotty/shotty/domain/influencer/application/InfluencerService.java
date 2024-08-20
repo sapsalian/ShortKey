@@ -38,11 +38,7 @@ public class InfluencerService {
     public ResponseInfluencerDto register(Long user_id, RegisterInfluencerDto registerInfluencerDto) {
         User user = getUser(user_id);
 
-        MultipartFile profileImage = registerInfluencerDto.getProfile_image();
-
-        String imageUrl = imageSave(profileImage);
-
-        SaveInfluencerDto saveInfluencerDto = SaveInfluencerDto.of(registerInfluencerDto, imageUrl);
+        SaveInfluencerDto saveInfluencerDto = SaveInfluencerDto.from(registerInfluencerDto);
         Influencer influencer = Influencer.of(user, saveInfluencerDto);
         influencerRepository.save(influencer);
         return ResponseInfluencerDto.from(influencer);
@@ -66,10 +62,7 @@ public class InfluencerService {
     public ResponseInfluencerDto update(Long user_id,Long influencer_id, InfluencerUpdateRequestDto influencerUpdateRequestDto) {
         Influencer influencer = getInfluencer(user_id, influencer_id);
 
-        imageDelete(influencer.getProfile_image());
-
-        String imageUrl = imageSave(influencerUpdateRequestDto.getProfile_image());
-        InfluencerPatch influencerPatch = InfluencerPatch.of(influencerUpdateRequestDto,imageUrl);
+        InfluencerPatch influencerPatch = InfluencerPatch.from(influencerUpdateRequestDto);
 
         PatchUtil.applyPatch(influencer,influencerPatch);
 

@@ -33,7 +33,7 @@ public class PostController {
     @Operation(summary = "공고 등록", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ResponseDto<PostResponseDto>> postPost(
             @Parameter(hidden = true) @TokenId Long authorId,
-            @Valid @ModelAttribute PostRequestDto postRequestDto) {
+            @Valid @RequestBody PostRequestDto postRequestDto) {
         PostResponseDto postResponseDto = postService.save(authorId ,postRequestDto);
 
         ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
@@ -81,7 +81,7 @@ public class PostController {
     public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
             @Parameter(hidden = true) @TokenId Long userId,
             @PathVariable Long postId,
-            @Valid @ModelAttribute PostRequestDto postRequestDto
+            @Valid @RequestBody PostRequestDto postRequestDto
     ) {
         PostResponseDto postResponseDto = postService.update(postId, postRequestDto, userId);
 

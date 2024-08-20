@@ -13,21 +13,21 @@ public class InfluencerPatch {
     private Niche niche;
     private String profile_image;
 
-//    public static InfluencerPatch from(InfluencerUpdateRequestDto requestDto) {
-//        return new InfluencerPatch(
-//                requestDto.getChannelId(),
-//                requestDto.getSubscribers(),
-//                requestDto.getNiche(),
-//                requestDto.getProfile_image()
-//        );
-//    }
-
-    public static InfluencerPatch of(InfluencerUpdateRequestDto requestDto, String profileImageUrl) {
+    public static InfluencerPatch from(InfluencerUpdateRequestDto requestDto) {
         return new InfluencerPatch(
                 requestDto.getChannelId(),
                 requestDto.getSubscribers(),
                 requestDto.getNiche(),
-                profileImageUrl
+                requestDto.getProfile_image()
         );
     }
+
+//    public static InfluencerPatch of(InfluencerUpdateRequestDto requestDto, String profileImageUrl) {
+//        return new InfluencerPatch(
+//                requestDto.getChannelId(),
+//                requestDto.getSubscribers(),
+//                requestDto.getNiche(),
+//                profileImageUrl
+//        );
+//    }
 }

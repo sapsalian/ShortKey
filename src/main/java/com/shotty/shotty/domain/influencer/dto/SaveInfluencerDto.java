@@ -16,14 +16,14 @@ public class SaveInfluencerDto {
     @Nullable
     private String profile_image;
 
-//    public static SaveInfluencerDto from(RegisterInfluencerDto registerInfluencerDto){
-//        return new SaveInfluencerDto(
-//                registerInfluencerDto.getChannelId(),
-//                registerInfluencerDto.getSubscribers(),
-//                registerInfluencerDto.getNiche(),
-//                registerInfluencerDto.getProfile_image()
-//        );
-//    }
+    public static SaveInfluencerDto from(RegisterInfluencerDto registerInfluencerDto){
+        return new SaveInfluencerDto(
+                registerInfluencerDto.getChannelId(),
+                registerInfluencerDto.getSubscribers(),
+                registerInfluencerDto.getNiche(),
+                registerInfluencerDto.getProfile_image()
+        );
+    }
 
     public static SaveInfluencerDto of(RegisterInfluencerDto registerInfluencerDto, String profileImageUrl) {
         return new SaveInfluencerDto(

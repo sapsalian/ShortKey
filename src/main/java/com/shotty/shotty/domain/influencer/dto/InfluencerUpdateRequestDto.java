@@ -19,7 +19,8 @@ public class InfluencerUpdateRequestDto {
     @NotNull
     @Schema(description = "관심분야",example = "FISHING")
     private Niche niche;
-    @NotNull
-    @Schema(description = "프로필 이미지 url",example = "hanni.png")
-    private MultipartFile profile_image;
+    @Nullable
+    @Schema(description = "프로필 이미지 url",example = "asdfasdf123")
+    private String profile_image;
+
 }
