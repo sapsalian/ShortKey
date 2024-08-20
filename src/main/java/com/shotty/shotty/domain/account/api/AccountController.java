@@ -7,6 +7,7 @@ import com.shotty.shotty.domain.account.dto.AccountResDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class AccountController {
 
     @Operation(summary = "출금 계좌 등록")
     @PostMapping("/api/accounts")
-    public ResponseEntity<ResponseDto<AccountResDto>> createAccount(@TokenId Long userId, @RequestBody AccountCreateReqDto accountCreateReqDto) {
+    public ResponseEntity<ResponseDto<AccountResDto>> createAccount(@Parameter(hidden = true) @TokenId Long userId, @RequestBody AccountCreateReqDto accountCreateReqDto) {
         AccountResDto accountResDto = accountService.createAccount(accountCreateReqDto, userId);
 
         ResponseDto<AccountResDto> responseDto = new ResponseDto<>(
@@ -37,7 +38,7 @@ public class AccountController {
 
     @Operation(summary = "내 출금 계좌 조회")
     @GetMapping("/api/accounts")
-    public ResponseEntity<ResponseDto<AccountResDto>> getAccounts(@TokenId Long userId) {
+    public ResponseEntity<ResponseDto<AccountResDto>> getAccounts(@Parameter(hidden = true) @TokenId Long userId) {
         AccountResDto accountResDto = accountService.getAccountOf(userId);
 
         ResponseDto<AccountResDto> responseDto = new ResponseDto<>(

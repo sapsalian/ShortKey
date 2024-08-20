@@ -6,6 +6,7 @@ import com.shotty.shotty.domain.balance.dto.ChangeBalanceDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class BalanceController {
 
     @GetMapping("/api/balance")
     @Operation(summary = "잔액 조회")
-    public ResponseEntity<ResponseDto<BalanceResDto>> getBalance(@TokenId Long userId) {
+    public ResponseEntity<ResponseDto<BalanceResDto>> getBalance(@Parameter(hidden = true) @TokenId Long userId) {
         BalanceResDto balanceResDto = balanceService.getBalanceByUserId(userId);
 
         ResponseDto<BalanceResDto> responseDto = new ResponseDto<>(
@@ -34,7 +35,7 @@ public class BalanceController {
 
     @PostMapping("/api/balance/deposit")
     @Operation(summary = "입금")
-    public ResponseEntity<ResponseDto<BalanceResDto>> deposit(@TokenId Long userId, @RequestBody ChangeBalanceDto changeBalanceDto) {
+    public ResponseEntity<ResponseDto<BalanceResDto>> deposit(@Parameter(hidden = true) @TokenId Long userId, @RequestBody ChangeBalanceDto changeBalanceDto) {
         BalanceResDto balanceResDto = balanceService.deposit(userId, changeBalanceDto);
 
         ResponseDto<BalanceResDto> responseDto = new ResponseDto<>(
@@ -48,7 +49,7 @@ public class BalanceController {
 
     @PostMapping("/api/balance/withdraw")
     @Operation(summary = "출금")
-    public ResponseEntity<ResponseDto<BalanceResDto>> withdraw(@TokenId Long userId, @RequestBody ChangeBalanceDto changeBalanceDto) {
+    public ResponseEntity<ResponseDto<BalanceResDto>> withdraw(@Parameter(hidden = true) @TokenId Long userId, @RequestBody ChangeBalanceDto changeBalanceDto) {
         BalanceResDto balanceResDto = balanceService.withdraw(userId, changeBalanceDto);
 
         ResponseDto<BalanceResDto> responseDto = new ResponseDto<>(
