@@ -45,4 +45,18 @@ public class BalanceController {
 
         return ResponseEntity.ok(responseDto);
     }
+
+    @PostMapping("/api/balance/withdraw")
+    @Operation(summary = "출금")
+    public ResponseEntity<ResponseDto<BalanceResDto>> withdraw(@TokenId Long userId, @RequestBody ChangeBalanceDto changeBalanceDto) {
+        BalanceResDto balanceResDto = balanceService.withdraw(userId, changeBalanceDto);
+
+        ResponseDto<BalanceResDto> responseDto = new ResponseDto<>(
+                2007,
+                "출금 완료",
+                balanceResDto
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
 }

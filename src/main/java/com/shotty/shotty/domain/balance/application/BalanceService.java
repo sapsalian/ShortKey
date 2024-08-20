@@ -30,4 +30,15 @@ public class BalanceService {
 
         return BalanceResDto.from(user);
     }
+
+    public  BalanceResDto withdraw(Long userId, ChangeBalanceDto changeBalanceDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 사용자입니다."));
+
+
+        user.withdraw(changeBalanceDto.amount());
+        user = userRepository.save(user);
+
+        return BalanceResDto.from(user);
+    }
 }
