@@ -66,4 +66,6 @@ Content-Type: application/json
 {
 }
 
+### test : 인플루언서 niche 조회
+GET localhost:8080/api/influencers/niches
 
