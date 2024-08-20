@@ -62,6 +62,27 @@ public class PostController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @GetMapping("/api/posts/my")
+    @Operation(summary = "내가 올린 공고 전체 조회")
+    public ResponseEntity<ResponseDto<Page<PostResponseDto>>> getMyPosts(
+            @ParameterObject @PageableDefault(size = 10, page = 0, sort = "createdAt", direction = Sort.Direction.DESC)
+            Pageable pageable,
+
+            @Parameter(hidden = true)
+            @TokenId
+            Long userId
+    ) {
+        Page<PostResponseDto> postPage = postService.findAllByUserId(userId, pageable);
+
+        ResponseDto<Page<PostResponseDto>> responseDto = new ResponseDto<>(
+                2002,
+                "내가 올린 공고 전체 조회 성공",
+                postPage
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @GetMapping("/api/posts/{postId}")
     @Operation(summary = "공고 개별 조회")
     public ResponseEntity<ResponseDto<PostResponseDto>> getPost(@PathVariable Long postId) {

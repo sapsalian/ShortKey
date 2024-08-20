@@ -57,6 +57,19 @@ public class PostService {
         return posts.map(PostResponseDto::from);
     }
 
+    public Page<PostResponseDto> findAllByUserId(Long userId, Pageable pageable) {
+        Page<Post> posts = null;
+
+        try {
+            posts = postRepository.findAllByAuthorId(userId, pageable);
+        } catch (PropertyReferenceException e) {
+            throw new NoSuchSortFieldException();
+        }
+
+        return posts.map(PostResponseDto::from);
+    }
+
+
     public PostResponseDto edit(Long postId, PostPatchDto postPatchDto, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
 
