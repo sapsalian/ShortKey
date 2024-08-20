@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.post.domain;
 
 import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
+import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -55,14 +56,14 @@ public class Post {
         this.active = false;
     }
 
-    public static Post of(ImgContainedPostDto imgContainedPoastDto, User author) {
+    public static Post of(PostRequestDto postRequestDto, User author) {
         return new Post(
-                imgContainedPoastDto.title(),
-                imgContainedPoastDto.content(),
-                imgContainedPoastDto.price(),
-                imgContainedPoastDto.extraPrice(),
-                imgContainedPoastDto.post_image(),
-                imgContainedPoastDto.endDate(),
+                postRequestDto.title(),
+                postRequestDto.content(),
+                postRequestDto.price(),
+                postRequestDto.extraPrice(),
+                postRequestDto.post_image(),
+                postRequestDto.endDate(),
                 author
         );
     }

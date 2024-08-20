@@ -65,11 +65,11 @@ public class InfluencerController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping(value = "/influencers",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/influencers")
     @Operation(summary = "인플루언서 등록", description = "등록 폼을 통해 인플루언서 등록")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> registerInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
-            @ModelAttribute RegisterInfluencerDto registerInfluencerDto
+            @RequestBody RegisterInfluencerDto registerInfluencerDto
     ) {
         ResponseInfluencerDto responseInfluencerDto = influencerService.register(user_id,registerInfluencerDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
@@ -85,7 +85,7 @@ public class InfluencerController {
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> updateInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
             @PathVariable("id") Long influencer_id,
-            @Valid @ModelAttribute InfluencerUpdateRequestDto influencerUpdateRequestDto) {
+            @Valid @RequestBody InfluencerUpdateRequestDto influencerUpdateRequestDto) {
         ResponseInfluencerDto responseInfluencerDto = influencerService.update(user_id, influencer_id, influencerUpdateRequestDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
                 2006,
