@@ -1,8 +1,7 @@
 package com.shotty.shotty.domain.influencer.api;
 
-import com.shotty.shotty.S3ImageService;
+import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.domain.influencer.application.InfluencerService;
-import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
 import com.shotty.shotty.domain.influencer.dto.*;
 import com.shotty.shotty.domain.influencer.enums.Niche;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
@@ -10,7 +9,6 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +21,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @Slf4j
 @RestController

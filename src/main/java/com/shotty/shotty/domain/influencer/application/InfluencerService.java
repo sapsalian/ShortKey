@@ -1,6 +1,6 @@
 package com.shotty.shotty.domain.influencer.application;
 
-import com.shotty.shotty.S3ImageService;
+import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.domain.apply.application.ApplyService;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;

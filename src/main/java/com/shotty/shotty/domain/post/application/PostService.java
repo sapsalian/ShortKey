@@ -1,18 +1,16 @@
 package com.shotty.shotty.domain.post.application;
 
-import com.shotty.shotty.S3ImageService;
+import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.domain.post.dao.PostRepository;
 import com.shotty.shotty.domain.post.domain.Post;
 import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
 import com.shotty.shotty.domain.post.dto.PostPatchDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.post.dto.PostResponseDto;
-import com.shotty.shotty.domain.user.application.UserService;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
-import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
