@@ -77,6 +77,7 @@ public class BidController {
             Long bidId,
 
             @TokenId
+            @Parameter(hidden = true)
             Long accepterId
     ) {
         bidService.acceptBid(accepterId, bidId);

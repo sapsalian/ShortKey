@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.user.domain;
 
+import com.shotty.shotty.domain.balance.exception.custom_exception.NotEnoughBalanceException;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.user.enums.UserRoleEnum;
@@ -71,6 +72,10 @@ public class User {
     }
 
     public void withdraw(Long amount) {
+        if (amount > balance) {
+            throw new NotEnoughBalanceException("잔액보다 더 큰 금액을 출금할 수 없습니다.");
+        }
+
         balance -= amount;
     }
 }
