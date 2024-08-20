@@ -16,7 +16,12 @@ import java.util.Optional;
 public interface InfluencerRepository extends JpaRepository<Influencer, Long> {
     Optional<Influencer> findByUserId(Long userId);
 
-    @Query("select i from Influencer i join i.user u where u.name like %:userName% and (i.niche = :niche or :niche is null)")
-    Page<Influencer> findAll(@Param("userName")String userName,@Param("niche") Niche niche,Pageable pageable);
+    @Query("select i from Influencer i join i.user u " +
+            "where u.name like %:userName% " +
+            "and (:niches is null or i.niche in :niches)")
+    Page<Influencer> findAll(
+            @Param("userName") String userName,
+            @Param("niches") Niche[] niches,
+            Pageable pageable);
 
 }
