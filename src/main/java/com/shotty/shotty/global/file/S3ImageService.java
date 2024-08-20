@@ -1,4 +1,4 @@
-package com.shotty.shotty;
+package com.shotty.shotty.global.file;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -57,7 +57,7 @@ public class S3ImageService {
         }
 
         String extention = filename.substring(lastDotIndex + 1).toLowerCase();
-        List<String> allowedExtentionList = Arrays.asList("jpg", "jpeg", "png", "gif");
+        List<String> allowedExtentionList = Arrays.asList("jpg", "jpeg", "png", "gif","mp4");
 
         if (!allowedExtentionList.contains(extention)) {
             throw new S3Exception("올바른 파일 확장자가 아닙니다.");

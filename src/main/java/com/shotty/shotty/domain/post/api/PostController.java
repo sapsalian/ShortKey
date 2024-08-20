@@ -1,8 +1,6 @@
 package com.shotty.shotty.domain.post.api;
 
-import com.shotty.shotty.S3ImageService;
 import com.shotty.shotty.domain.post.application.PostService;
-import com.shotty.shotty.domain.post.dto.PostPatchDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.post.dto.PostResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
@@ -21,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
