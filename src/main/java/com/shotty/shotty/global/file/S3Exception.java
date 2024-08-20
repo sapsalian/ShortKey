@@ -1,4 +1,4 @@
-package com.shotty.shotty;
+package com.shotty.shotty.global.file;
 
 public class S3Exception extends RuntimeException {
     public S3Exception() {}

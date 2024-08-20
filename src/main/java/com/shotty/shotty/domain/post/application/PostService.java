@@ -8,6 +8,13 @@ import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.post.dao.PostRepository;
 import com.shotty.shotty.domain.post.domain.Post;
 import com.shotty.shotty.domain.post.dto.*;
+import com.shotty.shotty.global.file.S3ImageService;
+import com.shotty.shotty.domain.post.dao.PostRepository;
+import com.shotty.shotty.domain.post.domain.Post;
+import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
+import com.shotty.shotty.domain.post.dto.PostPatchDto;
+import com.shotty.shotty.domain.post.dto.PostRequestDto;
+import com.shotty.shotty.domain.post.dto.PostResponseDto;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
@@ -22,7 +29,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -30,16 +36,12 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final ApplyRepository applyRepository;
-    private final S3ImageService s3ImageService;
     private final InfluencerRepository influencerRepository;
 
     public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
-        String imgUrl = imageSave(postRequestDto.post_image());
-        ImgContainedPostDto imgContainedPostDto = ImgContainedPostDto.of(postRequestDto, imgUrl);
-
         User user = userRepository.findById(authorId).orElseThrow(() -> new UserNotFoundException("작성자는 존재하지 않는 유저입니다."));
 
-        Post post = Post.of(imgContainedPostDto, user);
+        Post post = Post.of(postRequestDto, user);
 
         post = postRepository.save(post);
 
@@ -139,6 +141,7 @@ public class PostService {
         return userRepository.save(User.from(encryptedUserDto));
     }
 
+
     public PostResponseDto update(Long postId, PostRequestDto postRequestDto, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
 
@@ -146,23 +149,9 @@ public class PostService {
             throw new PermissionException("공고에 대한 수정권한이 없는 사용자입니다.");
         }
 
-        imageDelete(post.getPost_image());
-        String imgUrl = imageSave(postRequestDto.post_image());
-        ImgContainedPostDto imgContainedPostDto = ImgContainedPostDto.of(postRequestDto, imgUrl);
-        PatchUtil.applyPatch(post, imgContainedPostDto);
+        PatchUtil.applyPatch(post, postRequestDto);
         post = postRepository.save(post);
 
         return PostResponseDto.from(post);
-    }
-
-    //S3에 저장된 이미지 삭제
-    private void imageDelete(String post_image) {
-        s3ImageService.deleteImageFromS3(post_image);
-
-    }
-
-    //S3에 이미지 저장
-    private String imageSave(MultipartFile file) {
-        return s3ImageService.upload(file);
     }
 }

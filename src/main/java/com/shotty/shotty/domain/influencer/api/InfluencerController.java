@@ -1,8 +1,7 @@
 package com.shotty.shotty.domain.influencer.api;
 
-import com.shotty.shotty.S3ImageService;
+import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.domain.influencer.application.InfluencerService;
-import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
 import com.shotty.shotty.domain.influencer.dto.*;
 import com.shotty.shotty.domain.influencer.enums.Niche;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
@@ -10,7 +9,6 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
@@ -67,11 +65,11 @@ public class InfluencerController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping(value = "/influencers",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/influencers")
     @Operation(summary = "인플루언서 등록", description = "등록 폼을 통해 인플루언서 등록")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> registerInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
-            @ModelAttribute RegisterInfluencerDto registerInfluencerDto
+            @RequestBody RegisterInfluencerDto registerInfluencerDto
     ) {
         ResponseInfluencerDto responseInfluencerDto = influencerService.register(user_id,registerInfluencerDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
@@ -87,7 +85,7 @@ public class InfluencerController {
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> updateInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
             @PathVariable("id") Long influencer_id,
-            @Valid @ModelAttribute InfluencerUpdateRequestDto influencerUpdateRequestDto) {
+            @Valid @RequestBody InfluencerUpdateRequestDto influencerUpdateRequestDto) {
         ResponseInfluencerDto responseInfluencerDto = influencerService.update(user_id, influencer_id, influencerUpdateRequestDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
                 2006,
@@ -107,7 +105,7 @@ public class InfluencerController {
                 "인플루언서 등록 취소 성공",
                 null
         );
-      
+
        return ResponseEntity.ok(responseDto);
     }
 

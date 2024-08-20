@@ -1,6 +1,5 @@
 package com.shotty.shotty.domain.post.api;
 
-import com.shotty.shotty.S3ImageService;
 import com.shotty.shotty.domain.post.application.PostService;
 import com.shotty.shotty.domain.post.dto.PostDetailResDto;
 import com.shotty.shotty.domain.post.dto.PostPatchDto;
@@ -22,7 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +32,7 @@ public class PostController {
     @Operation(summary = "공고 등록", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<ResponseDto<PostResponseDto>> postPost(
             @Parameter(hidden = true) @TokenId Long authorId,
-            @Valid @ModelAttribute PostRequestDto postRequestDto) {
+            @Valid @RequestBody PostRequestDto postRequestDto) {
         PostResponseDto postResponseDto = postService.save(authorId ,postRequestDto);
 
         ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
@@ -103,7 +101,7 @@ public class PostController {
     public ResponseEntity<ResponseDto<PostResponseDto>> updatePost(
             @Parameter(hidden = true) @TokenId Long userId,
             @PathVariable Long postId,
-            @Valid @ModelAttribute PostRequestDto postRequestDto
+            @Valid @RequestBody PostRequestDto postRequestDto
     ) {
         PostResponseDto postResponseDto = postService.update(postId, postRequestDto, userId);
 
