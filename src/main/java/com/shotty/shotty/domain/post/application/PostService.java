@@ -1,18 +1,17 @@
 package com.shotty.shotty.domain.post.application;
 
 import com.shotty.shotty.S3ImageService;
+import com.shotty.shotty.domain.apply.dao.ApplyRepository;
+import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
+import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.post.dao.PostRepository;
 import com.shotty.shotty.domain.post.domain.Post;
-import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
-import com.shotty.shotty.domain.post.dto.PostPatchDto;
-import com.shotty.shotty.domain.post.dto.PostRequestDto;
-import com.shotty.shotty.domain.post.dto.PostResponseDto;
-import com.shotty.shotty.domain.user.application.UserService;
+import com.shotty.shotty.domain.post.dto.*;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
-import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
@@ -30,7 +29,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ApplyRepository applyRepository;
     private final S3ImageService s3ImageService;
+    private final InfluencerRepository influencerRepository;
 
     public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
         String imgUrl = imageSave(postRequestDto.post_image());
@@ -94,11 +95,24 @@ public class PostService {
         post = postRepository.save(post);
     }
 
-    public PostResponseDto findById(Long postId) {
+    public PostDetailResDto findById(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
 
-        return PostResponseDto.from(post);
+        if (userId == null){
+            return PostDetailResDto.of(post, null);
+        }
+
+        Influencer influencer = influencerRepository.findByUserId(userId)
+                .orElse(null);
+
+        Apply apply = null;
+        if (influencer != null) {
+            apply = applyRepository.findByInfluencerId(influencer.getId())
+                    .orElse(null);
+        }
+
+        return PostDetailResDto.of(post, apply);
     }
 
     public void deleteAllByUserId(Long userId) {

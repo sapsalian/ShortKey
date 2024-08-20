@@ -31,6 +31,10 @@ public class ApplyResponseDto {
     private String postContent;
 
     public static ApplyResponseDto from(Apply apply) {
+        if (apply == null) {
+            return null;
+        }
+
         return new ApplyResponseDto(
                 apply.getId(),
                 apply.getTitle(),

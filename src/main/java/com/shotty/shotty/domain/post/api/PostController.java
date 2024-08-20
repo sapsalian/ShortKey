@@ -2,6 +2,7 @@ package com.shotty.shotty.domain.post.api;
 
 import com.shotty.shotty.S3ImageService;
 import com.shotty.shotty.domain.post.application.PostService;
+import com.shotty.shotty.domain.post.dto.PostDetailResDto;
 import com.shotty.shotty.domain.post.dto.PostPatchDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.post.dto.PostResponseDto;
@@ -85,13 +86,13 @@ public class PostController {
 
     @GetMapping("/api/posts/{postId}")
     @Operation(summary = "공고 개별 조회")
-    public ResponseEntity<ResponseDto<PostResponseDto>> getPost(@PathVariable Long postId) {
-        PostResponseDto postResponseDto = postService.findById(postId);
+    public ResponseEntity<ResponseDto<PostDetailResDto>> getPost(@PathVariable Long postId, @Parameter(hidden = true) @TokenId Long userId) {
+        PostDetailResDto postDetailResDto = postService.findById(postId, userId);
 
-        ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
+        ResponseDto<PostDetailResDto> responseDto = new ResponseDto<>(
                 2002,
                 "공고 개별 조회 성공",
-                postResponseDto
+                postDetailResDto
         );
 
         return ResponseEntity.ok(responseDto);
