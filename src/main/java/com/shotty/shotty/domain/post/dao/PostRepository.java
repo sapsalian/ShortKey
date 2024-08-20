@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAll(Pageable pageable);
 
+    Page<Post> findAllByAuthorId(Long userId, Pageable pageable);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE posts " +

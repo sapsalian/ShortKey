@@ -21,7 +21,7 @@ Content-Type: application/json
 
 ### test : post 등록
 POST localhost:8080/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3NTk3N30.Bylxz7B356rFpiz_ZK3rnXd4fkPI7FkNEedXI-VX8tI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDE0MTU0Nn0.AEgc3SsFuvho1z4v0b47RchQch38cIFrz4DTUqy40Ac
 Content-Type: application/json
 
 {
@@ -35,12 +35,16 @@ Content-Type: application/json
 ### test : 공고 전체 조회
 GET localhost:8080/api/posts
 
+### test : 내가 올린 공고 전체 조회
+GET localhost:8080/api/posts/my
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDE0MTU0Nn0.AEgc3SsFuvho1z4v0b47RchQch38cIFrz4DTUqy40Ac
+
 ### test : 공고 개별 조회
 GET localhost:8080/api/posts/1
 
 ### test : 공고 수정
 PUT localhost:8080/api/posts/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMzE3NTk3N30.Bylxz7B356rFpiz_ZK3rnXd4fkPI7FkNEedXI-VX8tI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDE0MTU0Nn0.AEgc3SsFuvho1z4v0b47RchQch38cIFrz4DTUqy40Ac
 Content-Type: application/json
 
 {
@@ -53,4 +57,4 @@ Content-Type: application/json
 
 ### test : 공고 삭제
 DELETE localhost:8080/api/posts/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyMjg1NTQ3Nn0.020kZQ86UOTGhUwP-yheYY44gasbAEqhIShPYAAxeHU
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDE0MTU0Nn0.AEgc3SsFuvho1z4v0b47RchQch38cIFrz4DTUqy40Ac

@@ -1,5 +1,13 @@
 package com.shotty.shotty.domain.post.application;
 
+import com.shotty.shotty.S3ImageService;
+import com.shotty.shotty.domain.apply.dao.ApplyRepository;
+import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
+import com.shotty.shotty.domain.influencer.domain.Influencer;
+import com.shotty.shotty.domain.post.dao.PostRepository;
+import com.shotty.shotty.domain.post.domain.Post;
+import com.shotty.shotty.domain.post.dto.*;
 import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.domain.post.dao.PostRepository;
 import com.shotty.shotty.domain.post.domain.Post;
@@ -27,6 +35,8 @@ import org.springframework.stereotype.Service;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final ApplyRepository applyRepository;
+    private final InfluencerRepository influencerRepository;
 
     public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
         User user = userRepository.findById(authorId).orElseThrow(() -> new UserNotFoundException("작성자는 존재하지 않는 유저입니다."));
@@ -49,6 +59,19 @@ public class PostService {
 
         return posts.map(PostResponseDto::from);
     }
+
+    public Page<PostResponseDto> findAllByUserId(Long userId, Pageable pageable) {
+        Page<Post> posts = null;
+
+        try {
+            posts = postRepository.findAllByAuthorId(userId, pageable);
+        } catch (PropertyReferenceException e) {
+            throw new NoSuchSortFieldException();
+        }
+
+        return posts.map(PostResponseDto::from);
+    }
+
 
     public PostResponseDto edit(Long postId, PostPatchDto postPatchDto, Long userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
@@ -74,11 +97,24 @@ public class PostService {
         post = postRepository.save(post);
     }
 
-    public PostResponseDto findById(Long postId) {
+    public PostDetailResDto findById(Long postId, Long userId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 공고입니다."));
 
-        return PostResponseDto.from(post);
+        if (userId == null){
+            return PostDetailResDto.of(post, null);
+        }
+
+        Influencer influencer = influencerRepository.findByUserId(userId)
+                .orElse(null);
+
+        Apply apply = null;
+        if (influencer != null) {
+            apply = applyRepository.findByInfluencerId(influencer.getId())
+                    .orElse(null);
+        }
+
+        return PostDetailResDto.of(post, apply);
     }
 
     public void deleteAllByUserId(Long userId) {

@@ -1,6 +1,8 @@
 package com.shotty.shotty.domain.post.api;
 
 import com.shotty.shotty.domain.post.application.PostService;
+import com.shotty.shotty.domain.post.dto.PostDetailResDto;
+import com.shotty.shotty.domain.post.dto.PostPatchDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.post.dto.PostResponseDto;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
@@ -59,15 +61,36 @@ public class PostController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @GetMapping("/api/posts/my")
+    @Operation(summary = "내가 올린 공고 전체 조회")
+    public ResponseEntity<ResponseDto<Page<PostResponseDto>>> getMyPosts(
+            @ParameterObject @PageableDefault(size = 10, page = 0, sort = "createdAt", direction = Sort.Direction.DESC)
+            Pageable pageable,
+
+            @Parameter(hidden = true)
+            @TokenId
+            Long userId
+    ) {
+        Page<PostResponseDto> postPage = postService.findAllByUserId(userId, pageable);
+
+        ResponseDto<Page<PostResponseDto>> responseDto = new ResponseDto<>(
+                2002,
+                "내가 올린 공고 전체 조회 성공",
+                postPage
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @GetMapping("/api/posts/{postId}")
     @Operation(summary = "공고 개별 조회")
-    public ResponseEntity<ResponseDto<PostResponseDto>> getPost(@PathVariable Long postId) {
-        PostResponseDto postResponseDto = postService.findById(postId);
+    public ResponseEntity<ResponseDto<PostDetailResDto>> getPost(@PathVariable Long postId, @Parameter(hidden = true) @TokenId Long userId) {
+        PostDetailResDto postDetailResDto = postService.findById(postId, userId);
 
-        ResponseDto<PostResponseDto> responseDto = new ResponseDto<>(
+        ResponseDto<PostDetailResDto> responseDto = new ResponseDto<>(
                 2002,
                 "공고 개별 조회 성공",
-                postResponseDto
+                postDetailResDto
         );
 
         return ResponseEntity.ok(responseDto);
