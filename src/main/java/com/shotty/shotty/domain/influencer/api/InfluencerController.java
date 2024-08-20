@@ -1,8 +1,7 @@
 package com.shotty.shotty.domain.influencer.api;
 
-import com.shotty.shotty.S3ImageService;
+import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.domain.influencer.application.InfluencerService;
-import com.shotty.shotty.domain.influencer.domain.InfluencerPatch;
 import com.shotty.shotty.domain.influencer.dto.*;
 import com.shotty.shotty.domain.influencer.enums.Niche;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
@@ -10,7 +9,6 @@ import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,7 +52,7 @@ public class InfluencerController {
     @Operation(summary = "전체 조회", description = "쿼리 파라미터로 받은 페이지네이션 정보로 인플루언서 전체 조회")
     public ResponseEntity<ResponseDto<Page<ResponseInfluencerDto>>> getAllInfluencers(
             @ParameterObject @PageableDefault(size = 10, sort = "subscribers", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(required = false, defaultValue = "") String userName, @RequestParam(required = false) Niche niche) {
+            @RequestParam(required = false, defaultValue = "") String userName, @RequestParam(required = false) Niche[]  niche) {
         log.info("userName:{},niche:{}", userName, niche);
         InfluencerSearchInfo influencerSearchInfo = new InfluencerSearchInfo(userName, niche);
         Page<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers(pageable, influencerSearchInfo);
@@ -70,7 +69,7 @@ public class InfluencerController {
     @Operation(summary = "인플루언서 등록", description = "등록 폼을 통해 인플루언서 등록")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> registerInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
-            @ModelAttribute RegisterInfluencerDto registerInfluencerDto
+            @RequestBody RegisterInfluencerDto registerInfluencerDto
     ) {
         ResponseInfluencerDto responseInfluencerDto = influencerService.register(user_id,registerInfluencerDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
@@ -86,7 +85,7 @@ public class InfluencerController {
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> updateInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
             @PathVariable("id") Long influencer_id,
-            @Valid @ModelAttribute InfluencerUpdateRequestDto influencerUpdateRequestDto) {
+            @Valid @RequestBody InfluencerUpdateRequestDto influencerUpdateRequestDto) {
         ResponseInfluencerDto responseInfluencerDto = influencerService.update(user_id, influencer_id, influencerUpdateRequestDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(
                 2006,
@@ -106,7 +105,7 @@ public class InfluencerController {
                 "인플루언서 등록 취소 성공",
                 null
         );
-      
+
        return ResponseEntity.ok(responseDto);
     }
 

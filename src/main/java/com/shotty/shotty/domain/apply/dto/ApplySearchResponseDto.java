@@ -9,9 +9,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class ApplySearchResponseDto {
     @Schema(description = "지원 식별 Id",example = "1L")
-    private Long id;
+    private Long apply_id;
     @Schema(description = "지원 폼 제목",example = "구름빵 홍보 영상 지원합니다")
     private String title;
+
+    @Schema(description = "공고 식별 Id",example = "1L")
+    private Long post_id;
 
     @Schema(description = "등록한 공고의 title",example = "구름빵 홍보 영상")
     private String postTitle;
@@ -23,6 +26,7 @@ public class ApplySearchResponseDto {
         return new ApplySearchResponseDto(
                 apply.getId(),
                 apply.getTitle(),
+                apply.getPost().getId(),
                 apply.getPost().getTitle(),
                 apply.isBidded()
         );

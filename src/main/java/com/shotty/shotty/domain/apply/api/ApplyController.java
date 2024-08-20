@@ -45,7 +45,25 @@ public class ApplyController {
         List<ApplySearchResponseDto> applies = applyService.findAppliesByInfluencerId(influencer_id);
         String statusMsg = "지원 목록 조회 성공";
         if (applies.isEmpty()) {
-            statusMsg = "지원 목록 조회 성공(지원한 공고가 없습니다";
+            statusMsg = "지원 목록 조회 성공(지원한 공고가 없습니다)";
+        }
+
+        ResponseDto<List<ApplySearchResponseDto>> response = new ResponseDto<>(
+                2002,
+                statusMsg,
+                applies
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/applies/my")
+    @Operation(summary = "자신이 지원한 목록 조회",description = "토큰 ID로 해당 인플루언서가 지원한 목록 조회")
+    public ResponseEntity<ResponseDto<List<ApplySearchResponseDto>>> getMyApplies(
+            @Parameter(hidden = true) @TokenId Long user_id) {
+        List<ApplySearchResponseDto> applies = applyService.findAppliesByUserId(user_id);
+        String statusMsg = "지원 목록 조회 성공";
+        if (applies.isEmpty()) {
+            statusMsg = "지원 목록 조회 성공(지원한 공고가 없습니다)";
         }
 
         ResponseDto<List<ApplySearchResponseDto>> response = new ResponseDto<>(

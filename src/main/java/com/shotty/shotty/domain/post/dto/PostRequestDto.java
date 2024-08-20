@@ -33,8 +33,8 @@ public record PostRequestDto(
         @NotNull(message = "마감일은 필수 입력 사항입니다.")
         LocalDate endDate,
 
-        @Schema(description = "공고 이미지 파일",example = "hannie.png")
+        @Schema(description = "공고 이미지 파일",example = "asdf123123")
         @Nullable
-        MultipartFile post_image
+        String post_image
 ) {
 }

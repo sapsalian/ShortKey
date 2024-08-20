@@ -81,6 +81,18 @@ public class ApplyService {
         return applies.stream().map(ApplySearchResponseDto::from).toList();
     }
 
+    public List<ApplySearchResponseDto> findAppliesByUserId(Long user_id) {
+        Influencer influencer = influencerRepository.findByUserId(user_id).orElseThrow(
+                () -> new InfluencerNotFoundException("인플루언서로 등록된 유저가 아닙니다")
+        );
+
+        List<Apply> applies = applyRepository.findAllByInfluencerId(influencer.getId());
+
+        return applies.stream().map(ApplySearchResponseDto::from).toList();
+    }
+
+
+
 
 
     private Post getPost(Long post_id) {
