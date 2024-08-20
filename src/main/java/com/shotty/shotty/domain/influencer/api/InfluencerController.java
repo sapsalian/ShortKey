@@ -20,9 +20,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -50,7 +53,7 @@ public class InfluencerController {
     @Operation(summary = "전체 조회", description = "쿼리 파라미터로 받은 페이지네이션 정보로 인플루언서 전체 조회")
     public ResponseEntity<ResponseDto<Page<ResponseInfluencerDto>>> getAllInfluencers(
             @ParameterObject @PageableDefault(size = 10, sort = "subscribers", direction = Sort.Direction.DESC) Pageable pageable,
-            @RequestParam(required = false, defaultValue = "") String userName, @RequestParam(required = false) Niche niche) {
+            @RequestParam(required = false, defaultValue = "") String userName, @RequestParam(required = false) Niche[]  niche) {
         log.info("userName:{},niche:{}", userName, niche);
         InfluencerSearchInfo influencerSearchInfo = new InfluencerSearchInfo(userName, niche);
         Page<ResponseInfluencerDto> influencers = influencerService.findAllInfluencers(pageable, influencerSearchInfo);
@@ -63,7 +66,7 @@ public class InfluencerController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @PostMapping(value = "/influencers")
+    @PostMapping(value = "/influencers",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "인플루언서 등록", description = "등록 폼을 통해 인플루언서 등록")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> registerInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
