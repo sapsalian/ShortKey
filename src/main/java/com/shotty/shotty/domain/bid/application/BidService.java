@@ -2,6 +2,7 @@ package com.shotty.shotty.domain.bid.application;
 
 import com.shotty.shotty.domain.apply.dao.ApplyRepository;
 import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.balance.application.BalanceService;
 import com.shotty.shotty.domain.bid.dao.BidRepository;
 import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.bid.dto.BidRequestDto;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 public class BidService {
     private final BidRepository bidRepository;
     private final ApplyRepository applyRepository;
+    private final BalanceService balanceService;
 
     public BidResponseDto create(BidRequestDto requestDto) {
         Long applyId = requestDto.applyId();
@@ -69,6 +71,7 @@ public class BidService {
         bidRepository.deleteAllByInfluencerId(influencerId);
     }
 
+    @Transactional
     public void acceptBid(Long accepterId, Long bidId) {
         Bid bid = bidRepository.findById(bidId).orElseThrow(
                 () -> new NoSuchResourcException("존재하지 않는 입찰내역입니다.")
@@ -80,6 +83,7 @@ public class BidService {
             throw new PermissionException("해당 입찰 내역에 대해 승인 권한이 없습니다.");
         }
 
+        balanceService.transfer(accepterId, bid.getApply().getInfluencer().getUser().getId(), bid.getApply().getPost().getPrice());
         bid.accept();
         bidRepository.save(bid);
     }

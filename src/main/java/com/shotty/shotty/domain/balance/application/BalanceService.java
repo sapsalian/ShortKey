@@ -44,15 +44,15 @@ public class BalanceService {
     }
 
     @Transactional
-    public void Transfer(Long fromUserId, Long toUserId, ChangeBalanceDto changeBalanceDto) {
+    public void transfer(Long fromUserId, Long toUserId, int amount) {
         User from = userRepository.findById(fromUserId)
                 .orElseThrow(() -> new UserNotFoundException("존재하지 않는 유저의 전송 요청입니다."));
 
         User to = userRepository.findById(toUserId)
                 .orElseThrow(() -> new UserNotFoundException("존재하지 않는 대상으로의 전송입니다."));
 
-        from.withdraw(changeBalanceDto.amount());
-        to.deposit(changeBalanceDto.amount());
+        from.withdraw(amount);
+        to.deposit(amount);
 
         userRepository.save(from);
         userRepository.save(to);
