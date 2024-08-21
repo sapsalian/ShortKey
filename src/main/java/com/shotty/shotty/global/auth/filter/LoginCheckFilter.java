@@ -57,7 +57,7 @@ public class LoginCheckFilter implements Filter {
 
         boolean isAllowed = whiteList.entrySet().stream()
                 .anyMatch(entry -> matchesPath(entry.getKey(), path) &&
-                        entry.getValue().contains(method));
+                        entry.getValue().contains(method)) || method.equals("OPTIONS");
 
         if( isAllowed ){
             filterChain.doFilter(request, response);
