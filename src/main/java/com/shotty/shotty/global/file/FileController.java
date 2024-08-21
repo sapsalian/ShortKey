@@ -19,13 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileController {
     private final S3ImageService s3ImageService;
 
-    @Operation(summary = "영상 업로드", description = "요청 받은 영상을 s3에 업로드")
+    @Operation(summary = "파일 업로드", description = "요청 받은 파일을 s3에 업로드")
     @PostMapping(value = "/files",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDto<String>> uploadS3(@RequestParam("file") MultipartFile file) {
         String url = s3ImageService.upload(file);
         ResponseDto<String> response = new ResponseDto<>(
                 2000,
-                "영상 업로드 성공",
+                "파일 업로드 성공",
                 url
         );
 
