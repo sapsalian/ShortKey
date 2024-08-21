@@ -1,6 +1,5 @@
 package com.shotty.shotty.domain.post.application;
 
-import com.shotty.shotty.S3ImageService;
 import com.shotty.shotty.domain.apply.dao.ApplyRepository;
 import com.shotty.shotty.domain.apply.domain.Apply;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
@@ -8,10 +7,6 @@ import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.post.dao.PostRepository;
 import com.shotty.shotty.domain.post.domain.Post;
 import com.shotty.shotty.domain.post.dto.*;
-import com.shotty.shotty.global.file.S3ImageService;
-import com.shotty.shotty.domain.post.dao.PostRepository;
-import com.shotty.shotty.domain.post.domain.Post;
-import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
 import com.shotty.shotty.domain.post.dto.PostPatchDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.post.dto.PostResponseDto;
