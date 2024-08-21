@@ -6,7 +6,6 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -34,9 +33,9 @@ public record PostRequestDto(
         @NotNull(message = "마감일은 필수 입력 사항입니다.")
         LocalDate endDate,
 
-        @Schema(description = "공고 이미지 파일",example = "asdf123123")
+        @Schema(description = "공고 이미지 파일",example = "https://cdn.imweb.me/thumbnail/20190125/5c49d5de95c61.png")
         @Nullable
         @URL
-        String post_image
+        String postImage
 ) {
 }

@@ -27,14 +27,14 @@ public class LoginCheckFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // 화이트리스트 초기화
-        whiteList.put("/api/auth/register", new HashSet<>(Collections.singletonList("POST")));
-        whiteList.put("/api/auth/login", new HashSet<>(Collections.singletonList("POST")));
-        whiteList.put("/api/influencers", new HashSet<>(Collections.singletonList("GET")));
-        whiteList.put("/api/influencers/{id}", new HashSet<>(Collections.singletonList("GET")));
-        whiteList.put("/api/influencers/niches", new HashSet<>(Collections.singletonList("GET")));
-        whiteList.put("/api/users/{id}", new HashSet<>(Collections.singletonList("GET")));
-        whiteList.put("/api/posts", new HashSet<>(Collections.singletonList("GET")));
-        whiteList.put("/api/posts/{postId}", new HashSet<>(Collections.singletonList("GET")));
+        whiteList.put("/api/auth/register", new HashSet<>(Arrays.asList("POST", "OPTIONS")));
+        whiteList.put("/api/auth/login", new HashSet<>(Arrays.asList("POST", "OPTIONS")));
+        whiteList.put("/api/influencers", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
+        whiteList.put("/api/influencers/{id}", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
+        whiteList.put("/api/influencers/niches", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
+        whiteList.put("/api/users/{id}", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
+        whiteList.put("/api/posts", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
+        whiteList.put("/api/posts/{postId}", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class LoginCheckFilter implements Filter {
 
         boolean isAllowed = whiteList.entrySet().stream()
                 .anyMatch(entry -> matchesPath(entry.getKey(), path) &&
-                        entry.getValue().contains(method));
+                        entry.getValue().contains(method)) || method.equals("OPTIONS");
 
         if( isAllowed ){
             filterChain.doFilter(request, response);

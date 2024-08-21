@@ -1,6 +1,5 @@
 package com.shotty.shotty.domain.post.domain;
 
-import com.shotty.shotty.domain.post.dto.ImgContainedPostDto;
 import com.shotty.shotty.domain.post.dto.PostRequestDto;
 import com.shotty.shotty.domain.user.domain.User;
 import jakarta.persistence.*;
@@ -62,7 +61,7 @@ public class Post {
                 postRequestDto.content(),
                 postRequestDto.price(),
                 postRequestDto.extraPrice(),
-                postRequestDto.post_image(),
+                postRequestDto.postImage(),
                 postRequestDto.endDate(),
                 author
         );

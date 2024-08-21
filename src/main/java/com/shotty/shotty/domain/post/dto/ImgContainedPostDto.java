@@ -8,7 +8,7 @@ public record ImgContainedPostDto(
         String content,
         int price,
         int extraPrice,
-        String post_image,
+        String postImage,
         LocalDate endDate
 ) {
     public static ImgContainedPostDto of(PostRequestDto postRequestDto, String post_image) {
