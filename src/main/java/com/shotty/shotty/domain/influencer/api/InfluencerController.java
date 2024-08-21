@@ -69,7 +69,7 @@ public class InfluencerController {
     @Operation(summary = "인플루언서 등록", description = "등록 폼을 통해 인플루언서 등록")
     public ResponseEntity<ResponseDto<ResponseInfluencerDto>> registerInfluencer(
             @Parameter(hidden = true) @TokenId Long user_id,
-            @RequestBody RegisterInfluencerDto registerInfluencerDto
+            @Valid @RequestBody RegisterInfluencerDto registerInfluencerDto
     ) {
         ResponseInfluencerDto responseInfluencerDto = influencerService.register(user_id,registerInfluencerDto);
         ResponseDto<ResponseInfluencerDto> responseDto = new ResponseDto<>(

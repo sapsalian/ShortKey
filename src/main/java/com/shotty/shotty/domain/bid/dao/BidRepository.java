@@ -16,12 +16,6 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE bids FROM bids " +
-            "INNER JOIN applies ON bids.apply_id = applies.id " +
-            "INNER JOIN influencers ON applies.influencer_id = influencers.influencer_id " +
-            "WHERE influencers.influencer_id = :influencerId",
-
-            nativeQuery = true
-    )
+    @Query("DELETE FROM Bid b WHERE b.apply.influencer.id = :influencerId")
     void deleteAllByInfluencerId(@Param("influencerId") Long influencerId);
 }

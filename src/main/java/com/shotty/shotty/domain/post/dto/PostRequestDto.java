@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -35,6 +36,7 @@ public record PostRequestDto(
 
         @Schema(description = "공고 이미지 파일",example = "asdf123123")
         @Nullable
+        @URL
         String post_image
 ) {
 }

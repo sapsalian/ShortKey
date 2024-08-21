@@ -7,6 +7,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
@@ -23,6 +24,7 @@ public class RegisterInfluencerDto {
     private Niche niche;
     @Nullable
     @Schema(description = "프로필 이미지 url",example = "asdfasdf123")
+    @URL
     private String profile_image;
 
 }
