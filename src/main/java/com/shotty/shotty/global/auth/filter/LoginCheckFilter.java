@@ -20,7 +20,7 @@ import java.util.*;
 public class LoginCheckFilter implements Filter {
     private final JwtProvider jwtProvider;
     private static final List<String> whiteListSwagger = Arrays.asList(
-            "/swagger-ui","/v3/api-docs","/api/files"
+            "/swagger-ui","/v3/api-docs"
     );
     private final Map<String, Set<String>> whiteList = new HashMap<>();
 

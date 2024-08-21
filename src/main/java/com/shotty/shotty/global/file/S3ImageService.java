@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class S3ImageService {
@@ -103,11 +105,19 @@ public class S3ImageService {
         if (imageAddress == null) {
             return;
         }
-        String key = getKeyFromImageAddress(imageAddress);
+        String key;
+        try {
+            key = getKeyFromImageAddress(imageAddress);
+        }catch (Exception e){
+            log.info("getKeyFromImageAddress 실패");
+            return;
+        }
+
         try{
             amazonS3.deleteObject(new DeleteObjectRequest(bucketName, key));
         }catch (Exception e){
-            throw new S3Exception("삭제 요청 실패");
+            log.info("이미지 삭제 실패");
+            return;
         }
     }
 
