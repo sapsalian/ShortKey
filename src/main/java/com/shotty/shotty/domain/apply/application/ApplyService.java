@@ -20,6 +20,7 @@ import com.shotty.shotty.domain.user.enums.UserRoleEnum;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
+import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.global.util.PatchUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class ApplyService {
     private final InfluencerRepository influencerRepository;
 
     private final BidService bidService;
+    private final S3ImageService s3ImageService;
 
     public ApplyResponseDto apply(Long user_id, Long post_id , ApplyRequestDto applyRequestDto) {
         Influencer influencer = getInfluencer(user_id);
@@ -66,6 +68,11 @@ public class ApplyService {
             throw new PermissionException("지원자 본인만 지원 내용을 수정할 수 있습니다.");
         }
 
+        String original_videoLink = apply.getVideoLink();
+        if(!original_videoLink.equals(applyRequestDto.getVideoLink())) {
+            imageDelete(original_videoLink);
+        }
+
         PatchUtil.applyPatch(apply,applyRequestDto);
 
         return ApplyResponseDto.from(apply);
@@ -91,9 +98,21 @@ public class ApplyService {
         return applies.stream().map(ApplySearchResponseDto::from).toList();
     }
 
+    public void cancel(Long user_id, Long apply_id) {
+        Apply apply = applyRepository.findById(apply_id).orElseThrow(
+                () -> new NoSuchResourcException("존재하지 않는 지원Id")
+        );
+        Long applier_user_id = apply.getInfluencer().getUser().getId();//###쿼리 개수 확인
+        if (!applier_user_id.equals(user_id)) {
+            throw new PermissionException("지원자 본인만 지원을 취소할 수 있습니다.");
+        }
+        applyRepository.delete(apply);
+    }
 
-
-
+    public void deleteByInfluencerId(Long influencer_id) {
+        bidService.deleteByInfluencerId(influencer_id);
+        applyRepository.deleteByInfluencerId(influencer_id);
+    }
 
     private Post getPost(Long post_id) {
         Post post = postRepository.findById(post_id).orElseThrow(
@@ -116,19 +135,6 @@ public class ApplyService {
         return user.getInfluencer();
     }
 
-    public void cancel(Long user_id, Long apply_id) {
-        Apply apply = applyRepository.findById(apply_id).orElseThrow(
-                () -> new NoSuchResourcException("존재하지 않는 지원Id")
-        );
-        Long applier_user_id = apply.getInfluencer().getUser().getId();//###쿼리 개수 확인
-        if (!applier_user_id.equals(user_id)) {
-            throw new PermissionException("지원자 본인만 지원을 취소할 수 있습니다.");
-        }
-        applyRepository.delete(apply);
-    }
-
-    public void deleteByInfluencerId(Long influencer_id) {
-        bidService.deleteByInfluencerId(influencer_id);
-        applyRepository.deleteByInfluencerId(influencer_id);
-    }
+    //S3에 저장된 이미지 삭제
+    private void imageDelete(String profile_image) {s3ImageService.deleteImageFromS3(profile_image);}
 }
