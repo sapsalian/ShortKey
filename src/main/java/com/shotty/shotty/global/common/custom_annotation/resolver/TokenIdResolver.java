@@ -22,10 +22,12 @@ public class TokenIdResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Long resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        String token = webRequest.getHeader("Authorization").substring(7);
-
-        Map<String, Object> claims = jwtProvider.getClaims(token);
-
-        return Long.valueOf(claims.get("user_id").toString());
+        try {
+            String token = webRequest.getHeader("Authorization").substring(7);
+            Map<String, Object> claims = jwtProvider.getClaims(token);
+            return Long.valueOf(claims.get("user_id").toString());
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
