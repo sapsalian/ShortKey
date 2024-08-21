@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class ApplyRequestDto {
 
     @Schema(description = "지원 폼 영상 링크",example = "exampleLink@@")
     @NotNull(message = "영상링크를 입력해 주세요")
+    @URL
     private String videoLink;
 
 }

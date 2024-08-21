@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
 
 @Data
 public class ApplyPatchRequestDto {
@@ -17,5 +18,6 @@ public class ApplyPatchRequestDto {
 
     @Schema(description = "지원 폼 영상 링크",example = "exampleLink@@")
     @NotNull
+    @URL
     private String videoLink;
 }
