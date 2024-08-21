@@ -7,6 +7,7 @@ import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +41,20 @@ public class BalanceService {
         user = userRepository.save(user);
 
         return BalanceResDto.from(user);
+    }
+
+    @Transactional
+    public void Transfer(Long fromUserId, Long toUserId, ChangeBalanceDto changeBalanceDto) {
+        User from = userRepository.findById(fromUserId)
+                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 유저의 전송 요청입니다."));
+
+        User to = userRepository.findById(toUserId)
+                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 대상으로의 전송입니다."));
+
+        from.withdraw(changeBalanceDto.amount());
+        to.deposit(changeBalanceDto.amount());
+
+        userRepository.save(from);
+        userRepository.save(to);
     }
 }
