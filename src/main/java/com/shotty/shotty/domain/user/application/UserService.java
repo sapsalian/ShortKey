@@ -6,7 +6,7 @@ import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.domain.user.domain.UserPatch;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
 import com.shotty.shotty.domain.user.dto.UserResponseDto;
-import com.shotty.shotty.domain.user.exception.custom_exception.UserIdDuplicateException;
+import com.shotty.shotty.domain.user.exception.custom_exception.UserFieldNotUniqueException;
 import com.shotty.shotty.domain.user.dao.UserRepository;
 import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundException;
 import com.shotty.shotty.global.auth.dao.RefreshTokenRepository;
@@ -24,10 +24,12 @@ public class UserService {
     private final PostService postService;
 
     public void register(EncryptedUserDto encryptedUserDto) {
+        uniqueCheck(encryptedUserDto);
+
         try {
             userRepository.save(User.from(encryptedUserDto));
         } catch (DataIntegrityViolationException e) {
-            throw new UserIdDuplicateException("이미 존재하는 사용자입니다.");
+            throw new UserFieldNotUniqueException("이미 존재하는 사용자입니다.");
         }
     }
 
@@ -56,6 +58,8 @@ public class UserService {
                 new UserNotFoundException("존재하지 않는 사용자입니다.")
         );
 
+        uniqueCheck(user, userPatch);
+
         PatchUtil.applyPatch(user, userPatch);
         user = userRepository.save(user);
 
@@ -64,5 +68,19 @@ public class UserService {
 
     public void logout(Long user_id) {
         refreshTokenRepository.deleteByUserId(user_id);
+    }
+
+    private void uniqueCheck(EncryptedUserDto encryptedUserDto) {
+
+        if (userRepository.existsByUserId(encryptedUserDto.userId())){
+            throw new UserFieldNotUniqueException("이미 존재하는 id입니다.");
+        }
+    }
+
+    private void uniqueCheck(User user, UserPatch userPatch) {
+
+        if (!user.getUserId().equals(userPatch.userId()) && userRepository.existsByUserId(userPatch.userId())){
+            throw new UserFieldNotUniqueException("이미 존재하는 id입니다.");
+        }
     }
 }

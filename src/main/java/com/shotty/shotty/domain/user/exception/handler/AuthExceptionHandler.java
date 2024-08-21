@@ -2,7 +2,7 @@ package com.shotty.shotty.domain.user.exception.handler;
 
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import com.shotty.shotty.domain.user.exception.custom_exception.LoginFailureException;
-import com.shotty.shotty.domain.user.exception.custom_exception.UserIdDuplicateException;
+import com.shotty.shotty.domain.user.exception.custom_exception.UserFieldNotUniqueException;
 import jakarta.validation.constraints.Null;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +35,11 @@ public class AuthExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
     }
 
-    @ExceptionHandler(UserIdDuplicateException.class)
-    public ResponseEntity<ResponseDto> handleUserIdDuplicateException(UserIdDuplicateException exception) {
+    @ExceptionHandler(UserFieldNotUniqueException.class)
+    public ResponseEntity<ResponseDto> handleUserIdDuplicateException(UserFieldNotUniqueException exception) {
         ResponseDto responseDto = new ResponseDto(
                 (short)4090,
-                "이미 존재하는 사용자입니다.",
+                exception.getMessage(),
                 null
         );
 
