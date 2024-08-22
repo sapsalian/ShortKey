@@ -72,10 +72,14 @@ public class BidService {
     }
 
     @Transactional
-    public void acceptBid(Long accepterId, Long bidId) {
-        Bid bid = bidRepository.findById(bidId).orElseThrow(
+    public void acceptBid(Long accepterId, Long applyId) {
+        Bid bid = bidRepository.findByApplyId(applyId).orElseThrow(
                 () -> new NoSuchResourcException("존재하지 않는 입찰내역입니다.")
         );
+
+        if (bid.getShortsId() == null) {
+            throw new NoSuchResourcException("아직 쇼츠 영상이 업로드 되지 않아 최종승인 할 수 없습니다.");
+        }
 
         Long advertiserId = bid.getApply().getPost().getAuthor().getId();
 

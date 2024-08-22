@@ -32,6 +32,15 @@ Content-Type: application/json
   "endDate": "2024-09-05"
 }
 
+### require 1-4 : advertiser 잔액 충전
+POST localhost:8080/api/balance/deposit
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDI5NzI5M30.lzJGdEkPeCn1hSbqu3EmnQ4x-kmZ9W0j6OWPh-fUU-M
+Content-Type: application/json
+
+{
+  "amount": 6000000
+}
+
 ### require 2-1 : influencer signup
 POST localhost:8080/api/auth/register
 Content-Type: application/json
@@ -91,5 +100,5 @@ Content-Type: application/json
 }
 
 ### test : 입찰 최종승인(advertiser의 액세스토큰 필요)
-POST localhost:8080/api/bids/1/accept
+POST localhost:8080/api/applies/1/accept
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VyUm9sZSI6IkNPTU1PTiIsImV4cCI6MTcyNDI5NzI5M30.lzJGdEkPeCn1hSbqu3EmnQ4x-kmZ9W0j6OWPh-fUU-M
