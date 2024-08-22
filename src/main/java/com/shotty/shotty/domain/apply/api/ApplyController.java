@@ -40,8 +40,8 @@ public class ApplyController {
 
     @GetMapping("/applies/{applyId}")
     @Operation(summary = "지원 상세 조회", description = "지원 id에 해당하는 지원 상세 정보 조회")
-    public ResponseEntity<ResponseDto<ApplySearchResponseDto>> getApply(@PathVariable Long applyId) {
-        ApplySearchResponseDto applySearchResponseDto = applyService.findApply(applyId);
+    public ResponseEntity<ResponseDto<ApplySearchResponseDto>> getApply(@PathVariable Long applyId, @Parameter(hidden = true) @TokenId Long userId) {
+        ApplySearchResponseDto applySearchResponseDto = applyService.findApply(applyId, userId);
         ResponseDto<ApplySearchResponseDto> responseDto = new ResponseDto<>(
                 2002,
                 "지원 조회 성공",
