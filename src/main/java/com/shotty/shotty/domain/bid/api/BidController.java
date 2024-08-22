@@ -45,19 +45,19 @@ public class BidController {
     }
 
     @Operation(summary = "업로드한 쇼츠 영상 id 등록", description = "실제로 업로드한 쇼츠의 id를 등록")
-    @PatchMapping("/api/bids/{bidId}/shorts")
+    @PatchMapping("/api/applies/{applyId}/shorts")
     public ResponseEntity<ResponseDto<Null>> uploadShortsId(
             @TokenId
             @Parameter(hidden = true)
             Long userId,
 
             @PathVariable
-            Long bidId,
+            Long applyId,
 
             @RequestBody
             ShortsIdRequestDto shortsIdRequestDto
     ) {
-        ShortsIdUploadDto shortsIdUploadDto = ShortsIdUploadDto.of(bidId, userId, shortsIdRequestDto);
+        ShortsIdUploadDto shortsIdUploadDto = ShortsIdUploadDto.of(applyId, userId, shortsIdRequestDto);
 
         bidService.updateShortsId(shortsIdUploadDto);
 
@@ -71,16 +71,16 @@ public class BidController {
     }
 
     @Operation(summary = "입찰 승인", description = "업로드된 영상을 확인한 후 광고주의 최종 승인을 담당하는 api")
-    @PostMapping("/api/bids/{bidId}/accept")
+    @PostMapping("/api/applies/{applyId}/accept")
     public ResponseEntity<ResponseDto<Null>> acceptBid(
-            @PathParam("bidId")
-            Long bidId,
+            @PathVariable
+            Long applyId,
 
             @TokenId
             @Parameter(hidden = true)
             Long accepterId
     ) {
-        bidService.acceptBid(accepterId, bidId);
+        bidService.acceptBid(accepterId, applyId);
 
         ResponseDto<Null> responseDto = new ResponseDto<>(
                 2008,

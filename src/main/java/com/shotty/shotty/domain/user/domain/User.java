@@ -35,7 +35,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
-    private Long balance;
+    private Integer balance;
 
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private Influencer influencer;
@@ -50,7 +50,7 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.role = UserRoleEnum.COMMON;
-        this.balance = 0L;
+        this.balance = 0;
     }
 
     public static User from(EncryptedUserDto encryptedUserDto) {
@@ -67,11 +67,11 @@ public class User {
         role = userRoleEnum;
     }
 
-    public void deposit(Long amount) {
+    public void deposit(int amount) {
         balance += amount;
     }
 
-    public void withdraw(Long amount) {
+    public void withdraw(int amount) {
         if (amount > balance) {
             throw new NotEnoughBalanceException("잔액보다 더 큰 금액을 출금할 수 없습니다.");
         }
