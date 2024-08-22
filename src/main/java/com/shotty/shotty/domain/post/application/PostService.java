@@ -32,6 +32,7 @@ public class PostService {
     private final UserRepository userRepository;
     private final ApplyRepository applyRepository;
     private final InfluencerRepository influencerRepository;
+    private final S3ImageService s3ImageService;
 
     public PostResponseDto save(long authorId, @Valid PostRequestDto postRequestDto) {
         User user = userRepository.findById(authorId).orElseThrow(() -> new UserNotFoundException("작성자는 존재하지 않는 유저입니다."));
@@ -143,10 +144,18 @@ public class PostService {
         if (!post.getAuthor().getId().equals(userId)) {
             throw new PermissionException("공고에 대한 수정권한이 없는 사용자입니다.");
         }
+        String originalImage = post.getPost_image();
+        if (!originalImage.equals(postRequestDto.post_image())) {
+            imageDelete(originalImage);
+        }
 
         PatchUtil.applyPatch(post, postRequestDto);
         post = postRepository.save(post);
 
         return PostResponseDto.from(post);
     }
+
+    //S3에 저장된 이미지 삭제
+    private void imageDelete(String profile_image) {s3ImageService.deleteImageFromS3(profile_image);}
+
 }
