@@ -50,8 +50,8 @@ public class BidService {
     }
 
     public void updateShortsId(ShortsIdUploadDto shortsIdUploadDto) {
-        Bid bid = bidRepository.findById(shortsIdUploadDto.bidId())
-                .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 입찰내역입니다."));
+        Bid bid = bidRepository.findByApplyId(shortsIdUploadDto.applyId())
+                .orElseThrow(() -> new NoSuchResourcException("입찰되지 않은 지원내역입니다."));
 
         Long applierId = bid.getApply().getInfluencer().getUser().getId();
 

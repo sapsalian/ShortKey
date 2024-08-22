@@ -45,19 +45,19 @@ public class BidController {
     }
 
     @Operation(summary = "업로드한 쇼츠 영상 id 등록", description = "실제로 업로드한 쇼츠의 id를 등록")
-    @PatchMapping("/api/bids/{bidId}/shorts")
+    @PatchMapping("/api/applies/{applyId}/shorts")
     public ResponseEntity<ResponseDto<Null>> uploadShortsId(
             @TokenId
             @Parameter(hidden = true)
             Long userId,
 
             @PathVariable
-            Long bidId,
+            Long applyId,
 
             @RequestBody
             ShortsIdRequestDto shortsIdRequestDto
     ) {
-        ShortsIdUploadDto shortsIdUploadDto = ShortsIdUploadDto.of(bidId, userId, shortsIdRequestDto);
+        ShortsIdUploadDto shortsIdUploadDto = ShortsIdUploadDto.of(applyId, userId, shortsIdRequestDto);
 
         bidService.updateShortsId(shortsIdUploadDto);
 
