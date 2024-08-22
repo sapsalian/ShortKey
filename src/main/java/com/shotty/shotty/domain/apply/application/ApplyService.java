@@ -78,6 +78,14 @@ public class ApplyService {
         return ApplyResponseDto.from(apply);
     }
 
+    public ApplySearchResponseDto findApply(Long applyId) {
+        Apply apply = applyRepository.findById(applyId).orElseThrow(
+                () -> new NoSuchResourcException("존재하지 않는 지원내역입니다.")
+        );
+
+        return ApplySearchResponseDto.from(apply);
+    }
+
     public List<ApplySearchResponseDto> findAppliesByInfluencerId(Long influencer_id) {
         influencerRepository.findById(influencer_id).orElseThrow(
                 () -> new InfluencerNotFoundException()
