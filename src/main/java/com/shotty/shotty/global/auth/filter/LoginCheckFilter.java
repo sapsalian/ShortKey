@@ -35,6 +35,7 @@ public class LoginCheckFilter implements Filter {
         whiteList.put("/api/users/{id}", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
         whiteList.put("/api/posts", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
         whiteList.put("/api/posts/{postId}", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
+        whiteList.put("/api/applies/{applyId}", new HashSet<>(Arrays.asList("GET", "OPTIONS")));
     }
 
     @Override
