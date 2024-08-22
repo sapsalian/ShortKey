@@ -69,6 +69,8 @@ public class LoginCheckFilter implements Filter {
         
         log.info("토큰 여부 확인: Access token: {},path= {}", accessToken,path);
         if(accessToken == null ) {
+            setCorsHeader(httpRequest, httpResponse);
+
             setResponse(httpResponse,HttpServletResponse.SC_UNAUTHORIZED,4010,"missing header");
             return;
         }
@@ -78,9 +80,13 @@ public class LoginCheckFilter implements Filter {
         try {
             jwtProvider.validateToken(accessToken);
         }catch (ExpiredJwtException  e) {
+            setCorsHeader(httpRequest, httpResponse);
+
             setResponse(httpResponse,HttpServletResponse.SC_BAD_REQUEST,4002,"Expired accessToken");
             return;
         }catch (Exception e) {
+            setCorsHeader(httpRequest, httpResponse);
+
             setResponse(httpResponse,HttpServletResponse.SC_BAD_REQUEST,4003,"Invalid access token");
             return;
         }
@@ -90,6 +96,23 @@ public class LoginCheckFilter implements Filter {
 
         filterChain.doFilter(request, response);
     }
+
+    private static void setCorsHeader(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+        String origin = httpRequest.getHeader("Origin");
+
+        if (origin != null && (
+                origin.equals("http://localhost:5173") ||
+                        origin.equals("http://localhost:8080") ||
+                        origin.equals("https://shotty-one.vercel.app") ||
+                        origin.equals("https://shotty-app.shop"))) {
+
+            httpResponse.setHeader("Access-Control-Allow-Origin", origin);
+            httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+            httpResponse.setHeader("Access-Control-Allow-Headers", "*");
+            httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
+        }
+    }
+
     private boolean matchesPath(String pattern, String path) {
         // 패턴의 '{id}' 부분을 실제 값으로 대체하여 경로 매칭
         String regex = pattern.replaceAll("\\{[^/]+\\}", "[^/]+");
