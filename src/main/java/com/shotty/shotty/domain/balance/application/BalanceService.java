@@ -44,7 +44,7 @@ public class BalanceService {
     }
 
     @Transactional
-    public void transfer(Long fromUserId, Long toUserId, int amount) {
+    public void transfer(Long fromUserId, Long toUserId, Integer amount) {
         User from = userRepository.findById(fromUserId)
                 .orElseThrow(() -> new UserNotFoundException("존재하지 않는 유저의 전송 요청입니다."));
 

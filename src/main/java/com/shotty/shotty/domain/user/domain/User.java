@@ -35,7 +35,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
-    private int balance;
+    private Integer balance;
 
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private Influencer influencer;
