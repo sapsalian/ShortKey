@@ -17,6 +17,7 @@ import com.shotty.shotty.domain.user.exception.custom_exception.UserNotFoundExce
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchSortFieldException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
+import com.shotty.shotty.global.file.S3ImageService;
 import com.shotty.shotty.global.util.PatchUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -145,7 +146,7 @@ public class PostService {
             throw new PermissionException("공고에 대한 수정권한이 없는 사용자입니다.");
         }
         String originalImage = post.getPost_image();
-        if (!originalImage.equals(postRequestDto.post_image())) {
+        if (!originalImage.equals(postRequestDto.postImage())) {
             imageDelete(originalImage);
         }
 
