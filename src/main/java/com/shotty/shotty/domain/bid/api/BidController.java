@@ -73,7 +73,7 @@ public class BidController {
     @Operation(summary = "입찰 승인", description = "업로드된 영상을 확인한 후 광고주의 최종 승인을 담당하는 api")
     @PostMapping("/api/bids/{bidId}/accept")
     public ResponseEntity<ResponseDto<Null>> acceptBid(
-            @PathParam("bidId")
+            @PathVariable
             Long bidId,
 
             @TokenId
