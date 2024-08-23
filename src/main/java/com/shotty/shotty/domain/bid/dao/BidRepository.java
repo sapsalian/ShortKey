@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Repository
 public interface BidRepository extends JpaRepository<Bid, Long> {
@@ -18,4 +21,7 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     @Modifying
     @Query("DELETE FROM Bid b WHERE b.apply.influencer.id = :influencerId")
     void deleteAllByInfluencerId(@Param("influencerId") Long influencerId);
+
+    @Query("select b from Bid b where b.accepted = true")
+    List<Bid> findAcceptedBids();
 }

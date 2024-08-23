@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -82,5 +84,9 @@ public class BidService {
 
         bid.accept();
         bidRepository.save(bid);
+    }
+
+    public List<Bid> getAcceptedBids() {
+        return bidRepository.findAcceptedBids();
     }
 }
