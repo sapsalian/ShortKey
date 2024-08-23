@@ -35,6 +35,19 @@ public class ApplyController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @GetMapping("/applies/{applyId}")
+    @Operation(summary = "지원 상세 조회", description = "지원 id에 해당하는 지원 상세 정보 조회")
+    public ResponseEntity<ResponseDto<ApplySearchResponseDto>> getApply(@PathVariable Long applyId, @Parameter(hidden = true) @TokenId Long userId) {
+        ApplySearchResponseDto applySearchResponseDto = applyService.findApply(applyId, userId);
+        ResponseDto<ApplySearchResponseDto> responseDto = new ResponseDto<>(
+                2002,
+                "지원 조회 성공",
+                applySearchResponseDto
+        );
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     @GetMapping("/applies")
     @Operation(summary = "지원 목록 조회",description = "쿼리 파라미터로 받은 인플루언서Id로 해당 인플루언서가 지원한 목록 조회")
     public ResponseEntity<ResponseDto<List<ApplySearchResponseDto>>> getApplies(

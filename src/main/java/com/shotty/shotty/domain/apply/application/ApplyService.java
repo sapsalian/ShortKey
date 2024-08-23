@@ -87,6 +87,21 @@ public class ApplyService {
                 .map(ApplyPureResDto::from)
                 .toList();
     }
+  
+    public ApplySearchResponseDto findApply(Long applyId, Long requesterId) {
+        Apply apply = applyRepository.findById(applyId).orElseThrow(
+                () -> new NoSuchResourcException("존재하지 않는 지원내역입니다.")
+        );
+
+        Long influencerId = apply.getInfluencer().getUser().getId();
+        Long advertiserId = apply.getPost().getAuthor().getId();
+
+        if (!influencerId.equals(requesterId) && !advertiserId.equals(requesterId)) {
+            throw new PermissionException("지원 내역에 대한 접근 권한이 없습니다.");
+        }
+
+        return ApplySearchResponseDto.from(apply);
+    }
 
     public List<ApplySearchResponseDto> findAppliesByInfluencerId(Long influencer_id) {
         influencerRepository.findById(influencer_id).orElseThrow(
