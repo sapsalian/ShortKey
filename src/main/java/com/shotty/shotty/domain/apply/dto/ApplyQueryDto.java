@@ -5,9 +5,4 @@ public record ApplyQueryDto(
         boolean uploaded,
         boolean accepted
 ) {
-    public ApplyQueryDto {
-        bidded = false;
-        uploaded = false;
-        accepted = false;
-    }
 }
