@@ -6,6 +6,7 @@ import com.shotty.shotty.domain.apply.dto.*;
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
 import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
 import com.shotty.shotty.domain.bid.application.BidService;
+import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
@@ -75,7 +76,7 @@ public class ApplyService {
         return ApplyResponseDto.from(apply);
     }
 
-    public List<ApplyPureResDto> findByPostId(Long postId, Long requesterId) {
+    public List<ApplyPureResDto> findByPostId(Long postId, Long requesterId, ApplyQueryDto applyQueryDto) {
         Post post = getPost(postId);
 
         if (!post.getAuthor().getId().equals(requesterId)) {
@@ -84,6 +85,23 @@ public class ApplyService {
 
         List<Apply> applies = applyRepository.findAllByPostId(postId);
         return applies.stream()
+                .filter((apply) -> {
+                    Bid bid = apply.getBid();
+                    boolean bidded = false;
+                    boolean uploaded = false;
+                    boolean accepted = false;
+
+                    if (bid != null) {
+                        bidded = true;
+
+                        uploaded = bid.getShortsId() != null;
+                        accepted = bid.getAccepted() != null && bid.getAccepted();
+                    }
+
+                    return applyQueryDto.bidded() == bidded
+                            && applyQueryDto.uploaded() == uploaded
+                            && applyQueryDto.accepted() == accepted;
+                })
                 .map(ApplyPureResDto::from)
                 .toList();
     }
