@@ -2,10 +2,7 @@ package com.shotty.shotty.domain.apply.application;
 
 import com.shotty.shotty.domain.apply.dao.ApplyRepository;
 import com.shotty.shotty.domain.apply.domain.Apply;
-import com.shotty.shotty.domain.apply.dto.ApplyPatchRequestDto;
-import com.shotty.shotty.domain.apply.dto.ApplyRequestDto;
-import com.shotty.shotty.domain.apply.dto.ApplyResponseDto;
-import com.shotty.shotty.domain.apply.dto.ApplySearchResponseDto;
+import com.shotty.shotty.domain.apply.dto.*;
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
 import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
 import com.shotty.shotty.domain.bid.application.BidService;
@@ -76,6 +73,19 @@ public class ApplyService {
         PatchUtil.applyPatch(apply,applyRequestDto);
 
         return ApplyResponseDto.from(apply);
+    }
+
+    public List<ApplyPureResDto> findByPostId(Long postId, Long requesterId) {
+        Post post = getPost(postId);
+
+        if (!post.getAuthor().getId().equals(requesterId)) {
+            throw new PermissionException("광고주만 특정 공고의 지원목록을 조회할 수 있습니다.");
+        }
+
+        List<Apply> applies = applyRepository.findAllByPostId(postId);
+        return applies.stream()
+                .map(ApplyPureResDto::from)
+                .toList();
     }
 
     public List<ApplySearchResponseDto> findAppliesByInfluencerId(Long influencer_id) {

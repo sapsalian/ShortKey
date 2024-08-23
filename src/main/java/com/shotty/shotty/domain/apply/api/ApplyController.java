@@ -1,10 +1,7 @@
 package com.shotty.shotty.domain.apply.api;
 
 import com.shotty.shotty.domain.apply.application.ApplyService;
-import com.shotty.shotty.domain.apply.dto.ApplyPatchRequestDto;
-import com.shotty.shotty.domain.apply.dto.ApplyRequestDto;
-import com.shotty.shotty.domain.apply.dto.ApplyResponseDto;
-import com.shotty.shotty.domain.apply.dto.ApplySearchResponseDto;
+import com.shotty.shotty.domain.apply.dto.*;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,6 +68,27 @@ public class ApplyController {
                 statusMsg,
                 applies
         );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/posts/{postId}/applies")
+    @Operation(summary = "공고별 지원 내역 조회", description = "공고에 지원한 모든 내역을 조회(해당 공고의 광고주만 조회 가능)")
+    public ResponseEntity<ResponseDto<List<ApplyPureResDto>>> getPostApplies(
+            @Parameter(hidden = true)
+            @TokenId
+            Long userId,
+
+            @PathVariable
+            Long postId
+    ) {
+        List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId);
+
+        ResponseDto<List<ApplyPureResDto>> response = new ResponseDto<>(
+                2002,
+                "공고별 지원내역 조회 성공",
+                applies
+        );
+
         return ResponseEntity.ok(response);
     }
 
