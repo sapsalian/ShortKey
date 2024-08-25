@@ -1,5 +1,7 @@
 package com.shotty.shotty;
 
+import com.shotty.shotty.youtube.dto.channel.ChannelSimpleInfoDto;
+import com.shotty.shotty.youtube.dto.video.ShortsSimpleInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
