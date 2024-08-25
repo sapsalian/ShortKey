@@ -7,6 +7,8 @@ import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.bid.dto.BidRequestDto;
 import com.shotty.shotty.domain.bid.dto.BidResponseDto;
 import com.shotty.shotty.domain.bid.dto.ShortsIdUploadDto;
+import com.shotty.shotty.domain.payment.dao.PaymentRepository;
+import com.shotty.shotty.domain.payment.domain.Payment;
 import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcException;
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import jakarta.transaction.Transactional;
@@ -22,6 +24,7 @@ import java.util.List;
 public class BidService {
     private final BidRepository bidRepository;
     private final ApplyRepository applyRepository;
+    private final PaymentRepository paymentRepository;
 
     public BidResponseDto create(BidRequestDto requestDto) {
         Long applyId = requestDto.applyId();
@@ -84,9 +87,9 @@ public class BidService {
 
         bid.accept();
         bidRepository.save(bid);
+
+        Payment payment = Payment.create(bid);
+        paymentRepository.save(payment);
     }
 
-    public List<Bid> getAcceptedBids() {
-        return bidRepository.findAcceptedBids();
-    }
 }

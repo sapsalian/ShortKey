@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.bid.domain;
 
 import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.payment.domain.Payment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class Bid {
     private String shortsId;
 
     private Boolean accepted = false;
+
+    @OneToOne(mappedBy = "bid",cascade = CascadeType.REMOVE)
+    private Payment payment;
 
     //연관관계 메서드
     private void setApply(Apply apply) {
