@@ -15,7 +15,7 @@ public class Bid {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apply_id")
     private Apply apply;
 

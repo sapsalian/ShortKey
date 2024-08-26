@@ -26,7 +26,7 @@ public class Payment {
 
     private boolean paid;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bid_id")
     private Bid bid;
 
