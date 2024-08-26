@@ -22,6 +22,6 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     @Query("DELETE FROM Bid b WHERE b.apply.influencer.id = :influencerId")
     void deleteAllByInfluencerId(@Param("influencerId") Long influencerId);
 
-    @Query("select b from Bid b where b.accepted = true")
-    List<Bid> findAcceptedBids();
+    @Query("select b from Bid b join fetch b.apply a join fetch a.influencer i join fetch i.user where b.accepted = true")
+    List<Bid> findAcceptedBidsWithJoinFetch();
 }

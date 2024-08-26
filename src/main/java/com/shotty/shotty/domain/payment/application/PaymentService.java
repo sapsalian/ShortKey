@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 @EnableScheduling
 public class PaymentService {
@@ -34,7 +33,7 @@ public class PaymentService {
     @Scheduled(fixedRate = PAYMENT_CYCLE)
     //@Scheduled(cron = "0 0 0 * * MON")
     public void doPayment() {
-        List<Bid> acceptedBids = bidrepository.findAcceptedBids();
+        List<Bid> acceptedBids = bidrepository.findAcceptedBidsWithJoinFetch();
         List<String> shortsIds = new ArrayList<>();
         //최종 승인된 입찰 전체의 쇼츠 정보 가져오기
         acceptedBids.forEach(bid -> {
@@ -63,23 +62,30 @@ public class PaymentService {
 
         //정산 로직
         for (Bid bid : acceptedBids) {
-            Payment payment = paymentMap.get(bid.getId());
-            YouTubeVideoItem youTubeVideoItem = videoItemMap.get(bid.getShortsId());
-            int curViewCount = Integer.parseInt(youTubeVideoItem.getStatistics().getViewCount());
-            //정상 로직
-            int increment = curViewCount - payment.getLastViewCount();
-            float amount = increment * PRICE_PER_VIEW;
-
-            //ToDo 입출금
-
-            payment.paidUpdate(curViewCount,amount, LocalDateTime.now(),true);
-
-            //ToDo 비정상 로직
-            //payment.unPaidUpdate(0, false);
+            payments(bid, paymentMap, videoItemMap);
 
         }
 
 
+    }
+
+    @Transactional
+    public void payments(Bid bid, HashMap<Long, Payment> paymentMap, HashMap<String, YouTubeVideoItem> videoItemMap) {
+        Payment payment = paymentMap.get(bid.getId());
+        YouTubeVideoItem youTubeVideoItem = videoItemMap.get(bid.getShortsId());
+        int curViewCount = Integer.parseInt(youTubeVideoItem.getStatistics().getViewCount());
+        //정상 로직
+        int increment = curViewCount - payment.getLastViewCount();
+        float amount = increment * PRICE_PER_VIEW;
+
+        //ToDo 입출금
+        if (bid.getApply().getInfluencer().getUser().getBalance() >= amount) {
+            payment.paidUpdate(curViewCount, amount, LocalDateTime.now(), true);
+        } else {
+            payment.unPaidUpdate(0, false);
+        }
+
+        paymentRepository.save(payment);
     }
 
 }
