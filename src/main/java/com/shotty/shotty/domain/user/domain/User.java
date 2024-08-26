@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.user.domain;
 
+import com.shotty.shotty.domain.account.domain.Account;
 import com.shotty.shotty.domain.balance.exception.custom_exception.NotEnoughBalanceException;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
@@ -40,6 +41,8 @@ public class User {
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private Influencer influencer;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Account account;
 
     public User() {}
 
