@@ -11,6 +11,10 @@ public record AccountResDto(
         String account
 ) {
     public static AccountResDto from(Account account) {
+        if (account == null) {
+            return null;
+        }
+
         return new AccountResDto(
                 account.getBank(),
                 account.getAccount()

@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.user.dto;
 
+import com.shotty.shotty.domain.account.dto.AccountResDto;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,7 +20,9 @@ public record UserResponseDto(
         @Schema(description = "사용자가 인플루언서로 등록되어 있으면 1, 아니면 0", example = "1")
         short userRole,
         @Schema(description = "사용자가 인플루언서로 등록되어 있으면 인플루언서 Id, 아니면 null", example = "3")
-        Long influencerId
+        Long influencerId,
+        @Schema(description = "사용자의 출금 계좌 정보")
+        AccountResDto bankAccount
 ) {
     public static UserResponseDto from(User user) {
         Influencer influencer = user.getInfluencer();
@@ -34,7 +37,8 @@ public record UserResponseDto(
                 user.isGender(),
                 user.getEmail(),
                 user.getRole().getRoleNum(),
-                influencerId
+                influencerId,
+                AccountResDto.from(user.getAccount())
         );
     }
 }
