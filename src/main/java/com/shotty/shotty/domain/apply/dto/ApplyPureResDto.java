@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.apply.dto;
 
 import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -22,10 +23,28 @@ public record ApplyPureResDto(
         @Schema(description = "지원한 인플루언서 이름",example = "나는인플루언서")
         String influencerName,
         @Schema(description = "지원한 인플루언서의 프로필사진 url",example = "https://d2v80xjmx68n4w.cloudfront.net/gigs/Z63CJ1694753430.jpg")
-        String profileImage
+        String profileImage,
+        @Schema(description = "지원의 입찰 여부",example = "true")
+        Boolean bidded,
+        @Schema(description = "업로드된 쇼츠 영상 id", example = "CdHc0rl3IM4")
+        String shortsId,
+        @Schema(description = "최종 승인 여부", example = "false")
+        Boolean accepted
 ) {
     public static ApplyPureResDto from(Apply apply) {
         Influencer influencer = apply.getInfluencer();
+        Bid bid = apply.getBid();
+
+        boolean bidded = false;
+        String shortsId = null;
+        boolean accepted = false;
+
+        if (bid != null) {
+            bidded = true;
+            shortsId = bid.getShortsId();
+            accepted = bid.getAccepted();
+        }
+
         return new ApplyPureResDto(
                 apply.getId(),
                 apply.getTitle(),
@@ -34,7 +53,10 @@ public record ApplyPureResDto(
                 apply.getCreatedAt().toLocalDate(),
                 influencer.getId(),
                 influencer.getUser().getName(),
-                influencer.getProfile_image()
+                influencer.getProfile_image(),
+                bidded,
+                shortsId,
+                accepted
         );
     }
 }

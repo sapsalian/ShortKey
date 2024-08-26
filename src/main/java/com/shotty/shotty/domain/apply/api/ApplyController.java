@@ -92,9 +92,12 @@ public class ApplyController {
             Long userId,
 
             @PathVariable
-            Long postId
+            Long postId,
+
+            @ModelAttribute
+            ApplyQueryDto applyQueryDto
     ) {
-        List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId);
+        List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId, applyQueryDto);
 
         ResponseDto<List<ApplyPureResDto>> response = new ResponseDto<>(
                 2002,
