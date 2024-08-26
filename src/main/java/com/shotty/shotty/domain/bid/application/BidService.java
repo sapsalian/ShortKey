@@ -2,6 +2,7 @@ package com.shotty.shotty.domain.bid.application;
 
 import com.shotty.shotty.domain.apply.dao.ApplyRepository;
 import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.balance.application.BalanceService;
 import com.shotty.shotty.domain.bid.dao.BidRepository;
 import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.bid.dto.BidRequestDto;
@@ -25,6 +26,7 @@ public class BidService {
     private final BidRepository bidRepository;
     private final ApplyRepository applyRepository;
     private final PaymentRepository paymentRepository;
+    private final BalanceService balanceService;
 
     public BidResponseDto create(BidRequestDto requestDto) {
         Long applyId = requestDto.applyId();
@@ -53,8 +55,8 @@ public class BidService {
     }
 
     public void updateShortsId(ShortsIdUploadDto shortsIdUploadDto) {
-        Bid bid = bidRepository.findById(shortsIdUploadDto.bidId())
-                .orElseThrow(() -> new NoSuchResourcException("존재하지 않는 입찰내역입니다."));
+        Bid bid = bidRepository.findByApplyId(shortsIdUploadDto.applyId())
+                .orElseThrow(() -> new NoSuchResourcException("입찰되지 않은 지원내역입니다."));
 
         Long applierId = bid.getApply().getInfluencer().getUser().getId();
 
@@ -74,10 +76,15 @@ public class BidService {
         bidRepository.deleteAllByInfluencerId(influencerId);
     }
 
-    public void acceptBid(Long accepterId, Long bidId) {
-        Bid bid = bidRepository.findById(bidId).orElseThrow(
+    @Transactional
+    public void acceptBid(Long accepterId, Long applyId) {
+        Bid bid = bidRepository.findByApplyId(applyId).orElseThrow(
                 () -> new NoSuchResourcException("존재하지 않는 입찰내역입니다.")
         );
+
+        if (bid.getShortsId() == null) {
+            throw new NoSuchResourcException("아직 쇼츠 영상이 업로드 되지 않아 최종승인 할 수 없습니다.");
+        }
 
         Long advertiserId = bid.getApply().getPost().getAuthor().getId();
 
@@ -85,6 +92,7 @@ public class BidService {
             throw new PermissionException("해당 입찰 내역에 대해 승인 권한이 없습니다.");
         }
 
+        balanceService.transfer(accepterId, bid.getApply().getInfluencer().getUser().getId(), bid.getApply().getPost().getPrice());
         bid.accept();
         bidRepository.save(bid);
 

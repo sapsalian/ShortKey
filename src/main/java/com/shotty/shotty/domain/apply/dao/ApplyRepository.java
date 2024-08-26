@@ -15,6 +15,8 @@ public interface ApplyRepository extends JpaRepository<Apply,Long> {
 
     Optional<Apply> findByInfluencerIdAndPostId(Long influencer_id, Long post_id);
 
+    List<Apply> findAllByPostId(Long post_id);
+
     List<Apply> findAllByInfluencerId(Long influencerId);
 
     void deleteByInfluencerId(Long influencerId);

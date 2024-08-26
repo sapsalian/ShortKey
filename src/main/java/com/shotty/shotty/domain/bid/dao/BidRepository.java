@@ -17,6 +17,8 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     boolean existsByApplyId(Long applyId);
     void deleteByApplyId(Long applyId);
 
+    Optional<Bid> findByApplyId(Long applyId);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Bid b WHERE b.apply.influencer.id = :influencerId")

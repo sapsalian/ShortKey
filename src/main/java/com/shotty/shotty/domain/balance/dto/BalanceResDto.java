@@ -4,7 +4,7 @@ import com.shotty.shotty.domain.user.domain.User;
 
 public record BalanceResDto(
         Long userId,
-        Long balance
+        Integer balance
 ) {
     public static BalanceResDto from(User user) {
         return new BalanceResDto(user.getId(), user.getBalance());

@@ -29,7 +29,6 @@ public class Bid {
     //연관관계 메서드
     private void setApply(Apply apply) {
         this.apply = apply;
-        apply.setBidded(true);
     }
 
     public Bid(Apply apply) {
