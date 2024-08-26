@@ -9,6 +9,8 @@ import com.shotty.shotty.domain.payment.domain.Payment;
 import com.shotty.shotty.youtube.dto.video.YouTubeVideoItem;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,16 +22,19 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@EnableScheduling
 public class PaymentService {
     private final BidRepository bidrepository;
     private final YoutubeService youtubeService;
     private final PaymentRepository paymentRepository;
 
     private static final float PRICE_PER_VIEW = 0.1f;
+    private static final int PAYMENT_CYCLE = 300000; //5분
 
+    @Scheduled(fixedRate = PAYMENT_CYCLE)
+    //@Scheduled(cron = "0 0 0 * * MON")
     public void doPayment() {
         List<Bid> acceptedBids = bidrepository.findAcceptedBids();
-
         List<String> shortsIds = new ArrayList<>();
         //최종 승인된 입찰 전체의 쇼츠 정보 가져오기
         acceptedBids.forEach(bid -> {
