@@ -2,13 +2,11 @@ package com.shotty.shotty.domain.apply.application;
 
 import com.shotty.shotty.domain.apply.dao.ApplyRepository;
 import com.shotty.shotty.domain.apply.domain.Apply;
-import com.shotty.shotty.domain.apply.dto.ApplyPatchRequestDto;
-import com.shotty.shotty.domain.apply.dto.ApplyRequestDto;
-import com.shotty.shotty.domain.apply.dto.ApplyResponseDto;
-import com.shotty.shotty.domain.apply.dto.ApplySearchResponseDto;
+import com.shotty.shotty.domain.apply.dto.*;
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
 import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
 import com.shotty.shotty.domain.bid.application.BidService;
+import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.influencer.dao.InfluencerRepository;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.influencer.exception.custom_exception.InfluencerNotFoundException;
@@ -76,6 +74,51 @@ public class ApplyService {
         PatchUtil.applyPatch(apply,applyRequestDto);
 
         return ApplyResponseDto.from(apply);
+    }
+
+    public List<ApplyPureResDto> findByPostId(Long postId, Long requesterId, ApplyQueryDto applyQueryDto) {
+        Post post = getPost(postId);
+
+        if (!post.getAuthor().getId().equals(requesterId)) {
+            throw new PermissionException("광고주만 특정 공고의 지원목록을 조회할 수 있습니다.");
+        }
+
+        List<Apply> applies = applyRepository.findAllByPostId(postId);
+        return applies.stream()
+                .filter((apply) -> {
+                    Bid bid = apply.getBid();
+                    boolean bidded = false;
+                    boolean uploaded = false;
+                    boolean accepted = false;
+
+                    if (bid != null) {
+                        bidded = true;
+
+                        uploaded = bid.getShortsId() != null;
+                        accepted = bid.getAccepted() != null && bid.getAccepted();
+                    }
+
+                    return applyQueryDto.bidded() == bidded
+                            && applyQueryDto.uploaded() == uploaded
+                            && applyQueryDto.accepted() == accepted;
+                })
+                .map(ApplyPureResDto::from)
+                .toList();
+    }
+  
+    public ApplySearchResponseDto findApply(Long applyId, Long requesterId) {
+        Apply apply = applyRepository.findById(applyId).orElseThrow(
+                () -> new NoSuchResourcException("존재하지 않는 지원내역입니다.")
+        );
+
+        Long influencerId = apply.getInfluencer().getUser().getId();
+        Long advertiserId = apply.getPost().getAuthor().getId();
+
+        if (!influencerId.equals(requesterId) && !advertiserId.equals(requesterId)) {
+            throw new PermissionException("지원 내역에 대한 접근 권한이 없습니다.");
+        }
+
+        return ApplySearchResponseDto.from(apply);
     }
 
     public List<ApplySearchResponseDto> findAppliesByInfluencerId(Long influencer_id) {

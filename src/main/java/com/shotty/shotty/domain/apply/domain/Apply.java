@@ -40,12 +40,6 @@ public class Apply {
     @OneToOne(mappedBy = "apply",cascade = CascadeType.REMOVE)
     private Bid bid;
 
-    private boolean bidded = false;
-
-    public void setBidded(boolean bidded) {
-        this.bidded = bidded;
-    }
-
     public Apply(String title, String content, String videoLink, Influencer influencer, Post post) {
         this.title = title;
         this.content = content;
