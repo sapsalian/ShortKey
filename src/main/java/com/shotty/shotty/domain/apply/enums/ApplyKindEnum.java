@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.apply.enums;
 
-import com.shotty.shotty.domain.apply.dto.ApplyQueryDto;
+import com.shotty.shotty.domain.apply.domain.Apply;
+import com.shotty.shotty.domain.bid.domain.Bid;
 
 public enum ApplyKindEnum {
     APPLIED,
@@ -8,23 +9,21 @@ public enum ApplyKindEnum {
     UNACCEPTED,
     ACCEPTED;
 
-    public static ApplyKindEnum from(ApplyQueryDto applyQueryDto) {
-        if (applyQueryDto == null) {
+    public static ApplyKindEnum of(Apply apply) {
+        Bid bid = apply.getBid();
+
+        if (bid == null) {
             return APPLIED;
         }
 
-        if (applyQueryDto.accepted()) {
+        if (bid.getAccepted() != null && bid.getAccepted()) {
             return ACCEPTED;
         }
 
-        if (applyQueryDto.uploaded()) {
+        if (bid.getShortsId() != null) {
             return UNACCEPTED;
         }
 
-        if (applyQueryDto.bidded()) {
-            return BIDDED;
-        }
-
-        return APPLIED;
+        return BIDDED;
     }
 }

@@ -88,8 +88,7 @@ public class ApplyService {
         List<Apply> applies = applyRepository.findAllByPostId(postId);
         return applies.stream()
                 .filter((apply) -> {
-                    ApplyQueryDto realQuery = ApplyQueryDto.from(apply);
-                    ApplyKindEnum applyKindEnum = ApplyKindEnum.from(realQuery);
+                    ApplyKindEnum applyKindEnum = ApplyKindEnum.of(apply);
 
                     return kinds.contains(applyKindEnum);
                 })
