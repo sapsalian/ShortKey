@@ -2,6 +2,7 @@ package com.shotty.shotty.domain.apply.api;
 
 import com.shotty.shotty.domain.apply.application.ApplyService;
 import com.shotty.shotty.domain.apply.dto.*;
+import com.shotty.shotty.domain.apply.enums.ApplyKindEnum;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -94,10 +95,10 @@ public class ApplyController {
             @PathVariable
             Long postId,
 
-            @ModelAttribute
-            ApplyQueryDto applyQueryDto
+            @RequestParam
+            List<ApplyKindEnum> kinds
     ) {
-        List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId, applyQueryDto);
+        List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId, kinds);
 
         ResponseDto<List<ApplyPureResDto>> response = new ResponseDto<>(
                 2002,

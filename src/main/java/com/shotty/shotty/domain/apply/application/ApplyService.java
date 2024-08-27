@@ -3,6 +3,7 @@ package com.shotty.shotty.domain.apply.application;
 import com.shotty.shotty.domain.apply.dao.ApplyRepository;
 import com.shotty.shotty.domain.apply.domain.Apply;
 import com.shotty.shotty.domain.apply.dto.*;
+import com.shotty.shotty.domain.apply.enums.ApplyKindEnum;
 import com.shotty.shotty.domain.apply.exception.custom_exception.AlreadyApplyException;
 import com.shotty.shotty.domain.apply.exception.custom_exception.ExpiredPostException;
 import com.shotty.shotty.domain.bid.application.BidService;
@@ -25,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -76,7 +78,7 @@ public class ApplyService {
         return ApplyResponseDto.from(apply);
     }
 
-    public List<ApplyPureResDto> findByPostId(Long postId, Long requesterId, ApplyQueryDto applyQueryDto) {
+    public List<ApplyPureResDto> findByPostId(Long postId, Long requesterId, List<ApplyKindEnum> kinds) {
         Post post = getPost(postId);
 
         if (!post.getAuthor().getId().equals(requesterId)) {
@@ -87,8 +89,9 @@ public class ApplyService {
         return applies.stream()
                 .filter((apply) -> {
                     ApplyQueryDto realQuery = ApplyQueryDto.from(apply);
+                    ApplyKindEnum applyKindEnum = ApplyKindEnum.from(realQuery);
 
-                    return applyQueryDto.equals(realQuery);
+                    return kinds.contains(applyKindEnum);
                 })
                 .map(ApplyPureResDto::from)
                 .toList();
