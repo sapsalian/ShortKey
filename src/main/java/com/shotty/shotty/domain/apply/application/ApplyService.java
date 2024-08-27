@@ -86,26 +86,14 @@ public class ApplyService {
         List<Apply> applies = applyRepository.findAllByPostId(postId);
         return applies.stream()
                 .filter((apply) -> {
-                    Bid bid = apply.getBid();
-                    boolean bidded = false;
-                    boolean uploaded = false;
-                    boolean accepted = false;
+                    ApplyQueryDto realQuery = ApplyQueryDto.from(apply);
 
-                    if (bid != null) {
-                        bidded = true;
-
-                        uploaded = bid.getShortsId() != null;
-                        accepted = bid.getAccepted() != null && bid.getAccepted();
-                    }
-
-                    return applyQueryDto.bidded() == bidded
-                            && applyQueryDto.uploaded() == uploaded
-                            && applyQueryDto.accepted() == accepted;
+                    return applyQueryDto.equals(realQuery);
                 })
                 .map(ApplyPureResDto::from)
                 .toList();
     }
-  
+
     public ApplySearchResponseDto findApply(Long applyId, Long requesterId) {
         Apply apply = applyRepository.findById(applyId).orElseThrow(
                 () -> new NoSuchResourcException("존재하지 않는 지원내역입니다.")
