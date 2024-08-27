@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -104,6 +105,22 @@ public class ApplyController {
                 2002,
                 "공고별 지원내역 조회 성공",
                 applies
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/applies/kinds")
+    @Operation(summary = "공고별 지원 내역 조회 필터링 키워드 조회")
+    public ResponseEntity<ResponseDto<List<String>>> getApplyKinds() {
+        List<String> applyKinds = Arrays.stream(ApplyKindEnum.values())
+                .map(Enum::toString)
+                .toList();
+
+        ResponseDto<List<String>> response = new ResponseDto<>(
+                2002,
+                "지원 종류 조회 성공",
+                applyKinds
         );
 
         return ResponseEntity.ok(response);
