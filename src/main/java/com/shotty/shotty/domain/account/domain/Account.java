@@ -20,7 +20,7 @@ public class Account {
 
     private String bank;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
