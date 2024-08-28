@@ -15,6 +15,12 @@ public class ApplySearchResponseDto {
     @Schema(description = "지원 폼 제목",example = "구름빵 홍보 영상 지원합니다")
     private String title;
 
+    @Schema(description = "지원 폼 내용",example = "구름빵 홍보 영상 지원 내용")
+    private String content;
+
+    @Schema(description = "지원 폼 링크",example = "exampleLink@@")
+    private String videoLink;
+
     @Schema(description = "공고 식별 Id",example = "1L")
     private Long post_id;
 
@@ -52,6 +58,8 @@ public class ApplySearchResponseDto {
         return new ApplySearchResponseDto(
                 apply.getId(),
                 apply.getTitle(),
+                apply.getContent(),
+                apply.getVideoLink(),
                 post.getId(),
                 post.getTitle(),
                 post.getPost_image(),
