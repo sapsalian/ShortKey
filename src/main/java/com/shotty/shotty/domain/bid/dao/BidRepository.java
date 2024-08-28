@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
 public interface BidRepository extends JpaRepository<Bid, Long> {
     boolean existsByApplyId(Long applyId);
@@ -24,6 +23,6 @@ public interface BidRepository extends JpaRepository<Bid, Long> {
     @Query("DELETE FROM Bid b WHERE b.apply.influencer.id = :influencerId")
     void deleteAllByInfluencerId(@Param("influencerId") Long influencerId);
 
-    @Query("select b from Bid b join fetch b.apply a join fetch a.influencer i join fetch i.user where b.accepted = true")
+    @Query("select b from Bid b join fetch b.apply a join fetch a.influencer i join fetch i.user u join fetch u.balance join fetch a.post where b.accepted = true")
     List<Bid> findAcceptedBidsWithJoinFetch();
 }

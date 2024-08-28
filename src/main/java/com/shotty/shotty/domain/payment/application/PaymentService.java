@@ -1,5 +1,11 @@
 package com.shotty.shotty.domain.payment.application;
 
+import com.shotty.shotty.domain.balance.application.BalanceService;
+import com.shotty.shotty.domain.balance.dao.BalanceRepository;
+import com.shotty.shotty.domain.balance.exception.custom_exception.BalanceNotFoundException;
+import com.shotty.shotty.domain.balance.exception.custom_exception.NotEnoughBalanceException;
+import com.shotty.shotty.domain.user.dao.UserRepository;
+import com.shotty.shotty.domain.user.domain.User;
 import com.shotty.shotty.youtube.dto.video.ShortsSimpleInfoDto;
 import com.shotty.shotty.YoutubeService;
 import com.shotty.shotty.domain.bid.dao.BidRepository;
@@ -9,6 +15,7 @@ import com.shotty.shotty.domain.payment.domain.Payment;
 import com.shotty.shotty.youtube.dto.video.YouTubeVideoItem;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @EnableScheduling
@@ -29,9 +37,11 @@ public class PaymentService {
 
     private static final float PRICE_PER_VIEW = 0.1f;
     private static final int PAYMENT_CYCLE = 300000; //5분
+    private final BalanceService balanceService;
 
     @Scheduled(fixedRate = PAYMENT_CYCLE)
     //@Scheduled(cron = "0 0 0 * * MON")
+    @Transactional
     public void doPayment() {
         List<Bid> acceptedBids = bidrepository.findAcceptedBidsWithJoinFetch();
         List<String> shortsIds = new ArrayList<>();
@@ -65,8 +75,6 @@ public class PaymentService {
             payments(bid, paymentMap, videoItemMap);
 
         }
-
-
     }
 
     @Transactional
@@ -74,17 +82,34 @@ public class PaymentService {
         Payment payment = paymentMap.get(bid.getId());
         YouTubeVideoItem youTubeVideoItem = videoItemMap.get(bid.getShortsId());
         int curViewCount = Integer.parseInt(youTubeVideoItem.getStatistics().getViewCount());
-        //정상 로직
         int increment = curViewCount - payment.getLastViewCount();
-        float amount = increment * PRICE_PER_VIEW;
+        int amount = (int)(increment * PRICE_PER_VIEW);
 
-        //ToDo 입출금
-        if (bid.getApply().getInfluencer().getUser().getBalance() >= amount) {
-            payment.paidUpdate(curViewCount, amount, LocalDateTime.now(), true);
-        } else {
-            payment.unPaidUpdate(0, false);
+        User influencer = bid.getApply().getInfluencer().getUser();
+        Long user_id = influencer.getId();
+        User author = bid.getApply().getPost().getAuthor();
+        Long author_id = author.getId();
+
+        //#####
+        if (influencer.getName().equals("탈퇴한 사용자 그룹") || author.getName().equals("탈퇴한 사용자 그룹")) {
+            log.warn("paymentId = {} 탈퇴한 사용자에 대한 정산",payment.getId());
+            return;
         }
 
+        boolean success = false;
+        try {
+            balanceService.transfer(author_id, user_id, amount);
+            success = true;
+        } catch (Exception e) {
+            log.warn(e.getMessage());
+        }
+        finally {
+            if (success)
+                payment.paidUpdate(curViewCount, amount, LocalDateTime.now(), true);
+            else
+                payment.unPaidUpdate(0, false);
+        }
+      
         paymentRepository.save(payment);
     }
 

@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.balance.exception.handler;
 
+import com.shotty.shotty.domain.balance.exception.custom_exception.BalanceNotFoundException;
 import com.shotty.shotty.domain.balance.exception.custom_exception.NotEnoughBalanceException;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import jakarta.validation.constraints.Null;
@@ -19,5 +20,16 @@ public class BalanceExceptionHandler {
         );
 
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BalanceNotFoundException.class)
+    public ResponseEntity<ResponseDto<Null>> handleBalanceNotFoundException(BalanceNotFoundException exception) {
+        ResponseDto<Null> responseDto = new ResponseDto<>(
+                4006,
+                exception.getMessage(),
+                null
+        );
+
+        return new ResponseEntity<>(responseDto, HttpStatus.NOT_FOUND);
     }
 }

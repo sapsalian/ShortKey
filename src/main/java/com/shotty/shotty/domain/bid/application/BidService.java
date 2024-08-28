@@ -73,6 +73,7 @@ public class BidService {
     }
 
     public void deleteByInfluencerId(Long influencerId) {
+        paymentRepository.deleteAllByInfluencerId(influencerId);
         bidRepository.deleteAllByInfluencerId(influencerId);
     }
 
@@ -92,7 +93,6 @@ public class BidService {
             throw new PermissionException("해당 입찰 내역에 대해 승인 권한이 없습니다.");
         }
 
-        balanceService.transfer(accepterId, bid.getApply().getInfluencer().getUser().getId(), bid.getApply().getPost().getPrice());
         bid.accept();
         bidRepository.save(bid);
 

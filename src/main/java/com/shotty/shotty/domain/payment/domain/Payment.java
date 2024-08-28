@@ -1,5 +1,6 @@
 package com.shotty.shotty.domain.payment.domain;
 
+import com.amazonaws.services.ec2.model.InternetGateway;
 import com.shotty.shotty.domain.bid.domain.Bid;
 import com.shotty.shotty.domain.payment.dao.PaymentRepository;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Table(name = "payments")
 public class Payment {
     @Id
     @GeneratedValue
@@ -18,9 +20,9 @@ public class Payment {
 
     private int lastViewCount;
 
-    private float amount;
+    private Integer amount;
 
-    private float totalAmount;
+    private Integer totalAmount;
 
     private LocalDateTime lastPaymentDate;
 
@@ -43,8 +45,7 @@ public class Payment {
         return payment;
     }
 
-
-    public void paidUpdate(int lastViewCount, float amount, LocalDateTime lastPaymentDate, boolean paid) {
+    public void paidUpdate(int lastViewCount, Integer amount, LocalDateTime lastPaymentDate, boolean paid) {
         this.lastViewCount = lastViewCount;
         this.amount = amount;
         this.totalAmount += amount;
@@ -52,7 +53,7 @@ public class Payment {
         this.paid = paid;
     }
 
-    public void unPaidUpdate(int amount, boolean paid) {
+    public void unPaidUpdate(Integer amount, boolean paid) {
         this.amount = amount;
         this.paid = paid;
     }

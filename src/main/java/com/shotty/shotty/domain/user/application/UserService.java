@@ -14,6 +14,7 @@ import com.shotty.shotty.global.util.PatchUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +43,7 @@ public class UserService {
     }
 
 
+    @Transactional
     public void delete(Long id) {
         if (!userRepository.existsById(id)) {
             throw new UserNotFoundException("존재하지 않는 사용자입니다.");
