@@ -96,9 +96,13 @@ public class ApplyController {
             @PathVariable
             Long postId,
 
-            @RequestParam
+            @RequestParam(defaultValue = "")
             List<ApplyKindEnum> kinds
     ) {
+        if (kinds.isEmpty()) {
+            kinds = Arrays.asList(ApplyKindEnum.values());
+        }
+
         List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId, kinds);
 
         ResponseDto<List<ApplyPureResDto>> response = new ResponseDto<>(
