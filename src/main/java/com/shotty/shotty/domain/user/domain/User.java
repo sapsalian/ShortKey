@@ -1,6 +1,7 @@
 package com.shotty.shotty.domain.user.domain;
 
 import com.shotty.shotty.domain.account.domain.Account;
+import com.shotty.shotty.domain.balance.domain.Balance;
 import com.shotty.shotty.domain.balance.exception.custom_exception.NotEnoughBalanceException;
 import com.shotty.shotty.domain.influencer.domain.Influencer;
 import com.shotty.shotty.domain.user.dto.EncryptedUserDto;
@@ -36,7 +37,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
-    private Integer balance;
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private Balance balance;
 
     @OneToOne(mappedBy = "user",fetch = FetchType.LAZY)
     private Influencer influencer;
@@ -53,7 +55,7 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.role = UserRoleEnum.COMMON;
-        this.balance = 0;
+        this.balance = Balance.CreateBalance(this);
     }
 
     public static User from(EncryptedUserDto encryptedUserDto) {
@@ -68,17 +70,5 @@ public class User {
 
     public void changeRole(UserRoleEnum userRoleEnum) {
         role = userRoleEnum;
-    }
-
-    public void deposit(int amount) {
-        balance += amount;
-    }
-
-    public void withdraw(int amount) {
-        if (amount > balance) {
-            throw new NotEnoughBalanceException("잔액보다 더 큰 금액을 출금할 수 없습니다.");
-        }
-
-        balance -= amount;
     }
 }
