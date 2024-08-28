@@ -26,6 +26,7 @@ public class BidService {
     private final BidRepository bidRepository;
     private final ApplyRepository applyRepository;
     private final PaymentRepository paymentRepository;
+    private final BalanceService balanceService;
 
     public BidResponseDto create(BidRequestDto requestDto) {
         Long applyId = requestDto.applyId();

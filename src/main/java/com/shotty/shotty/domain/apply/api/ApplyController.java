@@ -2,6 +2,7 @@ package com.shotty.shotty.domain.apply.api;
 
 import com.shotty.shotty.domain.apply.application.ApplyService;
 import com.shotty.shotty.domain.apply.dto.*;
+import com.shotty.shotty.domain.apply.enums.ApplyKindEnum;
 import com.shotty.shotty.global.common.custom_annotation.annotation.TokenId;
 import com.shotty.shotty.global.common.dto.ResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -94,15 +96,31 @@ public class ApplyController {
             @PathVariable
             Long postId,
 
-            @ModelAttribute
-            ApplyQueryDto applyQueryDto
+            @RequestParam
+            List<ApplyKindEnum> kinds
     ) {
-        List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId, applyQueryDto);
+        List<ApplyPureResDto> applies = applyService.findByPostId(postId, userId, kinds);
 
         ResponseDto<List<ApplyPureResDto>> response = new ResponseDto<>(
                 2002,
                 "공고별 지원내역 조회 성공",
                 applies
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/applies/kinds")
+    @Operation(summary = "공고별 지원 내역 조회 필터링 키워드 조회")
+    public ResponseEntity<ResponseDto<List<String>>> getApplyKinds() {
+        List<String> applyKinds = Arrays.stream(ApplyKindEnum.values())
+                .map(Enum::toString)
+                .toList();
+
+        ResponseDto<List<String>> response = new ResponseDto<>(
+                2002,
+                "지원 종류 조회 성공",
+                applyKinds
         );
 
         return ResponseEntity.ok(response);

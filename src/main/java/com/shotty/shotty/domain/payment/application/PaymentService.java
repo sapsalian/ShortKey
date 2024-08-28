@@ -109,6 +109,7 @@ public class PaymentService {
             else
                 payment.unPaidUpdate(0, false);
         }
+      
         paymentRepository.save(payment);
     }
 

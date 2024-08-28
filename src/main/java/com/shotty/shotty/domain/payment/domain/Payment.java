@@ -45,7 +45,6 @@ public class Payment {
         return payment;
     }
 
-
     public void paidUpdate(int lastViewCount, Integer amount, LocalDateTime lastPaymentDate, boolean paid) {
         this.lastViewCount = lastViewCount;
         this.amount = amount;
