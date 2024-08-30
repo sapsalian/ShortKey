@@ -14,11 +14,13 @@ import com.shotty.shotty.global.common.exception.custom_exception.NoSuchResourcE
 import com.shotty.shotty.global.common.exception.custom_exception.PermissionException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -96,8 +98,11 @@ public class BidService {
         bid.accept();
         bidRepository.save(bid);
 
-        Payment payment = Payment.create(bid);
-        paymentRepository.save(payment);
+        Payment payment = paymentRepository.findById(bid.getId()).orElse(null);
+        if (payment == null) {
+            payment = Payment.create(bid);
+            paymentRepository.save(payment);
+        }
     }
 
 }
